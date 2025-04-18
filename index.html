@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to DAP⚡Pay</title>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<div class="card dashboard-card" style="padding: 50px 30px;">
+  <div class="dap-logo">DAP⚡Pay</div>
+
+  <h1 class="welcome-text">Welcome to the Future of Pool League Payments</h1>
+  <p class="subtitle-text">🎱 Load. Play. Win.</p>
+
+  <button class="glow-btn" onclick="location.href='login.html'" style="margin-top: 20px;">Login ➡️</button>
+
+  <p style="margin-top: 20px; font-size: 0.9rem; color: #ccc;">
+    Don't have an account? 
+    <a href="signup.html" style="color: #0CC7F6; text-decoration: underline;">Register Here</a>
+  </p>
+</div>
+
+<!-- Particles Background -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+// Particles.js Config
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 100, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 2, "random": true },
+    "line_linked": { "enable": true, "distance": 120, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }},
+    "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+</script>
+
+<style>
+/* Extra styles just for Landing Page */
+.welcome-text {
+  font-size: 2rem;
+  color: #0CC7F6;
+  margin: 20px 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+.subtitle-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #FFC857;
+  animation: fadeIn 2s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</body>
+</html>
