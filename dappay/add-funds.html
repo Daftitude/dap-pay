@@ -2,34 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAPPay - Add Funds</title>
+  <title>DAP⚡Pay - Add Funds</title>
   <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 
 <div id="particles-js"></div>
 
-<div class="card">
-  <h2>💰 Add Funds</h2>
+<div class="card dashboard-card">
+  <div class="dap-logo">DAP⚡Pay</div>
 
-  <h3>Current Balance:</h3>
-  <h1 id="wallet-balance">$0.00</h1>
+  <h2 class="slide-in">💰 Add Funds to Wallet</h2>
 
-  <h3>Choose Amount to Add:</h3>
-  <button onclick="addMoney(5)">+ $5</button>
-  <button onclick="addMoney(10)">+ $10</button>
-  <button onclick="addMoney(20)">+ $20</button>
-
-  <div id="error-message" style="color: #FFC857; margin-top: 15px; display: none;">
-    ⚠️ Cannot exceed $200 wallet limit.
+  <div class="wallet-hero">
+    <h1 id="wallet-balance">$0.00</h1>
   </div>
 
-  <br>
-  <button onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+  <h3>Choose Amount:</h3>
+
+  <button class="glow-btn" onclick="addMoney(5)">+ $5</button>
+  <button class="glow-btn" onclick="addMoney(10)">+ $10</button>
+  <button class="glow-btn" onclick="addMoney(20)">+ $20</button>
+
+  <div class="divider"></div>
+
+  <button class="glow-btn" onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+
+  <div class="secure-text">
+    🛡️ Secure Local Session
+  </div>
+
+  <div class="play-tagline">
+    🚀 Keep your balance strong!
+  </div>
 </div>
 
-<!-- Particles.js Background -->
+<!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<!-- Toast.js -->
+<script src="JS/toast.js"></script>
+
 <script>
 particlesJS('particles-js', {
   "particles": {
@@ -47,9 +59,7 @@ particlesJS('particles-js', {
   },
   "retina_detect": true
 });
-</script>
 
-<script>
 function updateBalanceDisplay() {
   const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
   document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
@@ -59,14 +69,15 @@ function addMoney(amount) {
   let balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
   
   if ((balance + amount) > 200) {
-    document.getElementById('error-message').style.display = 'block';
+    showToast("❌ Max wallet balance is $200!", "error");
     return;
   }
 
   balance += amount;
   localStorage.setItem('walletBalance', balance);
-  document.getElementById('error-message').style.display = 'none';
   updateBalanceDisplay();
+
+  showToast(`✅ Added $${amount} to your wallet!`);
 }
 
 window.onload = updateBalanceDisplay;

@@ -2,28 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAPPay - Balance</title>
+  <title>DAP⚡Pay - Balance</title>
   <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 
 <div id="particles-js"></div>
 
-<div class="card">
-  <h2>💳 Your Wallet Balance</h2>
+<div class="card dashboard-card">
+  <div class="dap-logo">DAP⚡Pay</div>
 
-  <h1 id="wallet-balance">$0.00</h1>
+  <h2 class="slide-in">💳 Your Wallet Balance</h2>
 
-  <div id="low-balance-warning" style="color: #FFC857; margin-top: 10px; display: none;">
-    ⚠️ Warning: Your balance is low. Please add more funds.
+  <div class="wallet-hero">
+    <h1 id="wallet-balance">$0.00</h1>
   </div>
 
-  <br>
-  <button onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+  <div id="low-balance-warning" style="color: #FFC857; margin-top: 15px; display: none;">
+    ⚠️ Your balance is running low. Please add funds.
+  </div>
+
+  <div class="divider"></div>
+
+  <button class="glow-btn" onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+
+  <div class="secure-text">
+    🛡️ Secure Local Session
+  </div>
+
+  <div class="play-tagline">
+    🚀 Keep your wallet strong!
+  </div>
 </div>
 
-<!-- Particles.js Background -->
+<!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<!-- Toast.js -->
+<script src="JS/toast.js"></script>
+
 <script>
 particlesJS('particles-js', {
   "particles": {
@@ -41,17 +57,13 @@ particlesJS('particles-js', {
   },
   "retina_detect": true
 });
-</script>
 
-<script>
 function loadBalance() {
   const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
   document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
 
   if (balance < 10) {
     document.getElementById('low-balance-warning').style.display = 'block';
-  } else {
-    document.getElementById('low-balance-warning').style.display = 'none';
   }
 }
 
