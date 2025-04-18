@@ -9,25 +9,97 @@
 
 <div id="particles-js"></div>
 
-<div class="card">
+<div class="card dashboard-card">
   <div class="dap-logo">DAP⚡Pay</div>
 
-  <h2>Create an DAP⚡ Account</h2>
+  <div id="progress-bar">
+    <div id="progress-fill"></div>
+  </div>
 
-  <input type="text" id="username" placeholder="Choose a Username">
-  <input type="password" id="password" placeholder="Create a Password">
+  <div id="form-steps">
 
-  <button onclick="register()">Sign Up</button>
+    <!-- Step 1: Email + Promo -->
+    <div class="form-step active">
+      <h2 class="slide-in">📧 Enter Your Email</h2>
+      <p>You'll use this to log into your account.</p>
+      <input type="email" id="email" placeholder="e.g., Kyhl_Hines@yahoo.com">
+      <input type="text" id="promo" placeholder="Promo Code (optional)">
+      <small>Don’t have a code? Here’s one on us: <strong>BESTOFFER</strong></small>
 
-  <p style="margin-top: 15px;">Already have an account? <a href="login.html" style="color: #0CC7F6;">Login</a></p>
+      <div class="step-buttons">
+        <button class="glow-btn" onclick="nextStep()">Continue ➡️</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Name + Username -->
+    <div class="form-step">
+      <h2>📝 Enter Your Full Name and Username</h2>
+      <input type="text" id="first-name" placeholder="First Name">
+      <input type="text" id="last-name" placeholder="Last Name">
+      <input type="text" id="username" placeholder="Pick a unique Username">
+      <small>No spaces. Must be unique.</small>
+
+      <div class="step-buttons">
+        <button class="glow-btn" onclick="prevStep()">⬅️ Back</button>
+        <button class="glow-btn" onclick="nextStep()">Continue ➡️</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Date of Birth -->
+    <div class="form-step">
+      <h2>🎂 Enter Your Date of Birth</h2>
+      <p>Let's check if you're old enough to play.</p>
+      <input type="number" id="dob-month" placeholder="Month" min="1" max="12">
+      <input type="number" id="dob-day" placeholder="Day" min="1" max="31">
+      <input type="number" id="dob-year" placeholder="Year">
+      <small>You must be 18 or older to use DAP⚡Pay.</small>
+
+      <div class="step-buttons">
+        <button class="glow-btn" onclick="prevStep()">⬅️ Back</button>
+        <button class="glow-btn" onclick="nextStep()">Continue ➡️</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Address (Optional) -->
+    <div class="form-step">
+      <h2>🏠 Enter Your Address (Optional)</h2>
+      <p>We'll use this later when linking payment methods.</p>
+      <input type="text" id="address" placeholder="Street Address (Optional)">
+
+      <div class="step-buttons">
+        <button class="glow-btn" onclick="prevStep()">⬅️ Back</button>
+        <button class="glow-btn" onclick="nextStep()">Continue ➡️</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Password -->
+    <div class="form-step">
+      <h2>🔒 Create Your Password</h2>
+      <p>You'll use this to log into your account.</p>
+      <input type="password" id="password" placeholder="Password">
+      <small>Must contain at least 1 uppercase letter, 1 number, and 1 special character. Minimum 8 characters.</small>
+
+      <small style="margin-top: 15px; font-size: 0.7rem;">
+        By creating an account, you agree to DAP⚡Pay's Terms of Service and Privacy Policy.
+      </small>
+
+      <div class="step-buttons">
+        <button class="glow-btn" onclick="prevStep()">⬅️ Back</button>
+        <button class="glow-btn" onclick="submitForm()">Create Account ✅</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
-<!-- Particles -->
+<!-- Particles Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<!-- Toast system -->
+<!-- Toast Notifications -->
 <script src="JS/toast.js"></script>
 
 <script>
+// Particles
 particlesJS('particles-js', {
   "particles": {
     "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
@@ -45,27 +117,141 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
-function register() {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
+// Step System
+let currentStep = 0;
+const steps = document.querySelectorAll(".form-step");
+const progressFill = document.getElementById('progress-fill');
 
-  if (!username || !password) {
-    showToast("❌ Please fill in both fields.", "error");
+function showStep(step) {
+  steps.forEach((s, index) => {
+    s.classList.toggle('active', index === step);
+  });
+  progressFill.style.width = ((step+1)/steps.length)*100 + "%";
+}
+
+function nextStep() {
+  if (validateStep(currentStep)) {
+    currentStep++;
+    if (currentStep >= steps.length) currentStep = steps.length -1;
+    showStep(currentStep);
+  }
+}
+
+function prevStep() {
+  currentStep--;
+  if (currentStep < 0) currentStep = 0;
+  showStep(currentStep);
+}
+
+// Validate Each Step
+function validateStep(step) {
+  if (step === 0) {
+    const email = document.getElementById('email').value.trim();
+    if (!email.includes('@')) {
+      showToast("❌ Please enter a valid email.", "error");
+      return false;
+    }
+  }
+  if (step === 1) {
+    const first = document.getElementById('first-name').value.trim();
+    const last = document.getElementById('last-name').value.trim();
+    const username = document.getElementById('username').value.trim();
+    if (!first || !last || !username) {
+      showToast("❌ Fill in your name and username.", "error");
+      return false;
+    }
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    if (users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
+      showToast("❌ Username already taken.", "error");
+      return false;
+    }
+  }
+  if (step === 2) {
+    const month = parseInt(document.getElementById('dob-month').value);
+    const day = parseInt(document.getElementById('dob-day').value);
+    const year = parseInt(document.getElementById('dob-year').value);
+    if (!month || !day || !year) {
+      showToast("❌ Complete your birthday.", "error");
+      return false;
+    }
+    const today = new Date();
+    const birthDate = new Date(year, month - 1, day);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    if (age < 18) {
+      showToast("❌ You must be 18+ to register.", "error");
+      return false;
+    }
+  }
+  return true;
+}
+
+// Final Submit
+function submitForm() {
+  const password = document.getElementById('password').value.trim();
+  const promo = document.getElementById('promo').value.trim() || "BESTOFFER";
+  const passwordRules = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+  
+  if (!passwordRules.test(password)) {
+    showToast("❌ Password is too weak.", "error");
     return;
   }
 
-  localStorage.setItem('poolUser', username);
-  localStorage.setItem('poolPass', password);
-  localStorage.setItem('walletBalance', 0);
-  localStorage.setItem('paymentHistory', JSON.stringify([]));
+  const users = JSON.parse(localStorage.getItem('users')) || [];
 
-  showToast("✅ Account Created! Logging you in...");
-  
+  users.push({
+    email: document.getElementById('email').value.trim(),
+    username: document.getElementById('username').value.trim(),
+    firstName: document.getElementById('first-name').value.trim(),
+    lastName: document.getElementById('last-name').value.trim(),
+    dob: `${document.getElementById('dob-month').value}/${document.getElementById('dob-day').value}/${document.getElementById('dob-year').value}`,
+    address: document.getElementById('address').value.trim(),
+    password: password,
+    promo: promo,
+    balance: 0,
+    createdAt: new Date().toISOString()
+  });
+
+  localStorage.setItem('users', JSON.stringify(users));
+
+  showToast("✅ Account Created! Redirecting...");
   setTimeout(() => {
-    window.location.href = 'login.html';
+    window.location.href = 'dashboard.html';
   }, 1500);
 }
+
+// Show First Step
+showStep(currentStep);
 </script>
+
+<style>
+/* Progress Bar */
+#progress-bar {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  height: 6px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+#progress-fill {
+  height: 100%;
+  background: #0CC7F6;
+  width: 0;
+  transition: width 0.5s ease;
+}
+/* Steps */
+.form-step {
+  display: none;
+}
+.form-step.active {
+  display: block;
+}
+.step-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+</style>
 
 </body>
 </html>

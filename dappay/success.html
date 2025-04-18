@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to DAP⚡Pay!</title>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<div class="card dashboard-card">
+  <div class="dap-logo">DAP⚡Pay</div>
+
+  <h1 class="welcome-text">🎉 Welcome to DAP⚡Pay!</h1>
+  <h2 id="user-welcome"></h2>
+
+  <p>Loading your dashboard...</p>
+
+  <div class="loading-bar">
+    <div class="loading-fill"></div>
+  </div>
+</div>
+
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+// Particles Background
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 100, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.3, "random": true },
+    "size": { "value": 2, "random": true },
+    "line_linked": { "enable": true, "distance": 120, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }},
+    "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+
+// Load Username if exists
+window.onload = function() {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  if (users.length > 0) {
+    const latestUser = users[users.length - 1];
+    document.getElementById('user-welcome').innerText = `Hello, ${latestUser.username}!`;
+  } else {
+    document.getElementById('user-welcome').innerText = `Hello, Pool Player!`;
+  }
+
+  // Auto Redirect after 4 seconds
+  setTimeout(() => {
+    window.location.href = "dashboard.html";
+  }, 4000);
+}
+</script>
+
+<style>
+/* Welcome Styles */
+.welcome-text {
+  font-size: 2.5rem;
+  margin: 20px 0;
+  color: #0CC7F6;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+#user-welcome {
+  font-size: 1.5rem;
+  color: #FFC857;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease forwards;
+}
+
+/* Loading Bar */
+.loading-bar {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+.loading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0CC7F6, #FFC857);
+  width: 0;
+  animation: fillLoading 4s linear forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fillLoading {
+  from { width: 0; }
+  to { width: 100%; }
+}
+</style>
+
+</body>
+</html>
