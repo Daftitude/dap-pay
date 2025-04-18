@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pool League - Wallet</title>
+</head>
+<body>
+    <h1>Welcome, <span id="user-name"></span>!</h1>
+    <h2>Wallet Balance: $<span id="wallet-balance">0</span></h2>
+
+    <h3>Add Money</h3>
+    <button onclick="addMoney(5)">+ $5</button>
+    <button onclick="addMoney(10)">+ $10</button>
+    <button onclick="addMoney(20)">+ $20</button>
+
+    <h3>Pay</h3>
+    <button onclick="payMoney(5)">Pay for Game - $5</button>
+    <button onclick="payMoney(10)">Pay for Table - $10</button>
+
+    <h3>Options</h3>
+    <button onclick="goToAdmin()">Admin Panel</button>
+    <button onclick="logout()">Logout</button>
+
+    <div id="modal" style="display:none; position:fixed; top:20%; left:30%; background:white; padding:20px; border:2px solid black;">
+        <p id="modal-message"></p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+
+    <script>
+        function showModal(message) {
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function goToAdmin() {
+            window.location.href = 'admin.html';
+        }
+
+        function updateWallet() {
+            const balance = localStorage.getItem('walletBalance');
+            document.getElementById('wallet-balance').innerText = balance;
+            document.getElementById('user-name').innerText = localStorage.getItem('poolUser');
+        }
+
+        function addMoney(amount) {
+            let balance = parseFloat(localStorage.getItem('walletBalance'));
+            if ((balance + amount) > 200) {
+                showModal('⚠️ Max wallet balance is $200.');
+                return;
+            }
+            balance += amount;
+            localStorage.setItem('walletBalance', balance);
+            updateWallet();
+        }
+
+        function payMoney(amount) {
+            let balance = parseFloat(localStorage.getItem('walletBalance'));
+            if (balance < amount) {
+                showModal('❌ Not enough funds.');
+                return;
+            }
+            balance -= amount;
+            localStorage.setItem('walletBalance', balance);
+
+            const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+            history.push({
+                type: amount === 5 ? 'Game' : 'Table',
+                amount: amount,
+                date: new Date().toLocaleString()
+            });
+            localStorage.setItem('paymentHistory', JSON.stringify(history));
+
+            updateWallet();
+        }
+
+        window.onload = updateWallet;
+    </script>
+</body>
+</html>

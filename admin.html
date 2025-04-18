@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <h2>User: <span id="user-name"></span></h2>
+    <h2>Wallet Balance: $<span id="wallet-balance"></span></h2>
+
+    <h3>Manual Wallet Edit</h3>
+    <button onclick="addAdminMoney(5)">+ $5</button>
+    <button onclick="subtractAdminMoney(5)">- $5</button>
+
+    <h3>Payment History</h3>
+    <ul id="payment-history"></ul>
+
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function loadAdmin() {
+            const user = localStorage.getItem('poolUser');
+            const balance = localStorage.getItem('walletBalance');
+            const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+
+            document.getElementById('user-name').innerText = user;
+            document.getElementById('wallet-balance').innerText = balance;
+
+            const list = document.getElementById('payment-history');
+            history.forEach(payment => {
+                const item = document.createElement('li');
+                item.textContent = `${payment.date} - Paid $${payment.amount} for ${payment.type}`;
+                list.appendChild(item);
+            });
+        }
+
+        function addAdminMoney(amount) {
+            let balance = parseFloat(localStorage.getItem('walletBalance'));
+            balance += amount;
+            if (balance > 200) balance = 200;
+            localStorage.setItem('walletBalance', balance);
+            document.getElementById('wallet-balance').innerText = balance;
+        }
+
+        function subtractAdminMoney(amount) {
+            let balance = parseFloat(localStorage.getItem('walletBalance'));
+            balance -= amount;
+            if (balance < 0) balance = 0;
+            localStorage.setItem('walletBalance', balance);
+            document.getElementById('wallet-balance').innerText = balance;
+        }
+
+        window.onload = loadAdmin;
+    </script>
+</body>
+</html>
