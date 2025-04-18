@@ -1,89 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DaP⚡Pay- Wallet</title>
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8">
+  <title>DAPPay - Dashboard</title>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <h1>Welcome, <span id="user-name"></span>!</h1>
-    <h2>Wallet Balance: $<span id="wallet-balance">0</span></h2>
 
-    <h3>Add Money</h3>
-    <button onclick="addMoney(5)">+ $5</button>
-    <button onclick="addMoney(10)">+ $10</button>
-    <button onclick="addMoney(20)">+ $20</button>
+<div id="particles-js"></div>
 
-    <h3>Pay</h3>
-    <button onclick="payMoney(5)">Pay for Game - $5</button>
-    <button onclick="payMoney(10)">Pay for Table - $10</button>
+<div class="card">
+  <h2>Welcome, <span id="user-name"></span>!</h2>
 
-    <h3>Options</h3>
-    <button onclick="goToAdmin()">Admin Panel</button>
-    <button onclick="logout()">Logout</button>
+  <h3>Choose an action:</h3>
 
-    <div id="modal" style="display:none; position:fixed; top:20%; left:30%; background:white; padding:20px; border:2px solid black;">
-        <p id="modal-message"></p>
-        <button onclick="closeModal()">OK</button>
-    </div>
+  <button onclick="location.href='balance.html'">💳 View Balance</button>
+  <button onclick="location.href='add-funds.html'">💰 Add Funds</button>
+  <button onclick="location.href='pay-game.html'">🎱 Pay for Game/Table</button>
+  <br><br>
+  <button onclick="logout()">Logout</button>
+</div>
 
-    <script>
-        function showModal(message) {
-            document.getElementById('modal-message').innerText = message;
-            document.getElementById('modal').style.display = 'block';
-        }
+<!-- Particles.js Background -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1.2 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }},
+    "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+</script>
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+<script>
+function logout() {
+  localStorage.clear();
+  window.location.href = 'login.html';
+}
 
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
+function updateUser() {
+  const user = localStorage.getItem('poolUser') || "Guest";
+  document.getElementById('user-name').innerText = user;
+}
 
-        function goToAdmin() {
-            window.location.href = 'admin.html';
-        }
+window.onload = updateUser;
+</script>
 
-        function updateWallet() {
-            const balance = localStorage.getItem('walletBalance');
-            document.getElementById('wallet-balance').innerText = balance;
-            document.getElementById('user-name').innerText = localStorage.getItem('poolUser');
-        }
-
-        function addMoney(amount) {
-            let balance = parseFloat(localStorage.getItem('walletBalance'));
-            if ((balance + amount) > 200) {
-                showModal('⚠️ Max wallet balance is $200.');
-                return;
-            }
-            balance += amount;
-            localStorage.setItem('walletBalance', balance);
-            updateWallet();
-        }
-
-        function payMoney(amount) {
-            let balance = parseFloat(localStorage.getItem('walletBalance'));
-            if (balance < amount) {
-                showModal('❌ Not enough funds.');
-                return;
-            }
-            balance -= amount;
-            localStorage.setItem('walletBalance', balance);
-
-            const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-            history.push({
-                type: amount === 5 ? 'Game' : 'Table',
-                amount: amount,
-                date: new Date().toLocaleString()
-            });
-            localStorage.setItem('paymentHistory', JSON.stringify(history));
-
-            updateWallet();
-        }
-
-        window.onload = updateWallet;
-    </script>
 </body>
 </html>
