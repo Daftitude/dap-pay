@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <h2>Create Your DAP⚡Pay Account</h2>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+<div id="particles-js"></div>
+
+<div class="card">
+  <h2>Create Account</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Sign Up</button>
+  <p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+function register() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    alert('Please enter both username and password!');
+    return;
+  }
+
+  localStorage.setItem('poolUser', username);
+  localStorage.setItem('poolPass', password);
+  localStorage.setItem('walletBalance', 0);
+  localStorage.setItem('paymentHistory', JSON.stringify([]));
+
+  alert('Account created! Now login.');
+  window.location.href = 'login.html';
+}
+</script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": {
+      "value": 80,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#0CC7F6"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      }
+    },
+    "opacity": {
+      "value": 0.4,
+      "random": true,
+      "anim": {
+        "enable": true,
+        "speed": 0.5,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 4,
+        "size_min": 0.3,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#0CC7F6",
+      "opacity": 0.3,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 1.2,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "grab"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 200,
+        "line_linked": {
+          "opacity": 0.6
+        }
+      },
+      "bubble": {
+        "distance": 250,
+        "size": 8,
+        "duration": 2,
+        "opacity": 0.8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+</script>
+
+</body>
+</html>
