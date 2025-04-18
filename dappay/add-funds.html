@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DAPPay - Add Funds</title>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<div class="card">
+  <h2>💰 Add Funds</h2>
+
+  <h3>Current Balance:</h3>
+  <h1 id="wallet-balance">$0.00</h1>
+
+  <h3>Choose Amount to Add:</h3>
+  <button onclick="addMoney(5)">+ $5</button>
+  <button onclick="addMoney(10)">+ $10</button>
+  <button onclick="addMoney(20)">+ $20</button>
+
+  <div id="error-message" style="color: #FFC857; margin-top: 15px; display: none;">
+    ⚠️ Cannot exceed $200 wallet limit.
+  </div>
+
+  <br>
+  <button onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+</div>
+
+<!-- Particles.js Background -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1.2 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }},
+    "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+</script>
+
+<script>
+function updateBalanceDisplay() {
+  const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+  document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
+}
+
+function addMoney(amount) {
+  let balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+  
+  if ((balance + amount) > 200) {
+    document.getElementById('error-message').style.display = 'block';
+    return;
+  }
+
+  balance += amount;
+  localStorage.setItem('walletBalance', balance);
+  document.getElementById('error-message').style.display = 'none';
+  updateBalanceDisplay();
+}
+
+window.onload = updateBalanceDisplay;
+</script>
+
+</body>
+</html>

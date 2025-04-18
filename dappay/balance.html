@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAPPay - Pay for Game/Table</title>
+  <title>DAPPay - Balance</title>
   <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
@@ -10,17 +10,12 @@
 <div id="particles-js"></div>
 
 <div class="card">
-  <h2>🎱 Pay for Game or Table</h2>
+  <h2>💳 Your Wallet Balance</h2>
 
-  <h3>Current Wallet Balance:</h3>
   <h1 id="wallet-balance">$0.00</h1>
 
-  <h3>Select Payment:</h3>
-  <button onclick="pay(5)">Pay $5 - Game</button>
-  <button onclick="pay(10)">Pay $10 - Table</button>
-
-  <div id="error-message" style="color: #FFC857; margin-top: 15px; display: none;">
-    ❌ Insufficient Funds! Please Add Money.
+  <div id="low-balance-warning" style="color: #FFC857; margin-top: 10px; display: none;">
+    ⚠️ Warning: Your balance is low. Please add more funds.
   </div>
 
   <br>
@@ -49,35 +44,18 @@ particlesJS('particles-js', {
 </script>
 
 <script>
-function updateBalanceDisplay() {
+function loadBalance() {
   const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
   document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
-}
 
-function pay(amount) {
-  let balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
-
-  if (balance < amount) {
-    document.getElementById('error-message').style.display = 'block';
-    return;
+  if (balance < 10) {
+    document.getElementById('low-balance-warning').style.display = 'block';
+  } else {
+    document.getElementById('low-balance-warning').style.display = 'none';
   }
-
-  balance -= amount;
-  localStorage.setItem('walletBalance', balance);
-  document.getElementById('error-message').style.display = 'none';
-  updateBalanceDisplay();
-
-  // Add to Payment History
-  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-  history.push({
-    amount: amount,
-    type: (amount === 5 ? "Game" : "Table"),
-    date: new Date().toLocaleString()
-  });
-  localStorage.setItem('paymentHistory', JSON.stringify(history));
 }
 
-window.onload = updateBalanceDisplay;
+window.onload = loadBalance;
 </script>
 
 </body>
