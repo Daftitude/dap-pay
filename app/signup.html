@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - Pool League</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #333;
+      border: none;
+      border-radius: 8px;
+      color: white;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #0CC7F6;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+    }
+    button:hover {
+      background: #0aa6d1;
+    }
+    a {
+      color: #0CC7F6;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Create Account</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="register()">Sign Up</button>
+  <p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+function register() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    alert('Please enter both username and password!');
+    return;
+  }
+
+  localStorage.setItem('poolUser', username);
+  localStorage.setItem('poolPass', password);
+  localStorage.setItem('walletBalance', 0);
+  localStorage.setItem('paymentHistory', JSON.stringify([]));
+
+  alert('Account created! Now login.');
+  window.location.href = 'login.html';
+}
+</script>
+
+</body>
+</html>
