@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Pool League</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #333;
+      border: none;
+      border-radius: 8px;
+      color: white;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #0CC7F6;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+    }
+    button:hover {
+      background: #0aa6d1;
+    }
+    a {
+      color: #0CC7F6;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Welcome Back</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+</div>
+
+<script>
+function login() {
+  const inputUser = document.getElementById('username').value.trim();
+  const inputPass = document.getElementById('password').value.trim();
+
+  const savedUser = localStorage.getItem('poolUser');
+  const savedPass = localStorage.getItem('poolPass');
+
+  if (inputUser === savedUser && inputPass === savedPass) {
+    window.location.href = 'dashboard.html';
+  } else {
+    alert('Incorrect username or password. Try again!');
+  }
+}
+</script>
+
+</body>
+</html>
