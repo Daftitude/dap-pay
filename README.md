@@ -1,32 +1,44 @@
-# 🎱 Pool League Wallet App
+# DAP⚡Pay
 
-Welcome to the Pool League Wallet App!
+🎱 **DAP⚡Pay** is a fast, modern, web-based payment system designed for pool leagues, game lounges, and clubs.  
+It allows players to load funds into their account, pay for games or tables, and manage balances — replacing the need for cash payments.
 
-This project is designed to modernize our pool league by allowing players to:
-- Load money into their digital wallets (pretend for now, real payments coming soon).
-- Pay for individual games or table rentals using their wallet balance.
-- Manage balances and view payment history through a simple dashboard.
-
-> Future integration with Stripe and PayPal is planned to allow real money top-ups!
+Built with a sleek UI, glassmorphism design, and full mobile responsiveness.  
+Professional-grade prototype, ready for production integration (Stripe, PayPal, authentication, etc.)
 
 ---
 
-## 🚀 Features
-- **User Login/Register** (local storage for now)
-- **Wallet Dashboard** (View balance, add fake money, pay for games/tables)
-- **Top-Up Buttons** (+$5, +$10, +$20 with balance cap at $200)
-- **Payment Buttons** ($5 per Game, $10 per Table)
-- **Fancy Error Modals** (with basic fallback alert support)
-- **Admin Dashboard** (manual balance adjustments + view payment history)
-- **Mobile-Friendly** (Web app optimized for mobile browsers)
+## 📦 Features
+
+- ✨ Multi-Step Registration (5 Steps):
+  - Email + Promo Code
+  - Full Name + Unique Username
+  - Date of Birth (18+ validation)
+  - Address (optional, required for payment later)
+  - Password (strength validation)
+
+- 🎉 Success Splash Screen after registration
+- 🧠 Secure local session management
+- 💳 Wallet balance management
+- 💵 Add Funds system (+$5, +$10, +$20)
+- 🎱 Pay for Game or Table (with Table Number input)
+- 📈 Full Transaction History tracking (internal)
+- 📱 Fully Mobile Responsive
+- 🌌 Particles.js animated backgrounds
+- 🛡️ Toast notifications for feedback
+- 🚀 Clean animated transitions and progress bars
 
 ---
 
-## ⚙️ Project Structure
+## 🛠️ Tech Stack
 
-```bash
-/pool-league/
- ├── login.html       # Login/Registration page
- ├── dashboard.html   # Wallet dashboard (User view)
- ├── admin.html       # Admin panel (Manual balance adjustments, history)
- └── README.md        # You're here!
+- HTML5
+- CSS3 (Glassmorphism + Animations)
+- JavaScript (Pure Vanilla)
+- Particles.js (background effects)
+- LocalStorage (Prototype database)
+
+---
+
+## 📋 Folder Structure
+
