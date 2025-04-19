@@ -1,63 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8">
+  <title>DAP⚡Pay Admin Dashboard</title>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <h1>Admin Dashboard</h1>
-    <h2>User: <span id="user-name"></span></h2>
-    <h2>Wallet Balance: $<span id="wallet-balance"></span></h2>
 
-    <h3>Manual Wallet Edit</h3>
-    <button onclick="addAdminMoney(5)">+ $5</button>
-    <button onclick="subtractAdminMoney(5)">- $5</button>
+<div id="particles-js"></div>
 
-    <h3>Payment History</h3>
-    <ul id="payment-history"></ul>
+<div class="card dashboard-card" id="admin-card" style="display:none; padding: 30px 20px;">
+  <div class="dap-logo">DAP⚡Pay Admin</div>
 
-    <button onclick="logout()">Logout</button>
+  <h1 class="welcome-text">Admin Dashboard</h1>
+  <p class="subtitle-text">Monitor payments. Manage players.</p>
 
-    <script>
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
+  <div class="divider"></div>
 
-        function loadAdmin() {
-            const user = localStorage.getItem('poolUser');
-            const balance = localStorage.getItem('walletBalance');
-            const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+  <div style="text-align:left;">
+    <p><strong>Total Money Today:</strong> <span id="total-money">$0.00</span></p>
+    <p><strong>Games Paid:</strong> <span id="total-games">0</span> | <strong>Tables Paid:</strong> <span id="total-tables">0</span></p>
+  </div>
 
-            document.getElementById('user-name').innerText = user;
-            document.getElementById('wallet-balance').innerText = balance;
+  <div class="divider"></div>
 
-            const list = document.getElementById('payment-history');
-            history.forEach(payment => {
-                const item = document.createElement('li');
-                item.textContent = `${payment.date} - Paid $${payment.amount} for ${payment.type}`;
-                list.appendChild(item);
-            });
-        }
+  <h3>Transaction History</h3>
+  <div style="overflow-x:auto; max-height:300px; margin-bottom:20px;">
+    <table id="transaction-table" style="width:100%; font-size:0.9rem;">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Table</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-        function addAdminMoney(amount) {
-            let balance = parseFloat(localStorage.getItem('walletBalance'));
-            balance += amount;
-            if (balance > 200) balance = 200;
-            localStorage.setItem('walletBalance', balance);
-            document.getElementById('wallet-balance').innerText = balance;
-        }
+  <div class="divider"></div>
 
-        function subtractAdminMoney(amount) {
-            let balance = parseFloat(localStorage.getItem('walletBalance'));
-            balance -= amount;
-            if (balance < 0) balance = 0;
-            localStorage.setItem('walletBalance', balance);
-            document.getElementById('wallet-balance').innerText = balance;
-        }
+  <h3>Adjust Player Balance</h3>
+  <input type="text" id="adjust-username" placeholder="Username">
+  <input type="number" id="adjust-amount" placeholder="Amount (+ or -)">
+  <button class="glow-btn" onclick="adjustBalance()">Update Balance</button>
 
-        window.onload = loadAdmin;
-    </script>
+  <div class="divider"></div>
+
+  <button class="logout-btn" onclick="resetAll()">🧹 End of Day: Reset All Balances</button>
+</div>
+
+<!-- Admin Login Prompt -->
+<div id="admin-login" class="card dashboard-card" style="padding: 40px;">
+  <h2 style="margin-bottom: 20px;">Admin Access</h2>
+  <input type="password" id="admin-pass" placeholder="Enter Admin Code">
+  <button class="glow-btn" onclick="checkAdmin()">Enter Dashboard ➡️</button>
+</div>
+
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="JS/toast.js"></script>
+
+<script>
+// Particles
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }},
+    "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+
+// Admin Password
+const ADMIN_PASSWORD = "dapadmin"; // 👈 Change this to your secret code
+
+function checkAdmin() {
+  const pass = document.getElementById('admin-pass').value.trim();
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('admin-login').style.display = "none";
+    document.getElementById('admin-card').style.display = "block";
+    loadAdminData();
+  } else {
+    showToast("❌ Incorrect Admin Code", "error");
+  }
+}
+
+// Load Data
+function loadAdminData() {
+  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+  const table = document.getElementById('transaction-table').querySelector('tbody');
+  table.innerHTML = "";
+
+  let totalMoney = 0;
+  let totalGames = 0;
+  let totalTables = 0;
+
+  history.forEach(tx => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${tx.username || 'Unknown'}</td>
+      <td>${tx.table}</td>
+      <td>$${tx.amount.toFixed(2)}</td>
+      <td>${tx.type}</td>
+      <td>${tx.date}</td>
+    `;
+    table.appendChild(row);
+
+    totalMoney += tx.amount;
+    if (tx.type === "Game") totalGames++;
+    if (tx.type === "Table") totalTables++;
+  });
+
+  document.getElementById('total-money').innerText = `$${totalMoney.toFixed(2)}`;
+  document.getElementById('total-games').innerText = totalGames;
+  document.getElementById('total-tables').innerText = totalTables;
+}
+
+// Adjust Balance
+function adjustBalance() {
+  const username = document.getElementById('adjust-username').value.trim();
+  const amount = parseFloat(document.getElementById('adjust-amount').value);
+
+  if (!username || isNaN(amount)) {
+    showToast("❌ Please enter valid username and amount.", "error");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+
+  if (!user) {
+    showToast("❌ User not found.", "error");
+    return;
+  }
+
+  user.balance += amount;
+  localStorage.setItem('users', JSON.stringify(users));
+  showToast(`✅ Balance updated for ${username}!`);
+}
+
+// Reset Balances (End of Day)
+function resetAll() {
+  if (confirm("Are you sure you want to reset all player balances?")) {
+    localStorage.removeItem('paymentHistory');
+    showToast("✅ All payment history cleared.");
+    setTimeout(() => { location.reload(); }, 1000);
+  }
+}
+</script>
+
+<style>
+/* Small internal adjustments */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  text-align: center;
+  padding: 8px;
+}
+th {
+  background-color: #0CC7F6;
+  color: black;
+}
+</style>
+
 </body>
 </html>
