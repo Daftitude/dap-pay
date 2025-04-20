@@ -5,7 +5,7 @@
   <title>DAP⚡Pay | Add Funds</title>
 
   <!-- External Styles -->
-  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +25,7 @@
       <a href="dashboard.html">🏠 Dashboard</a>
       <a href="add-funds.html">➕ Add Funds</a>
       <a href="balance.html">💰 Balance</a>
+      <a href="pay-game.html">🎱 Pay Game</a>
       <a href="login.html" onclick="logout()">🚪 Logout</a>
     </div>
   </div>
@@ -40,6 +41,12 @@
   <div class="balance-card">
     <h2 id="walletBalance">$0.00</h2>
     <p>Current Wallet Balance</p>
+  </div>
+
+  <!-- Last Top-Up Info -->
+  <div class="form-card" style="margin-top: 20px; text-align: center;">
+    <h3 style="color: #0CC7F6;">Last Top-Up</h3>
+    <p id="lastTopUp" style="color: #ccc;">No recent top-ups yet.</p>
   </div>
 
   <!-- Add Funds Buttons -->
@@ -65,13 +72,13 @@
 
 <!-- ======= Scripts ======= -->
 
-<!-- Particles Background -->
+<!-- Particles.js Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-<!-- Popup System (major events) -->
+<!-- Popup System -->
 <script src="JS/popup.js"></script>
 
-<!-- Toast System (minor info) -->
+<!-- Toast System -->
 <script src="JS/toast.js"></script>
 
 <script>
@@ -99,7 +106,7 @@ function goDashboard() {
   window.location.href = "dashboard.html";
 }
 
-// Load Current User
+// Load User
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = localStorage.getItem('currentUser');
 
@@ -115,6 +122,18 @@ function updateBalanceDisplay() {
 }
 updateBalanceDisplay();
 
+// Show Last Top-Up Info
+function updateLastTopUp() {
+  const topUpData = JSON.parse(localStorage.getItem('lastTopUp')) || null;
+
+  if (topUpData && topUpData.amount && topUpData.time) {
+    document.getElementById('lastTopUp').textContent = `➕ $${topUpData.amount} added on ${topUpData.time}`;
+  } else {
+    document.getElementById('lastTopUp').textContent = "No recent top-ups yet.";
+  }
+}
+updateLastTopUp();
+
 // Add Fixed Funds
 function addFunds(amount) {
   if (user.balance + amount > 200) {
@@ -124,8 +143,22 @@ function addFunds(amount) {
 
   user.balance += amount;
   localStorage.setItem('users', JSON.stringify(users));
+
+  // Save Last Top-Up
+  const now = new Date();
+  localStorage.setItem('lastTopUp', JSON.stringify({
+    amount: amount,
+    time: now.toLocaleString()
+  }));
+
   updateBalanceDisplay();
+  updateLastTopUp();
   showPopup('success', `✅ Successfully added $${amount}!`);
+
+  // Redirect after short delay
+  setTimeout(() => {
+    window.location.href = "success.html";
+  }, 1500);
 }
 
 // Add Other Amount
@@ -149,9 +182,23 @@ function addOtherAmount() {
 
   user.balance += amount;
   localStorage.setItem('users', JSON.stringify(users));
+
+  // Save Last Top-Up
+  const now = new Date();
+  localStorage.setItem('lastTopUp', JSON.stringify({
+    amount: amount,
+    time: now.toLocaleString()
+  }));
+
   updateBalanceDisplay();
+  updateLastTopUp();
   showPopup('success', `✅ Successfully added $${amount}!`);
-  document.getElementById('otherAmount').value = ''; // Clear input
+  document.getElementById('otherAmount').value = '';
+
+  // Redirect after short delay
+  setTimeout(() => {
+    window.location.href = "success.html";
+  }, 1500);
 }
 
 // Logout

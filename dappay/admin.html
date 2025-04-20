@@ -5,7 +5,7 @@
   <title>DAP⚡Pay | Admin Panel</title>
 
   <!-- External Styles -->
-  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- Chart.js CDN for Earnings Graph -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -112,13 +112,19 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
+/// ======= Admin.js =======
+
 // Toggle Mobile Menu
 function toggleMenu() {
   document.getElementById('navLinks').classList.toggle('show');
 }
 
-// Load Wallet
-document.getElementById('walletBalanceAdmin').textContent = "$9999.99"; // Static for Admin demo
+// Load Wallet - DYNAMIC now
+function loadAdminWallet() {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const totalBalance = users.reduce((sum, user) => sum + (user.balance || 0), 0);
+  document.getElementById('walletBalanceAdmin').textContent = `$${totalBalance.toFixed(2)}`;
+}
 
 // Load Users and Transactions
 let users = JSON.parse(localStorage.getItem('users')) || [];
@@ -129,13 +135,18 @@ function displayUsers() {
   const container = document.getElementById('usersTable');
   container.innerHTML = "";
 
+  if (users.length === 0) {
+    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No users found.</p>";
+    return;
+  }
+
   users.forEach((user, index) => {
     let div = document.createElement('div');
     div.className = 'transaction-item';
     div.innerHTML = `
       <span>@${user.username} | 💰 $${user.balance.toFixed(2)}</span>
       <div>
-        <button class="glow-btn secondary" onclick="deleteUser(${index})">🗑 Delete</button>
+        <button class="glow-btn secondary" onclick="confirmDeleteUser(${index}, '${user.username}')">🗑 Delete</button>
       </div>
     `;
     container.appendChild(div);
@@ -149,16 +160,32 @@ function filterUsers() {
   const container = document.getElementById('usersTable');
   container.innerHTML = "";
 
+  if (filtered.length === 0) {
+    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No matching users found.</p>";
+    return;
+  }
+
   filtered.forEach((user, index) => {
     let div = document.createElement('div');
     div.className = 'transaction-item';
     div.innerHTML = `
       <span>@${user.username} | 💰 $${user.balance.toFixed(2)}</span>
       <div>
-        <button class="glow-btn secondary" onclick="deleteUser(${index})">🗑 Delete</button>
+        <button class="glow-btn secondary" onclick="confirmDeleteUser(${index}, '${user.username}')">🗑 Delete</button>
       </div>
     `;
     container.appendChild(div);
+  });
+}
+
+// Confirm Delete User
+function confirmDeleteUser(index, username) {
+  showPopup('warning', `⚠️ Are you sure you want to delete @${username}?`, () => {
+    users.splice(index, 1);
+    localStorage.setItem('users', JSON.stringify(users));
+    displayUsers();
+    loadAdminWallet(); // Update wallet after deleting user
+    showPopup('success', `✅ Deleted @${username}`);
   });
 }
 
@@ -168,29 +195,21 @@ function adjustBalance() {
   const amount = parseFloat(document.getElementById('adjustAmount').value);
 
   if (!username || isNaN(amount)) {
-    alert("Please fill in both fields correctly.");
+    showPopup('error', '❌ Please fill in both fields correctly.');
     return;
   }
 
   let user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
   if (!user) {
-    alert("User not found.");
+    showPopup('error', '❌ User not found.');
     return;
   }
 
   user.balance += amount;
   localStorage.setItem('users', JSON.stringify(users));
   displayUsers();
-  alert("Balance updated successfully!");
-}
-
-// Delete User
-function deleteUser(index) {
-  if (confirm("Are you sure you want to delete this user?")) {
-    users.splice(index, 1);
-    localStorage.setItem('users', JSON.stringify(users));
-    displayUsers();
-  }
+  loadAdminWallet(); // Update wallet after adjustment
+  showPopup('success', `✅ Updated @${username}'s balance by $${amount.toFixed(2)}`);
 }
 
 // Display Transactions
@@ -199,7 +218,7 @@ function displayTransactions() {
   container.innerHTML = "";
 
   if (transactions.length === 0) {
-    container.innerHTML = "<p style='text-align:center; color:#ccc;'>No transactions found.</p>";
+    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No transactions found.</p>";
     return;
   }
 
@@ -271,11 +290,9 @@ function displayChart() {
   });
 }
 
-// Initialize Page
+// Initialize Admin Page
+loadAdminWallet();
 displayUsers();
 displayTransactions();
 displayChart();
 </script>
-
-</body>
-</html>

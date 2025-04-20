@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Success</title>
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="CSS/style.css">
+  <!-- External Styles -->
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,29 +16,52 @@
 <!-- Particle Background -->
 <div id="particles-js"></div>
 
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="dap-logo">DAP⚡Pay</div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="add-funds.html">➕ Add Funds</a>
+      <a href="balance.html">💰 Balance</a>
+      <a href="pay-game.html">🎱 Pay Game</a>
+      <a href="login.html" onclick="logout()">🚪 Logout</a>
+    </div>
+  </div>
+</nav>
+
 <!-- ======= Main Content ======= -->
 <div class="dashboard-wrapper">
-  <div class="form-card" style="text-align: center; padding: 40px 30px;">
 
-    <!-- Congratulations Text -->
-    <h1 class="dashboard-welcome" style="margin-bottom: 20px;">🎉 Congratulations!</h1>
-    <p style="font-size: 1.2rem; margin-bottom: 20px; color: #FFC857;">
-      Your DAP⚡Pay account has been created successfully.
-    </p>
+  <!-- Success Icon -->
+  <div style="font-size: 5rem; color: #0CC7F6; margin-bottom: 20px;">🎉</div>
 
-    <!-- Countdown Message -->
-    <p style="color: #ccc;">Redirecting to your Dashboard in <span id="countdown">3</span> seconds...</p>
+  <!-- Success Message -->
+  <h1 class="dashboard-welcome">Payment Successful!</h1>
 
-    <!-- Manual Button -->
-    <button class="glow-btn" style="margin-top: 25px;" onclick="goToDashboard()">Go to Dashboard Now ➡️</button>
+  <p style="color: #ccc; font-size: 1.2rem; margin-top: 10px;">Thanks for playing. Your wallet has been updated.</p>
 
+  <!-- Manual Return Button -->
+  <div style="margin-top: 30px;">
+    <button class="glow-btn" onclick="goDashboard()">⬅️ Return to Dashboard</button>
   </div>
+
+  <!-- Auto Redirect Notice -->
+  <p style="margin-top: 20px; color: #888;">You will be redirected automatically in 5 seconds...</p>
+
 </div>
 
 <!-- ======= Scripts ======= -->
 
-<!-- Particles Background -->
+<!-- Particles.js Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Popup System -->
+<script src="JS/popup.js"></script>
+
+<!-- Toast System -->
+<script src="JS/toast.js"></script>
 
 <script>
 // Initialize Particles
@@ -55,22 +78,23 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
-// Countdown Redirect
-let seconds = 3;
-let countdownEl = document.getElementById('countdown');
+// Toggle Mobile Menu
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('show');
+}
 
-const countdown = setInterval(() => {
-  seconds--;
-  countdownEl.textContent = seconds;
-  if (seconds <= 0) {
-    clearInterval(countdown);
-    goToDashboard();
-  }
-}, 1000);
+// Redirect to Dashboard
+function goDashboard() {
+  window.location.href = "dashboard.html";
+}
 
-// Go to Dashboard Now
-function goToDashboard() {
-  window.location.href = 'dashboard.html';
+// Auto Redirect after 5 seconds
+setTimeout(goDashboard, 5000);
+
+// Logout
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = "login.html";
 }
 </script>
 

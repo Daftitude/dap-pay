@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAP⚡Pay | Pay for Game</title>
+  <title>DAP⚡Pay | Pay for Game/Table</title>
 
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="CSS/style.css">
+  <!-- External Styles -->
+  <link rel="stylesheet" href="css/style.css">
 
-  <!-- Responsive Meta Tag -->
+  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -19,58 +19,53 @@
 <!-- ======= Navbar ======= -->
 <nav class="navbar">
   <div class="nav-container">
-    <!-- Logo -->
     <div class="dap-logo">DAP⚡Pay</div>
-
-    <!-- Hamburger (mobile view) -->
     <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-    <!-- Navigation Links -->
     <div class="nav-links" id="navLinks">
       <a href="dashboard.html">🏠 Dashboard</a>
       <a href="add-funds.html">➕ Add Funds</a>
       <a href="balance.html">💰 Balance</a>
+      <a href="pay-game.html">🎱 Pay Game</a>
       <a href="login.html" onclick="logout()">🚪 Logout</a>
     </div>
   </div>
 </nav>
 
-<!-- ======= Main Page Content ======= -->
+<!-- ======= Main Content ======= -->
 <div class="dashboard-wrapper">
 
   <!-- Page Title -->
-  <h1 class="dashboard-welcome">🎱 Pay for Your Game</h1>
+  <h1 class="dashboard-welcome">🎱 Pay for Game / Table</h1>
 
   <!-- Table Number Input -->
-  <div class="balance-card">
-    <label for="tableNumber">Enter Table Number:</label><br><br>
-    <input type="number" id="tableNumber" placeholder="e.g. 5" min="1" style="padding: 10px; border-radius: 6px; border: none; margin-bottom: 20px;">
-    <br>
+  <div class="form-card" style="margin-top: 20px; text-align: center;">
+    <h3 style="color: #0CC7F6;">Enter Table Number</h3>
+    <input type="number" id="tableNumber" class="input-field" placeholder="Enter Table # (1, 2, 3...)">
+  </div>
 
-    <!-- Payment Buttons -->
-    <button class="glow-btn" onclick="payGame()">🎱 Pay $5 for Game</button>
-    <button class="glow-btn" onclick="payTable()" style="margin-top: 15px;">🪑 Pay $10 for Table</button>
+  <!-- Payment Buttons -->
+  <div class="payment-options" style="margin-top: 30px;">
+    <button onclick="payForGame()">🎱 Pay $5 for Game</button>
+    <button onclick="payForTable()">🪑 Pay $10 for Table</button>
+  </div>
 
-    <!-- Return Button -->
-    <button class="logout-btn" style="margin-top: 30px;" onclick="location.href='dashboard.html'">⬅️ Return to Dashboard</button>
+  <!-- Back Button -->
+  <div style="margin-top: 40px; text-align: center;">
+    <button class="glow-btn secondary" onclick="goDashboard()">⬅️ Back to Dashboard</button>
   </div>
 
 </div>
 
 <!-- ======= Scripts ======= -->
-
-<!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<!-- Toast Notifications -->
+<script src="JS/popup.js"></script>
 <script src="JS/toast.js"></script>
 
-<!-- Pay Game Logic -->
 <script>
-// Initialize Particles
+// Particles Init
 particlesJS('particles-js', {
   "particles": {
-    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
     "color": { "value": "#0CC7F6" },
     "shape": { "type": "circle" },
     "opacity": { "value": 0.4, "random": true },
@@ -81,72 +76,73 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
-// Hamburger Mobile Menu
+// Toggle Menu
 function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
+  document.getElementById('navLinks').classList.toggle('show');
 }
 
-// Check User Login
+// Go back to Dashboard
+function goDashboard() {
+  window.location.href = "dashboard.html";
+}
+
+// Load User
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = localStorage.getItem('currentUser');
-
 if (!currentUser) {
   window.location.href = "login.html";
 }
-
 let user = users.find(u => u.username === currentUser);
 
-// Pay $5 for Game
-function payGame() {
-  const tableNum = document.getElementById('tableNumber').value;
-  if (!tableNum) {
-    showToast('⚠️ Please enter your table number.', 'error');
+// Payment Functions
+function payForGame() {
+  const table = document.getElementById('tableNumber').value.trim();
+  if (!table) {
+    showPopup('error', '❌ Please enter a table number.');
     return;
   }
-
   if (user.balance >= 5) {
     user.balance -= 5;
-    saveTransaction('Game', 5, tableNum);
-    showToast('✅ Paid $5 for Game!');
+    saveTransaction('Game', 5, table);
     localStorage.setItem('users', JSON.stringify(users));
-    setTimeout(() => location.href='dashboard.html', 1500);
+    showPopup('success', '✅ Paid $5 for Game!');
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1500);
   } else {
-    showToast('❌ Insufficient balance.', 'error');
+    showPopup('error', '❌ Insufficient Balance.');
   }
 }
 
-// Pay $10 for Table
-function payTable() {
-  const tableNum = document.getElementById('tableNumber').value;
-  if (!tableNum) {
-    showToast('⚠️ Please enter your table number.', 'error');
+function payForTable() {
+  const table = document.getElementById('tableNumber').value.trim();
+  if (!table) {
+    showPopup('error', '❌ Please enter a table number.');
     return;
   }
-
   if (user.balance >= 10) {
     user.balance -= 10;
-    saveTransaction('Table', 10, tableNum);
-    showToast('✅ Paid $10 for Table!');
+    saveTransaction('Table', 10, table);
     localStorage.setItem('users', JSON.stringify(users));
-    setTimeout(() => location.href='dashboard.html', 1500);
+    showPopup('success', '✅ Paid $10 for Table!');
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1500);
   } else {
-    showToast('❌ Insufficient balance.', 'error');
+    showPopup('error', '❌ Insufficient Balance.');
   }
 }
 
 // Save Transaction
-function saveTransaction(type, amount, tableNumber) {
-  let history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-
+function saveTransaction(type, amount, table) {
+  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
   history.push({
     username: currentUser,
-    table: tableNumber,
+    table: table,
     amount: amount,
     type: type,
     date: new Date().toLocaleString()
   });
-
   localStorage.setItem('paymentHistory', JSON.stringify(history));
 }
 
