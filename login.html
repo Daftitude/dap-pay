@@ -46,21 +46,24 @@ particlesJS('particles-js', {
 });
 
 function login() {
-  const inputUser = document.getElementById('username').value.trim();
-  const inputPass = document.getElementById('password').value.trim();
+  const usernameInput = document.getElementById('username').value.trim();
+  const passwordInput = document.getElementById('password').value.trim();
 
-  const savedUser = localStorage.getItem('poolUser');
-  const savedPass = localStorage.getItem('poolPass');
+  let users = JSON.parse(localStorage.getItem('users')) || [];
 
-  if (inputUser === savedUser && inputPass === savedPass) {
-    showToast("✅ Login Successful!");
+  const foundUser = users.find(u => u.username.toLowerCase() === usernameInput.toLowerCase() && u.password === passwordInput);
+
+  if (foundUser) {
+    localStorage.setItem('currentUser', foundUser.username); // ✅ Save active user
+    showToast('✅ Login Successful!');
     setTimeout(() => {
       window.location.href = 'dashboard.html';
     }, 1000);
   } else {
-    showToast("❌ Incorrect username or password.", "error");
+    showToast('❌ Invalid Credentials.', 'error');
   }
 }
+
 </script>
 
 </body>
