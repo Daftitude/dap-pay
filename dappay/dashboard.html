@@ -4,28 +4,24 @@
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Dashboard</title>
 
-  <!-- Link to external CSS -->
+  <!-- External CSS -->
   <link rel="stylesheet" href="CSS/style.css">
 
-  <!-- Responsive meta -->
+  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
-<!-- Background Particles -->
+<!-- Particles Background -->
 <div id="particles-js"></div>
 
 <!-- ======= Navbar ======= -->
 <nav class="navbar">
   <div class="nav-container">
-    <!-- Logo -->
     <div class="dap-logo">DAP⚡Pay</div>
-
-    <!-- Hamburger menu for mobile -->
     <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-    <!-- Navigation links -->
     <div class="nav-links" id="navLinks">
       <a href="dashboard.html">🏠 Dashboard</a>
       <a href="add-funds.html">➕ Add Funds</a>
@@ -35,19 +31,19 @@
   </div>
 </nav>
 
-<!-- ======= Page Wrapper ======= -->
+<!-- ======= Main Dashboard ======= -->
 <div class="dashboard-wrapper">
 
-  <!-- Welcome User -->
+  <!-- Welcome Section -->
   <h1 class="dashboard-welcome">👋 Welcome back, <span id="userName"></span>!</h1>
 
-  <!-- Wallet Balance Card -->
+  <!-- Wallet Balance Section -->
   <div class="balance-card">
     <h2 id="walletBalance">$0.00</h2>
     <p>Current Wallet Balance</p>
   </div>
 
-  <!-- Payment Action Buttons -->
+  <!-- Payment Options Section -->
   <div class="payment-options">
     <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
     <button onclick="location.href='balance.html'">💰 View Balance</button>
@@ -60,8 +56,10 @@
 
   <!-- Transaction History Section -->
   <div class="transaction-history">
-    <h3>Transaction History</h3>
-    <div id="transactionList">No transactions yet.</div>
+    <h3>Recent Transactions</h3>
+    <div id="transactionList">
+      No transactions yet.
+    </div>
   </div>
 
   <!-- Logout Button -->
@@ -69,7 +67,7 @@
 
 </div>
 
-<!-- ======= SCRIPTS ======= -->
+<!-- ======= Scripts ======= -->
 
 <!-- Particles Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -77,23 +75,12 @@
 <!-- Toast Notifications -->
 <script src="JS/toast.js"></script>
 
-<!-- Dashboard Functions -->
-<script src="JS/dashboard.js"></script>
-
-<!-- Mobile Hamburger Script -->
-<script>
-function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
-}
-</script>
-
 <!-- Dashboard Logic -->
 <script>
-// Initialize Particle Background
+// Particles
 particlesJS('particles-js', {
   "particles": {
-    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
     "color": { "value": "#0CC7F6" },
     "shape": { "type": "circle" },
     "opacity": { "value": 0.4, "random": true },
@@ -104,28 +91,27 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
-// Hamburger Mobile Menu Toggle
+// Mobile Hamburger Menu
 function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
+  document.getElementById('navLinks').classList.toggle('show');
 }
 
-// Load Current User
+// Fetch users and current user
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = localStorage.getItem('currentUser');
 
-// Redirect if not logged in
+// If no user, redirect to login
 if (!currentUser) {
   window.location.href = "login.html";
 }
 
-// Find user object
+// Find user data
 let user = users.find(u => u.username === currentUser);
 
-// Update Dashboard with User Info
-document.getElementById('userName').textContent = currentUser || "Player";
+// Update UI
+document.getElementById('userName').textContent = user.username || "Player";
 
-// Update Wallet Balance on screen
+// Display Balance
 function updateBalanceDisplay() {
   document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
 }
@@ -138,7 +124,7 @@ function loadTransactions() {
   const container = document.getElementById('transactionList');
   container.innerHTML = "";
 
-  let userHistory = history.filter(t => t.username === currentUser);
+  let userHistory = history.filter(tx => tx.username === currentUser);
 
   if (userHistory.length === 0) {
     container.innerHTML = "<p style='color: #ccc; text-align: center;'>No transactions yet.</p>";
@@ -157,7 +143,7 @@ function loadTransactions() {
 }
 loadTransactions();
 
-// Payment for Game ($5)
+// Payment Actions
 function payForGame() {
   if (user.balance >= 5) {
     user.balance -= 5;
@@ -165,11 +151,10 @@ function payForGame() {
     updateBalanceDisplay();
     showToast('✅ Paid $5 for Game!');
   } else {
-    showToast('❌ Insufficient Balance.', 'error');
+    showToast('❌ Not enough balance.', 'error');
   }
 }
 
-// Payment for Table ($10)
 function payForTable() {
   if (user.balance >= 10) {
     user.balance -= 10;
@@ -177,15 +162,16 @@ function payForTable() {
     updateBalanceDisplay();
     showToast('✅ Paid $10 for Table!');
   } else {
-    showToast('❌ Insufficient Balance.', 'error');
+    showToast('❌ Not enough balance.', 'error');
   }
 }
 
-// Save Transaction Record
 function saveTransaction(type, amount) {
   const tableNumber = prompt("Enter Table Number:");
   if (!tableNumber) return;
 
+  let history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+  
   history.push({
     username: currentUser,
     table: tableNumber,
@@ -199,7 +185,7 @@ function saveTransaction(type, amount) {
   loadTransactions();
 }
 
-// Handle Logout
+// Logout
 function logout() {
   localStorage.removeItem('currentUser');
   window.location.href = "login.html";

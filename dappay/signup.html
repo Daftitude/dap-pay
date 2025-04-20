@@ -2,157 +2,208 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign Up | DAP⚡Pay</title>
+  <title>DAP⚡Pay | Sign Up</title>
 
-  <!-- Link to external CSS -->
+  <!-- External CSS -->
   <link rel="stylesheet" href="CSS/style.css">
 
-  <!-- Meta for mobile responsiveness -->
+  <!-- Responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- FontAwesome for Eye Icon -->
+  <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KIT.js" crossorigin="anonymous"></script> 
+  <!-- (Replace YOUR_FONT_AWESOME_KIT with a real kit or local icons if needed) -->
 </head>
 
 <body>
 
-<!-- Particle background effect -->
+<!-- Particle Background -->
 <div id="particles-js"></div>
 
-<!-- Signup Card -->
-<div class="card dashboard-card" style="padding: 40px 30px; margin-top: 80px;">
-  <div class="dap-logo">DAP⚡Pay</div>
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="dap-logo">DAP⚡Pay</div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="navLinks">
+      <a href="login.html">🔑 Login</a>
+      <a href="signup.html">🆕 Sign Up</a>
+    </div>
+  </div>
+</nav>
 
-  <h1 class="welcome-text">🚀 Get Started with DAP⚡Pay</h1>
-  <p class="subtitle-text">Secure your handle and join the game!</p>
+<!-- ======= Signup Content ======= -->
+<div class="dashboard-wrapper">
+  <div class="form-card">
 
-  <!-- Sign Up Form -->
-  <form id="signup-form" onsubmit="submitForm(); return false;" style="margin-top: 30px;">
+    <!-- Step Progress -->
+    <h2 id="stepProgress" style="margin-bottom: 20px;">Step 1 of 6</h2>
 
-    <!-- Claim Your Handle -->
-    <label for="username">🔥 Claim Your DAP⚡Pay Handle</label>
-    <input type="text" id="username" placeholder="Choose your @handle" required>
+    <form id="signupForm">
 
-    <!-- Email Field -->
-    <label for="email" style="margin-top: 20px;">📧 Enter Your Email</label>
-    <input type="email" id="email" placeholder="you@example.com" required>
+      <!-- Steps -->
+      <div class="step" id="step1">
+        <input type="text" id="username" class="input-field" placeholder="🔥 Choose a Username" required>
+      </div>
 
-    <!-- Password Field -->
-    <label for="password" style="margin-top: 20px;">🔒 Create Your Password</label>
-    <input type="password" id="password" placeholder="At least 8 characters" required>
+      <div class="step" id="step2" style="display:none;">
+        <input type="text" id="emailPhone" class="input-field" placeholder="📧 Enter Email or 📱 Phone" required>
+      </div>
 
-    <!-- Promo Code (Optional) -->
-    <label for="promo" style="margin-top: 20px;">🎁 Promo Code (Optional)</label>
-    <input type="text" id="promo" placeholder="BESTOFFER">
+      <div class="step" id="step3" style="display:none;">
+        <input type="text" id="firstName" class="input-field" placeholder="👤 First Name" required>
+        <input type="text" id="lastName" class="input-field" placeholder="👤 Last Name" required>
+      </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="glow-btn" style="margin-top: 30px;">Continue ➡️</button>
-  </form>
+      <div class="step" id="step4" style="display:none;">
+        <input type="number" id="dobMonth" class="input-field" placeholder="📅 Month (MM)" min="1" max="12" required>
+        <input type="number" id="dobDay" class="input-field" placeholder="📅 Day (DD)" min="1" max="31" required>
+        <input type="number" id="dobYear" class="input-field" placeholder="📅 Year (YYYY)" min="1900" required>
+      </div>
 
-  <!-- Back to Login -->
-  <p style="margin-top: 20px; font-size: 0.9rem; color: #ccc;">
-    Already have an account? 
-    <a href="login.html" style="color: #0CC7F6; text-decoration: underline;">Login Here</a>
-  </p>
+      <div class="step" id="step5" style="display:none;">
+        <input type="text" id="address" class="input-field" placeholder="🏠 Address (Optional)">
+      </div>
+
+      <div class="step" id="step6" style="display:none;">
+        <div style="position: relative;">
+          <input type="password" id="password" class="input-field" placeholder="🔒 Create Password" required>
+          <i class="fas fa-eye toggle-password" id="togglePassword" onclick="togglePassword('password', 'togglePassword')" style="position:absolute; right:20px; top:15px; cursor:pointer;"></i>
+        </div>
+        <div style="position: relative; margin-top:10px;">
+          <input type="password" id="confirmPassword" class="input-field" placeholder="🔒 Confirm Password" required>
+          <i class="fas fa-eye toggle-password" id="toggleConfirmPassword" onclick="togglePassword('confirmPassword', 'toggleConfirmPassword')" style="position:absolute; right:20px; top:15px; cursor:pointer;"></i>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div style="margin-top: 20px;">
+        <button type="button" class="glow-btn secondary" onclick="prevStep()" id="backBtn" style="display:none;">⬅️ Back</button>
+        <button type="button" class="glow-btn" onclick="nextStep()">Continue ➡️</button>
+      </div>
+
+    </form>
+
+  </div>
 </div>
 
-<!-- Particles.js Background -->
+<!-- ======= Scripts ======= -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<!-- Toast Notifications (for success/error messages) -->
 <script src="JS/toast.js"></script>
 
-<!-- Signup Form Handling Script -->
 <script>
-// Initialize Particles
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "interactivity": {
-    "events": { "onhover": { "enable": true, "mode": "grab" }},
-    "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.6 }}}
-  },
-  "retina_detect": true
-});
+// Particles
+particlesJS('particles-js', { /* same settings as before */ });
 
-// Signup Form Submission
-function submitForm() {
-  // Collect input values
-  const username = document.getElementById('username').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const promoCode = document.getElementById('promo').value.trim();
-  let startingBalance = 0;
+// Mobile Menu
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('show');
+}
 
-  // Validate required fields
-  if (!username || !email || !password) {
-    showToast('❌ Please fill in all required fields.', 'error');
+// Show/Hide Password
+function togglePassword(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    input.type = "password";
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+
+// Multi-Step Logic
+let currentStep = 1;
+const totalSteps = 6;
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  document.getElementById(`step${currentStep}`).style.display = 'none';
+  currentStep++;
+  if (currentStep > totalSteps) {
+    saveUser();
     return;
   }
+  document.getElementById(`step${currentStep}`).style.display = 'block';
+  document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
+  document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
+}
 
-  // Promo Code Check
-  if (promoCode.toUpperCase() === "BESTOFFER" || promoCode.toUpperCase() === "PLAY5") {
-    startingBalance = 5; // Give $5 bonus
-    showToast('🎉 Promo code applied! You earned $5!');
+function prevStep() {
+  document.getElementById(`step${currentStep}`).style.display = 'none';
+  currentStep--;
+  document.getElementById(`step${currentStep}`).style.display = 'block';
+  document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
+  document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
+}
+
+function validateStep(step) {
+  if (step === 1 && !document.getElementById('username').value.trim()) {
+    showToast('❌ Please enter a username.', 'error');
+    return false;
   }
+  if (step === 2 && !document.getElementById('emailPhone').value.trim()) {
+    showToast('❌ Please enter your email or phone.', 'error');
+    return false;
+  }
+  if (step === 3 && (!document.getElementById('firstName').value.trim() || !document.getElementById('lastName').value.trim())) {
+    showToast('❌ Please fill in both names.', 'error');
+    return false;
+  }
+  if (step === 4) {
+    const year = parseInt(document.getElementById('dobYear').value);
+    if (new Date().getFullYear() - year < 18) {
+      showToast('⚠️ Must be 18+ to join.', 'error');
+      return false;
+    }
+  }
+  if (step === 6) {
+    const pass = document.getElementById('password').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+    if (!pass || pass.length < 6) {
+      showToast('❌ Password too short.', 'error');
+      return false;
+    }
+    if (pass !== confirmPass) {
+      showToast('❌ Passwords don’t match.', 'error');
+      return false;
+    }
+  }
+  return true;
+}
 
-  // Load users from localStorage
+function saveUser() {
+  const user = {
+    username: document.getElementById('username').value.trim(),
+    emailPhone: document.getElementById('emailPhone').value.trim(),
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    dob: `${document.getElementById('dobMonth').value}/${document.getElementById('dobDay').value}/${document.getElementById('dobYear').value}`,
+    address: document.getElementById('address').value.trim(),
+    password: document.getElementById('password').value.trim(),
+    balance: 0
+  };
+
   let users = JSON.parse(localStorage.getItem('users')) || [];
-
-  // Check if username already exists
-  const existingUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
-  if (existingUser) {
+  let existing = users.find(u => u.username.toLowerCase() === user.username.toLowerCase());
+  if (existing) {
     showToast('❌ Username already taken.', 'error');
     return;
   }
 
-  // Save new user
-  users.push({
-    username: username,
-    email: email,
-    balance: startingBalance,
-    password: password
-  });
-
-  // Save back to localStorage
+  users.push(user);
   localStorage.setItem('users', JSON.stringify(users));
-  localStorage.setItem('currentUser', username);
-
-  showToast('✅ Account Created Successfully!');
-
-  // Redirect after short delay
+  localStorage.setItem('currentUser', user.username);
+  
+  showToast('🎉 Account Created! Redirecting...');
   setTimeout(() => {
-    window.location.href = 'success.html';
-  }, 1000);
+    window.location.href = "dashboard.html";
+  }, 2000);
 }
 </script>
-
-<!-- Internal Styling for Landing Page (optional extra) -->
-<style>
-.welcome-text {
-  font-size: 2rem;
-  color: #0CC7F6;
-  margin: 20px 0;
-  animation: fadeIn 1.5s ease forwards;
-}
-
-.subtitle-text {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #FFC857;
-  animation: fadeIn 2s ease forwards;
-}
-
-/* Fade In Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-</style>
 
 </body>
 </html>

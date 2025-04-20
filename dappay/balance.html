@@ -1,46 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+< lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAP⚡Pay - Balance</title>
-  <link rel="stylesheet" href="CSS/style.css">
-</head>
-<body>
+  <title>DAP⚡Pay | Balance</title>
 
+  <!-- External Styles -->
+  <link rel="stylesheet" href="CSS/style.css">
+
+  <!-- Responsive Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<>
+
+<!-- Particle Background -->
 <div id="particles-js"></div>
 
-<div class="card dashboard-card">
-  <div class="dap-logo">DAP⚡Pay</div>
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="dap-logo">DAP⚡Pay</div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="add-funds.html">➕ Add Funds</a>
+      <a href="balance.html">💰 Balance</a>
+      <a href="login.html" onclick="logout()">🚪 Logout</a>
+    </div>
+  </div>
+</nav>
 
-  <h2 class="slide-in">💳 Your Wallet Balance</h2>
+<!-- ======= Main Content ======= -->
+<div class="dashboard-wrapper">
 
-  <div class="wallet-hero">
-    <h1 id="wallet-balance">$0.00</h1>
+  <!-- Page Title -->
+  <h1 class="dashboard-welcome">💰 Your Wallet Balance</h1>
+
+  <!-- Wallet Balance Display -->
+  <div class="balance-card">
+    <h2 id="walletBalance">$0.00</h2>
+    <p>Available Funds</p>
   </div>
 
-  <div id="low-balance-warning" style="color: #FFC857; margin-top: 15px; display: none;">
-    ⚠️ Your balance is running low. Please add funds.
+  <!-- Info Tip -->
+  <div class="form-card" style="margin-top: 20px; text-align: center;">
+    <p style="color: #ccc;">💡 Tip: Keep your balance above $5 to keep playing uninterrupted!</p>
   </div>
 
-  <div class="divider"></div>
-
-  <button class="glow-btn" onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
-
-  <div class="secure-text">
-    🛡️ Secure Local Session
+  <!-- Back Button -->
+  <div style="margin-top: 30px; text-align: center;">
+    <button class="glow-btn secondary" onclick="goDashboard()">⬅️ Back to Dashboard</button>
   </div>
 
-  <div class="play-tagline">
-    🚀 Keep your wallet strong!
-  </div>
 </div>
 
-<!-- Particles.js -->
+<!-- ======= Scripts ======= -->
+
+<!-- Particles.js Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<!-- Toast.js -->
+
+<!-- Popup System -->
+<script src="JS/popup.js"></script>
+
+<!-- Toast System -->
 <script src="JS/toast.js"></script>
 
 <script>
+// Initialize Particles
 particlesJS('particles-js', {
   "particles": {
     "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
@@ -49,25 +75,87 @@ particlesJS('particles-js', {
     "opacity": { "value": 0.4, "random": true },
     "size": { "value": 3, "random": true },
     "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1.2 }
-  },
-  "interactivity": {
-    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }},
-    "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.6 }}}
+    "move": { "enable": true, "speed": 1 }
   },
   "retina_detect": true
 });
 
-function loadBalance() {
-  const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
-  document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
-
-  if (balance < 10) {
-    document.getElementById('low-balance-warning').style.display = 'block';
-  }
+// Toggle Mobile Menu
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('show');
 }
 
-window.onload = loadBalance;
+// Go back to Dashboard
+function goDashboard() {
+  window.location.href = "dashboard.html";
+}
+
+// Load User and Show Balance
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = localStorage.getItem('currentUser');
+
+if (!currentUser) {
+  window.location.href = "login.html";
+}
+
+let user = users.find(u => u.username === currentUser);
+
+// Update Wallet Balance
+function updateBalanceDisplay() {
+  document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
+}
+updateBalanceDisplay();
+
+// Logout
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = "login.html";
+}
+</script>
+
+<!-- Balance Script -->
+<script>
+// Initialize Particles
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "retina_detect": true
+});
+
+// Hamburger Menu for Mobile
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('show');
+}
+
+// Load user balance
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = localStorage.getItem('currentUser');
+
+if (!currentUser) {
+  window.location.href = "login.html";
+}
+
+let user = users.find(u => u.username === currentUser);
+
+if (user) {
+  document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
+} else {
+  document.getElementById('walletBalance').textContent = '$0.00';
+}
+
+// Logout function
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = "login.html";
+}
 </script>
 
 </body>

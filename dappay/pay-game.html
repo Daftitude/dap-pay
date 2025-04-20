@@ -1,124 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>DAP⚡Pay - Pay for Game/Table</title>
+  <title>DAP⚡Pay | Pay for Game</title>
+
+  <!-- External Stylesheet -->
   <link rel="stylesheet" href="CSS/style.css">
+
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
-  <div id="particles-js"></div>
+<!-- Particle Background -->
+<div id="particles-js"></div>
 
-  <div class="card dashboard-card">
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Logo -->
     <div class="dap-logo">DAP⚡Pay</div>
 
-    <h2 class="slide-in">🎱 Pay for Game/Table</h2>
+    <!-- Hamburger (mobile view) -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-    <div class="wallet-hero">
-      <h1 id="wallet-balance">$0.00</h1>
-    </div>
-
-    <div class="divider"></div>
-
-    <h3>Enter Table Number:</h3>
-    <input type="number" id="table-number" placeholder="e.g., 4">
-
-    <h3>Select Payment:</h3>
-    <button class="glow-btn" onclick="pay(5)">Pay $5 - Game</button>
-    <button class="glow-btn" onclick="pay(10)">Pay $10 - Table</button>
-
-    <div class="divider"></div>
-
-    <button class="glow-btn" onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
-
-    <div class="secure-text">
-      🛡️ Secure Local Session
-    </div>
-
-    <div class="play-tagline">
-      🚀 Let's Get Playing!
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="add-funds.html">➕ Add Funds</a>
+      <a href="balance.html">💰 Balance</a>
+      <a href="login.html" onclick="logout()">🚪 Logout</a>
     </div>
   </div>
+</nav>
 
-  <!-- Particles.js -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <!-- Toast.js -->
-  <script src="JS/toast.js"></script>
+<!-- ======= Main Page Content ======= -->
+<div class="dashboard-wrapper">
 
-  <script>
-    // ParticlesJS Config
-    particlesJS('particles-js', {
-      "particles": {
-        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-        "color": { "value": "#0CC7F6" },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 0.4, "random": true },
-        "size": { "value": 3, "random": true },
-        "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-        "move": { "enable": true, "speed": 1.2 }
-      },
-      "interactivity": {
-        "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
-        "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.6 } } }
-      },
-      "retina_detect": true
-    });
+  <!-- Page Title -->
+  <h1 class="dashboard-welcome">🎱 Pay for Your Game</h1>
 
-    // Wallet Setup
-    function updateBalanceDisplay() {
-      const balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
-      document.getElementById('wallet-balance').innerText = `$${balance.toFixed(2)}`;
-    }
+  <!-- Table Number Input -->
+  <div class="balance-card">
+    <label for="tableNumber">Enter Table Number:</label><br><br>
+    <input type="number" id="tableNumber" placeholder="e.g. 5" min="1" style="padding: 10px; border-radius: 6px; border: none; margin-bottom: 20px;">
+    <br>
 
-    // Payment Function
-    function pay(amount) {
-      let balance = parseFloat(localStorage.getItem('walletBalance')) || 0;
-      const tableNumber = document.getElementById('table-number').value.trim();
+    <!-- Payment Buttons -->
+    <button class="glow-btn" onclick="payGame()">🎱 Pay $5 for Game</button>
+    <button class="glow-btn" onclick="payTable()" style="margin-top: 15px;">🪑 Pay $10 for Table</button>
 
-      if (!tableNumber) {
-        showToast("❌ Please enter a table number!", "error");
-        return;
-      }
+    <!-- Return Button -->
+    <button class="logout-btn" style="margin-top: 30px;" onclick="location.href='dashboard.html'">⬅️ Return to Dashboard</button>
+  </div>
 
-      if (balance < amount) {
-        showToast("❌ Insufficient funds! Please add more money.", "error");
-        return;
-      }
+</div>
 
-      // Confirm Popup
-      const confirmPayment = confirm(`Confirm payment of $${amount} for Table ${tableNumber}?`);
+<!-- ======= Scripts ======= -->
 
-      if (!confirmPayment) {
-        return;
-      }
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-      // Process Payment
-      balance -= amount;
-      localStorage.setItem('walletBalance', balance);
+<!-- Toast Notifications -->
+<script src="JS/toast.js"></script>
 
-      // Save to Payment History
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const loggedInUser = users[users.length - 1]?.username || "Unknown";
+<!-- Pay Game Logic -->
+<script>
+// Initialize Particles
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "retina_detect": true
+});
 
-      history.push({
-        username: loggedInUser,
-        amount: amount,
-        type: amount === 5 ? "Game" : "Table",
-        table: tableNumber,
-        date: new Date().toLocaleString()
-      });
+// Hamburger Mobile Menu
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('show');
+}
 
-      localStorage.setItem('paymentHistory', JSON.stringify(history));
+// Check User Login
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = localStorage.getItem('currentUser');
 
-      showToast(`✅ Paid $${amount} for Table ${tableNumber}!`);
-      updateBalanceDisplay();
-    }
+if (!currentUser) {
+  window.location.href = "login.html";
+}
 
-    window.onload = updateBalanceDisplay;
-  </script>
+let user = users.find(u => u.username === currentUser);
+
+// Pay $5 for Game
+function payGame() {
+  const tableNum = document.getElementById('tableNumber').value;
+  if (!tableNum) {
+    showToast('⚠️ Please enter your table number.', 'error');
+    return;
+  }
+
+  if (user.balance >= 5) {
+    user.balance -= 5;
+    saveTransaction('Game', 5, tableNum);
+    showToast('✅ Paid $5 for Game!');
+    localStorage.setItem('users', JSON.stringify(users));
+    setTimeout(() => location.href='dashboard.html', 1500);
+  } else {
+    showToast('❌ Insufficient balance.', 'error');
+  }
+}
+
+// Pay $10 for Table
+function payTable() {
+  const tableNum = document.getElementById('tableNumber').value;
+  if (!tableNum) {
+    showToast('⚠️ Please enter your table number.', 'error');
+    return;
+  }
+
+  if (user.balance >= 10) {
+    user.balance -= 10;
+    saveTransaction('Table', 10, tableNum);
+    showToast('✅ Paid $10 for Table!');
+    localStorage.setItem('users', JSON.stringify(users));
+    setTimeout(() => location.href='dashboard.html', 1500);
+  } else {
+    showToast('❌ Insufficient balance.', 'error');
+  }
+}
+
+// Save Transaction
+function saveTransaction(type, amount, tableNumber) {
+  let history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+
+  history.push({
+    username: currentUser,
+    table: tableNumber,
+    amount: amount,
+    type: type,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem('paymentHistory', JSON.stringify(history));
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = "login.html";
+}
+</script>
 
 </body>
-
 </html>

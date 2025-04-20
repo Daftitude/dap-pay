@@ -2,68 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DAP⚡Pay - Login</title>
+  <title>DAP⚡Pay | Login</title>
+
+  <!-- Link to external CSS -->
   <link rel="stylesheet" href="CSS/style.css">
+
+  <!-- Responsive Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
 
+<!-- Particle Background -->
 <div id="particles-js"></div>
 
-<div class="card">
-  <div class="dap-logo">DAP⚡Pay</div>
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Logo -->
+    <div class="dap-logo">DAP⚡Pay</div>
 
-  <h2>Welcome Back</h2>
+    <!-- Hamburger for Mobile -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  
-  <button onclick="login()">Login</button>
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+      <a href="login.html">🔑 Login</a>
+      <a href="signup.html">🆕 Sign Up</a>
+    </div>
+  </div>
+</nav>
 
-  <p style="margin-top: 15px;">Don't have an account? <a href="signup.html" style="color: #0CC7F6;">Sign Up</a></p>
+<!-- ======= Main Content ======= -->
+<div class="dashboard-wrapper">
+
+  <!-- Login Form Card -->
+  <div class="balance-card" style="max-width: 400px;">
+
+    <h1 class="dashboard-welcome" style="margin-bottom: 20px;">🔑 Login</h1>
+
+    <!-- Username Input -->
+    <input type="text" id="username" placeholder="Username" class="input-field" style="margin-bottom: 15px;">
+
+    <!-- Password Input -->
+    <input type="password" id="password" placeholder="Password" class="input-field" style="margin-bottom: 25px;">
+
+    <!-- Login Button -->
+    <button class="glow-btn" onclick="loginUser()">Login ➡️</button>
+
+    <!-- Signup Redirect -->
+    <p style="margin-top: 20px;">Don't have an account? <a href="signup.html" style="color: #0CC7F6;">Sign Up Here</a></p>
+
+  </div>
+
 </div>
 
-<!-- Particles -->
+<!-- ======= Scripts ======= -->
+
+<!-- Particle.js Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<!-- Toast system -->
+
+<!-- Toast Notifications -->
 <script src="JS/toast.js"></script>
 
+<!-- Login Script -->
 <script>
+// Initialize Particles
 particlesJS('particles-js', {
   "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
     "color": { "value": "#0CC7F6" },
     "shape": { "type": "circle" },
     "opacity": { "value": 0.4, "random": true },
     "size": { "value": 3, "random": true },
     "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1.2 }
-  },
-  "interactivity": {
-    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }},
-    "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 0.6 }}}
+    "move": { "enable": true, "speed": 1 }
   },
   "retina_detect": true
 });
 
-function login() {
-  const usernameInput = document.getElementById('username').value.trim();
-  const passwordInput = document.getElementById('password').value.trim();
+// Hamburger Toggle
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('show');
+}
+
+// Login Function
+function loginUser() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
   let users = JSON.parse(localStorage.getItem('users')) || [];
 
-  const foundUser = users.find(u => u.username.toLowerCase() === usernameInput.toLowerCase() && u.password === passwordInput);
+  let user = users.find(u => u.username === username && u.password === password);
 
-  if (foundUser) {
-    localStorage.setItem('currentUser', foundUser.username); // ✅ Save active user
+  if (user) {
+    localStorage.setItem('currentUser', username);
     showToast('✅ Login Successful!');
     setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 1000);
+      window.location.href = "dashboard.html";
+    }, 1500);
   } else {
-    showToast('❌ Invalid Credentials.', 'error');
+    showToast('❌ Incorrect Username or Password.', 'error');
   }
 }
-
 </script>
 
 </body>

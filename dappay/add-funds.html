@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Add Funds</title>
 
-  <!-- External CSS -->
+  <!-- External Styles -->
   <link rel="stylesheet" href="CSS/style.css">
 
   <!-- Responsive Meta -->
@@ -19,13 +19,8 @@
 <!-- ======= Navbar ======= -->
 <nav class="navbar">
   <div class="nav-container">
-    <!-- Logo -->
     <div class="dap-logo">DAP⚡Pay</div>
-
-    <!-- Hamburger Menu -->
     <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-    <!-- Navigation Links -->
     <div class="nav-links" id="navLinks">
       <a href="dashboard.html">🏠 Dashboard</a>
       <a href="add-funds.html">➕ Add Funds</a>
@@ -35,65 +30,134 @@
   </div>
 </nav>
 
-<!-- ======= Page Content ======= -->
+<!-- ======= Main Content ======= -->
 <div class="dashboard-wrapper">
 
-  <!-- Page Title -->
-  <h1 class="dashboard-welcome">➕ Add Funds</h1>
+  <!-- Welcome Text -->
+  <h1 class="dashboard-welcome">➕ Add Funds to Your Wallet</h1>
 
-  <!-- Balance Top-Up Options -->
-  <div class="payment-options">
+  <!-- Current Wallet Balance -->
+  <div class="balance-card">
+    <h2 id="walletBalance">$0.00</h2>
+    <p>Current Wallet Balance</p>
+  </div>
+
+  <!-- Add Funds Buttons -->
+  <div class="payment-options" style="margin-top: 30px;">
     <button onclick="addFunds(5)">➕ Add $5</button>
     <button onclick="addFunds(10)">➕ Add $10</button>
     <button onclick="addFunds(20)">➕ Add $20</button>
   </div>
 
-  <!-- Return Button -->
-  <button class="logout-btn" onclick="location.href='dashboard.html'">⬅️ Return to Dashboard</button>
+  <!-- Other Amount Input -->
+  <div class="form-card" style="margin-top: 30px;">
+    <h3 style="color: #0CC7F6;">➕ Other Amount</h3>
+    <input type="number" id="otherAmount" class="input-field" placeholder="Enter amount (e.g., 15, 25, 50)">
+    <button class="glow-btn" style="margin-top: 10px;" onclick="addOtherAmount()">Add Other Amount</button>
+  </div>
+
+  <!-- Back Button -->
+  <div style="margin-top: 30px; text-align: center;">
+    <button class="glow-btn secondary" onclick="goDashboard()">⬅️ Back to Dashboard</button>
+  </div>
 
 </div>
 
-<!-- ======= SCRIPTS ======= -->
+<!-- ======= Scripts ======= -->
 
 <!-- Particles Background -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-<!-- Toasts/Notifications -->
+<!-- Popup System (major events) -->
+<script src="JS/popup.js"></script>
+
+<!-- Toast System (minor info) -->
 <script src="JS/toast.js"></script>
 
-<!-- Add Funds Functions -->
 <script>
-// Handle hamburger menu
+// Initialize Particles
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "retina_detect": true
+});
+
+// Toggle Mobile Menu
 function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
+  document.getElementById('navLinks').classList.toggle('show');
 }
 
-// Add funds function
+// Go back to Dashboard
+function goDashboard() {
+  window.location.href = "dashboard.html";
+}
+
+// Load Current User
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = localStorage.getItem('currentUser');
+
+if (!currentUser) {
+  window.location.href = "login.html";
+}
+
+let user = users.find(u => u.username === currentUser);
+
+// Display Wallet Balance
+function updateBalanceDisplay() {
+  document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
+}
+updateBalanceDisplay();
+
+// Add Fixed Funds
 function addFunds(amount) {
-  let users = JSON.parse(localStorage.getItem('users')) || [];
-  let currentUser = localStorage.getItem('currentUser');
-
-  if (!currentUser) {
-    window.location.href = "login.html";
-  }
-
-  let user = users.find(u => u.username === currentUser);
-
-  if (!user) {
-    alert('User not found!');
-    return;
-  }
-
   if (user.balance + amount > 200) {
-    showToast('⚠️ Wallet limit is $200 max.', 'error');
+    showPopup('error', '❌ Cannot exceed $200 wallet limit.');
     return;
   }
 
   user.balance += amount;
   localStorage.setItem('users', JSON.stringify(users));
+  updateBalanceDisplay();
+  showPopup('success', `✅ Successfully added $${amount}!`);
+}
 
-  showToast(`✅ Added $${amount} to your wallet!`);
+// Add Other Amount
+function addOtherAmount() {
+  const amount = parseInt(document.getElementById('otherAmount').value);
+
+  if (isNaN(amount) || amount <= 0) {
+    showPopup('error', '❌ Please enter a valid number.');
+    return;
+  }
+
+  if (amount % 5 !== 0) {
+    showPopup('error', '❌ Amount must be a multiple of 5.');
+    return;
+  }
+
+  if (user.balance + amount > 200) {
+    showPopup('error', '❌ Cannot exceed $200 wallet limit.');
+    return;
+  }
+
+  user.balance += amount;
+  localStorage.setItem('users', JSON.stringify(users));
+  updateBalanceDisplay();
+  showPopup('success', `✅ Successfully added $${amount}!`);
+  document.getElementById('otherAmount').value = ''; // Clear input
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = "login.html";
 }
 </script>
 
