@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-< lang="en">
+<html lang="en"> <!-- Corrected opening tag -->
 <head>
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Balance</title>
@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<>
+<body> <!-- Corrected: no invalid <> -->
 
 <!-- Particle Background -->
 <div id="particles-js"></div>
@@ -66,7 +66,7 @@
 <script src="JS/toast.js"></script>
 
 <script>
-// Initialize Particles
+// Initialize Particles once
 particlesJS('particles-js', {
   "particles": {
     "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
@@ -100,58 +100,13 @@ if (!currentUser) {
 
 let user = users.find(u => u.username === currentUser);
 
-// Update Wallet Balance
-function updateBalanceDisplay() {
-  document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
-}
-updateBalanceDisplay();
-
-// Logout
-function logout() {
-  localStorage.removeItem('currentUser');
-  window.location.href = "login.html";
-}
-</script>
-
-<!-- Balance Script -->
-<script>
-// Initialize Particles
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
-
-// Hamburger Menu for Mobile
-function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
-}
-
-// Load user balance
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let currentUser = localStorage.getItem('currentUser');
-
-if (!currentUser) {
-  window.location.href = "login.html";
-}
-
-let user = users.find(u => u.username === currentUser);
-
 if (user) {
   document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
 } else {
   document.getElementById('walletBalance').textContent = '$0.00';
 }
 
-// Logout function
+// Logout
 function logout() {
   localStorage.removeItem('currentUser');
   window.location.href = "login.html";
