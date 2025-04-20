@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DAP⚡Pay | Add Funds</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="CSS/style.css">
+
+  <!-- Responsive Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- Particle Background -->
+<div id="particles-js"></div>
+
+<!-- ======= Navbar ======= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Logo -->
+    <div class="dap-logo">DAP⚡Pay</div>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="add-funds.html">➕ Add Funds</a>
+      <a href="balance.html">💰 Balance</a>
+      <a href="login.html" onclick="logout()">🚪 Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======= Page Content ======= -->
+<div class="dashboard-wrapper">
+
+  <!-- Page Title -->
+  <h1 class="dashboard-welcome">➕ Add Funds</h1>
+
+  <!-- Balance Top-Up Options -->
+  <div class="payment-options">
+    <button onclick="addFunds(5)">➕ Add $5</button>
+    <button onclick="addFunds(10)">➕ Add $10</button>
+    <button onclick="addFunds(20)">➕ Add $20</button>
+  </div>
+
+  <!-- Return Button -->
+  <button class="logout-btn" onclick="location.href='dashboard.html'">⬅️ Return to Dashboard</button>
+
+</div>
+
+<!-- ======= SCRIPTS ======= -->
+
+<!-- Particles Background -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Toasts/Notifications -->
+<script src="JS/toast.js"></script>
+
+<!-- Add Funds Functions -->
+<script>
+// Handle hamburger menu
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('show');
+}
+
+// Add funds function
+function addFunds(amount) {
+  let users = JSON.parse(localStorage.getItem('users')) || [];
+  let currentUser = localStorage.getItem('currentUser');
+
+  if (!currentUser) {
+    window.location.href = "login.html";
+  }
+
+  let user = users.find(u => u.username === currentUser);
+
+  if (!user) {
+    alert('User not found!');
+    return;
+  }
+
+  if (user.balance + amount > 200) {
+    showToast('⚠️ Wallet limit is $200 max.', 'error');
+    return;
+  }
+
+  user.balance += amount;
+  localStorage.setItem('users', JSON.stringify(users));
+
+  showToast(`✅ Added $${amount} to your wallet!`);
+}
+</script>
+
+</body>
+</html>

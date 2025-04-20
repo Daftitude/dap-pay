@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DAP⚡Pay | Pool League Wallet</title>
+
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="dappay/CSS/style.css">
+
+  <!-- Meta for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- Particle Background -->
+<div id="particles-js"></div>
+
+<!-- Page Wrapper (Centers everything and stacks vertically) -->
+<div class="page-wrapper">
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="dap-logo">DAP⚡Pay</div>
+    <h1 class="hero-title">Welcome to the Future of Pool League Payments</h1>
+    <p class="hero-subtitle">🎱 Load. Play. Win.</p>
+
+    <!-- Hero Buttons -->
+    <div class="hero-buttons">
+      <button class="glow-btn" onclick="location.href='login.html'">Login 🔐</button>
+      <button class="glow-btn secondary" onclick="scrollToFeatures()">Learn More 👇</button>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section id="features" class="features-section">
+    <h2>Why Choose DAP⚡Pay?</h2>
+    <div class="features-list">
+      <div>💳 Easy Wallet Top-Up — Load funds fast, no cash needed!</div>
+      <div>🎱 Pay Instantly — Cover games or tables with 1 tap!</div>
+      <div>📊 Real-Time Tracking — Always know your balance.</div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section class="testimonials-section">
+    <h2>What Players Are Saying</h2>
+    <div class="testimonials-list">
+      <div>"Man, I wish this place had tap to pay..."</div>
+      <div>"Aye bro, just CashApp me, I don't got cash."</div>
+      <div>"Chasing people for cash after games is annoying. DAP⚡Pay fixed that."</div>
+    </div>
+  </section>
+
+  <!-- MOBILE APP TEASE -->
+  <section class="mobile-app-section">
+    <h2>📱 Mobile App Coming Soon!</h2>
+    <div class="app-store-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" alt="App Store" width="100" height="30">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Google_Play_Store_badge_EN.svg" alt="Google Play" width="100" height="30">
+    </div>
+    <p>iOS and Android support coming soon!</p>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="final-cta-section">
+    <h2>Ready to Play Smarter?</h2>
+    <button class="glow-btn" onclick="location.href='signup.html'" style="margin-top: 20px;">Get Started ➡️</button>
+  </section>
+
+</div> <!-- End of Page Wrapper -->
+
+<!-- Particles.js Library -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Toast Notifications (optional) -->
+<script src="JS/toast.js"></script>
+
+<!-- Particles.js Background Configuration -->
+<script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+    "color": { "value": "#0CC7F6" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.4, "random": true },
+    "size": { "value": 3, "random": true },
+    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+    "move": { "enable": true, "speed": 1 }
+  },
+  "interactivity": {
+    "events": { "onhover": { "enable": true, "mode": "grab" }},
+    "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.6 }}}
+  },
+  "retina_detect": true
+});
+</script>
+
+<!-- Smooth Scroll to Features Section -->
+<script>
+function scrollToFeatures() {
+  document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
