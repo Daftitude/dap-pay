@@ -3,16 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Sign Up</title>
-
-  <!-- External CSS -->
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- FontAwesome for Eye Icon -->
-  <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KIT.js" crossorigin="anonymous"></script> 
-  <!-- (Replace YOUR_FONT_AWESOME_KIT with a real kit or local icons if needed) -->
+  <!-- FontAwesome (for password eye toggle) -->
+  <script src="https://kit.fontawesome.com/your_kit.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -32,12 +27,11 @@
   </div>
 </nav>
 
-<!-- ======= Signup Content ======= -->
+<!-- ======= Signup Wrapper with Glass Effect ======= -->
 <div class="dashboard-wrapper">
-  <div class="form-card">
+  <div class="hero-glass">
 
-    <!-- Step Progress -->
-    <h2 id="stepProgress" style="margin-bottom: 20px;">Step 1 of 6</h2>
+    <h2 id="stepProgress" style="margin-bottom: 30px;">Step 1 of 6</h2>
 
     <form id="signupForm">
 
@@ -68,142 +62,54 @@
       <div class="step" id="step6" style="display:none;">
         <div style="position: relative;">
           <input type="password" id="password" class="input-field" placeholder="🔒 Create Password" required>
-          <i class="fas fa-eye toggle-password" id="togglePassword" onclick="togglePassword('password', 'togglePassword')" style="position:absolute; right:20px; top:15px; cursor:pointer;"></i>
+          <i class="fas fa-eye toggle-password" id="togglePassword" onclick="togglePassword('password', 'togglePassword')"></i>
         </div>
         <div style="position: relative; margin-top:10px;">
           <input type="password" id="confirmPassword" class="input-field" placeholder="🔒 Confirm Password" required>
-          <i class="fas fa-eye toggle-password" id="toggleConfirmPassword" onclick="togglePassword('confirmPassword', 'toggleConfirmPassword')" style="position:absolute; right:20px; top:15px; cursor:pointer;"></i>
+          <i class="fas fa-eye toggle-password" id="toggleConfirmPassword" onclick="togglePassword('confirmPassword', 'toggleConfirmPassword')"></i>
         </div>
       </div>
 
       <!-- Buttons -->
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 30px;">
         <button type="button" class="glow-btn secondary" onclick="prevStep()" id="backBtn" style="display:none;">⬅️ Back</button>
         <button type="button" class="glow-btn" onclick="nextStep()">Continue ➡️</button>
       </div>
 
     </form>
-
   </div>
 </div>
+
+<!-- ======= Footer ======= -->
+<footer class="footer-glass">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="dashboard.html">📊 Dashboard</a></li>
+        <li><a href="signup.html">🚀 Get Started</a></li>
+        <li><a href="login.html">🔑 Login</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Contact Us</h4>
+      <p>📧 <a href="mailto:info@daftitall.com">info@daftitall.com</a></p>
+      <p>📞 +1 (234) 567-890</p>
+      <p>📍 Fayetteville, NC</p>
+    </div>
+    <div class="footer-column">
+      <h4>Follow Us</h4>
+      <p style="font-size: 1.5rem;">🌐 🐦 📸 💼</p>
+      <p style="margin-top: 10px;">⚡ Powered by <strong>Daftitude</strong><br>© 2025 All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
 
 <!-- ======= Scripts ======= -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="js/toast.js"></script>
-
-<script>
-// Particles
-particlesJS('particles-js', { /* same settings as before */ });
-
-// Mobile Menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('show');
-}
-
-// Show/Hide Password
-function togglePassword(inputId, iconId) {
-  const input = document.getElementById(inputId);
-  const icon = document.getElementById(iconId);
-  if (input.type === "password") {
-    input.type = "text";
-    icon.classList.remove('fa-eye');
-    icon.classList.add('fa-eye-slash');
-  } else {
-    input.type = "password";
-    icon.classList.remove('fa-eye-slash');
-    icon.classList.add('fa-eye');
-  }
-}
-
-// Multi-Step Logic
-let currentStep = 1;
-const totalSteps = 6;
-
-function nextStep() {
-  if (!validateStep(currentStep)) return;
-  document.getElementById(`step${currentStep}`).style.display = 'none';
-  currentStep++;
-  if (currentStep > totalSteps) {
-    saveUser();
-    return;
-  }
-  document.getElementById(`step${currentStep}`).style.display = 'block';
-  document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
-  document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
-}
-
-function prevStep() {
-  document.getElementById(`step${currentStep}`).style.display = 'none';
-  currentStep--;
-  document.getElementById(`step${currentStep}`).style.display = 'block';
-  document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
-  document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
-}
-
-function validateStep(step) {
-  if (step === 1 && !document.getElementById('username').value.trim()) {
-    showToast('❌ Please enter a username.', 'error');
-    return false;
-  }
-  if (step === 2 && !document.getElementById('emailPhone').value.trim()) {
-    showToast('❌ Please enter your email or phone.', 'error');
-    return false;
-  }
-  if (step === 3 && (!document.getElementById('firstName').value.trim() || !document.getElementById('lastName').value.trim())) {
-    showToast('❌ Please fill in both names.', 'error');
-    return false;
-  }
-  if (step === 4) {
-    const year = parseInt(document.getElementById('dobYear').value);
-    if (new Date().getFullYear() - year < 18) {
-      showToast('⚠️ Must be 18+ to join.', 'error');
-      return false;
-    }
-  }
-  if (step === 6) {
-    const pass = document.getElementById('password').value;
-    const confirmPass = document.getElementById('confirmPassword').value;
-    if (!pass || pass.length < 6) {
-      showToast('❌ Password too short.', 'error');
-      return false;
-    }
-    if (pass !== confirmPass) {
-      showToast('❌ Passwords don’t match.', 'error');
-      return false;
-    }
-  }
-  return true;
-}
-
-function saveUser() {
-  const user = {
-    username: document.getElementById('username').value.trim(),
-    emailPhone: document.getElementById('emailPhone').value.trim(),
-    firstName: document.getElementById('firstName').value.trim(),
-    lastName: document.getElementById('lastName').value.trim(),
-    dob: `${document.getElementById('dobMonth').value}/${document.getElementById('dobDay').value}/${document.getElementById('dobYear').value}`,
-    address: document.getElementById('address').value.trim(),
-    password: document.getElementById('password').value.trim(),
-    balance: 0
-  };
-
-  let users = JSON.parse(localStorage.getItem('users')) || [];
-  let existing = users.find(u => u.username.toLowerCase() === user.username.toLowerCase());
-  if (existing) {
-    showToast('❌ Username already taken.', 'error');
-    return;
-  }
-
-  users.push(user);
-  localStorage.setItem('users', JSON.stringify(users));
-  localStorage.setItem('currentUser', user.username);
-  
-  showToast('🎉 Account Created! Redirecting...');
-  setTimeout(() => {
-    window.location.href = "dashboard.html";
-  }, 2000);
-}
-</script>
+<script src="js/signup.js"></script> <!-- Place logic inside signup.js for clean code -->
 
 </body>
 </html>

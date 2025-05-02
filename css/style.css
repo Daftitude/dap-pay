@@ -180,6 +180,75 @@ body {
   justify-content: center;
   gap: 15px;
 }
+.hero-glass {
+  padding: 100px 30px 80px;
+  margin: 100px auto 60px;
+  max-width: 900px;
+  border-radius: 25px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 40px rgba(12, 199, 246, 0.3);
+  transition: all 0.3s ease;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.hero-glass::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(to right, #0CC7F6, #0CC7F6, #0CC7F6);
+  opacity: 0.2;
+}
+
+.hero-glass::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(to right, #0CC7F6, #0CC7F6, #0CC7F6);
+  opacity: 0.2;
+}
+
+
+.hero-logo {
+  font-size: 3rem;
+  color: #0CC7F6;
+  font-weight: bold;
+  text-shadow: 0px 0px 15px #0CC7F6;
+}
+
+.hero-title {
+  font-size: 2rem;
+  margin-top: 20px;
+  color: white;
+  text-shadow: 0px 0px 5px rgba(255,255,255,0.1);
+  animation: fadeIn 1.2s ease-in forwards;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #FFC857;
+  margin: 20px 0 40px;
+  animation: fadeIn 1.4s ease-in forwards;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 
 /* ========== GLOW BUTTON ========== */
 .glow-btn {
@@ -487,5 +556,61 @@ body {
 
   .payment-options button {
     width: 100%;
+  }
+}
+
+/* Footer Style */
+.footer-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  padding: 50px 20px;
+  color: #ccc;
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-column h4 {
+  color: #0CC7F6;
+  margin-bottom: 10px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  line-height: 1.8;
+}
+
+.footer-links li a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-links li a:hover {
+  color: #0CC7F6;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-column {
+    margin-bottom: 30px;
   }
 }
