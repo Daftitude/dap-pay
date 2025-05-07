@@ -1,112 +1,174 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Commit 1: Best-practice head ordering -->
   <meta charset="UTF-8">
-  <title>DAP⚡Pay | Login</title>
-
-  <!-- Link to external CSS -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Login</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <!-- Commit 2: Particle bg container (optional) -->
+  <div id="particles-js" aria-hidden="true"></div>
 
-<!-- Particle Background -->
-<div id="particles-js"></div>
+  <!-- Commit 3: Navbar landmark with toggle -->
+  <header role="banner">
+    <nav class="navbar" aria-label="Main Navigation">
+      <div class="nav-container">
+        <div class="dap-logo">DAP⚡Pay</div>
+        <button
+          class="hamburger"
+          aria-expanded="false"
+          aria-controls="navLinks"
+          onclick="toggleMenu()"
+        >☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="login.html">🔑 Login</a>
+          <a href="signup.html">🆕 Sign Up</a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-<!-- ======= Navbar ======= -->
-<nav class="navbar">
-  <div class="nav-container">
-    <!-- Logo -->
-    <div class="dap-logo">DAP⚡Pay</div>
+  <!-- Commit 4: Main login form -->
+  <main role="main">
+    <section class="login-wrapper page-wrapper" aria-labelledby="loginTitle">
+      <h1 id="loginTitle" class="login-title">DAP⚡Login</h1>
+      <div class="form-card">
+        <h2 id="loginHeading" class="sr-only">Player Login</h2>
+        <form id="loginForm" onsubmit="loginUser(); return false;">
+          <div class="form-group">
+            <label for="username" class="sr-only">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your DAP⚡ username"
+              class="input-field"
+              required
+            >
+          </div>
+          <div class="form-group password-field">
+            <label for="password" class="sr-only">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your secure password"
+              class="input-field"
+              required
+            >
+            <button type="button"
+                    class="toggle-password"
+                    aria-label="Show password">
+              👁️
+            </button>
+          </div>
+          <button type="submit" class="glow-btn">Login ➡️</button>
+        </form>
+        <p style="margin-top:1.5rem;">
+          Don’t have an account?
+          <a href="signup.html" style="color:#0CC7F6;">Sign Up Here</a>
+        </p>
+      </div>
+    </section>
+  </main>
 
-    <!-- Hamburger for Mobile -->
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-    <!-- Navigation Links -->
-    <div class="nav-links" id="navLinks">
-      <a href="login.html">🔑 Login</a>
-      <a href="signup.html">🆕 Sign Up</a>
+  <!-- Commit 5: Unified footer with unique ID -->
+  <footer id="site-footer" class="footer-glass" role="contentinfo">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="signup.html">🚀 Sign Up</a></li>
+          <li><a href="login.html">🔑 Login</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contact Us</h4>
+        <p>📧 <a href="mailto:info@daftitall.com">info@daftitude.com</a></p>
+        <p>📞 + </p>
+        <p>📍 Birmingham, AL </p>
+      </div>
+      <div class="footer-column">
+        <h4>Follow Us</h4>
+        <p style="font-size:1.5rem;">🌐 🐦 📸 💼</p>
+        <p style="margin-top:10px;">
+          ⚡ Powered by <strong>Daftitude</strong><br>
+          © 2025 All Rights Reserved
+        </p>
+      </div>
     </div>
-  </div>
-</nav>
+  </footer>
 
-<!-- ======= Main Content ======= -->
-<div class="dashboard-wrapper">
+  <!-- Commit 6: Core scripts & initialization -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+  <script>
+    if (typeof particlesJS === 'undefined') {
+      document.write('<script src="js/particles.min.js" defer><\/script>');
+    }
+  </script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/toast.js" defer></script>
 
-  <!-- Login Form Card -->
-  <div class="balance-card" style="max-width: 400px;">
+  <!-- Commit 7: Page-specific scripts -->
+  <script>
+    // Initialize Particles
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: '#0CC7F6' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: '#0CC7F6', opacity: 0.3, width: 1 },
+        move: { enable: true, speed: 1 }
+      },
+      retina_detect: true
+    });
 
-    <h1 class="dashboard-welcome" style="margin-bottom: 20px;">🔑 Login</h1>
+    // Hamburger menu toggle
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      const expanded = navLinks.classList.toggle('show');
+      document.querySelector('.hamburger').setAttribute('aria-expanded', expanded);
+    }
 
-    <!-- Username Input -->
-    <input type="text" id="username" placeholder="Username" class="input-field" style="margin-bottom: 15px;">
+    // Password show/hide toggle — runs immediately
+    const pwdToggleBtn = document.querySelector('.toggle-password');
+    const pwdField     = document.getElementById('password');
+    if (pwdToggleBtn && pwdField) {
+      pwdToggleBtn.addEventListener('click', () => {
+        if (pwdField.type === 'password') {
+          pwdField.type = 'text';
+          pwdToggleBtn.textContent = '🙈';
+          pwdToggleBtn.setAttribute('aria-label','Hide password');
+        } else {
+          pwdField.type = 'password';
+          pwdToggleBtn.textContent = '👁️';
+          pwdToggleBtn.setAttribute('aria-label','Show password');
+        }
+      });
+    }
 
-    <!-- Password Input -->
-    <input type="password" id="password" placeholder="Password" class="input-field" style="margin-bottom: 25px;">
-
-    <!-- Login Button -->
-    <button class="glow-btn" onclick="loginUser()">Login ➡️</button>
-
-    <!-- Signup Redirect -->
-    <p style="margin-top: 20px;">Don't have an account? <a href="signup.html" style="color: #0CC7F6;">Sign Up Here</a></p>
-
-  </div>
-
-</div>
-
-<!-- ======= Scripts ======= -->
-
-<!-- Particle.js Background -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<!-- Toast Notifications -->
-<script src="js/toast.js"></script>
-
-<!-- Login Script -->
-<script>
-// Initialize Particles
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
-
-// Hamburger Toggle
-function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('show');
-}
-
-// Login Function
-function loginUser() {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  let users = JSON.parse(localStorage.getItem('users')) || [];
-
-  let user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    localStorage.setItem('currentUser', username);
-    showToast('✅ Login Successful!');
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 1500);
-  } else {
-    showToast('❌ Incorrect Username or Password.', 'error');
-  }
-}
-</script>
-
+    // Login function
+    function loginUser() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      let user = users.find(u => u.username === username && u.password === password);
+      if (user) {
+        localStorage.setItem('currentUser', username);
+        showToast('✅ Login Successful!');
+        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+      } else {
+        showToast('❌ Incorrect Username or Password.', 'error');
+      }
+    }
+  </script>
 </body>
 </html>

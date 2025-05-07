@@ -1,191 +1,212 @@
+<!-- dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Commit 1: Meta & external stylesheet -->
   <meta charset="UTF-8">
-  <title>DAP⚡Pay | Dashboard</title>
-
-  <!-- External Styles -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <!-- Commit 2: Decorative particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
 
-<!-- Particle Background -->
-<div id="particles-js"></div>
+  <!-- Commit 3: Navbar with active link -->
+  <header role="banner">
+    <nav class="navbar" aria-label="Main Navigation">
+      <div class="nav-container">
+        <div class="dap-logo">DAP⚡Pay</div>
+        <button
+          class="hamburger"
+          aria-expanded="false"
+          aria-controls="navLinks"
+          onclick="toggleMenu()"
+        >☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="dashboard.html" class="active">🏠 Dashboard</a>
+          <a href="add-funds.html">➕ Add Funds</a>
+          <a href="balance.html">💰 Balance</a>
+          <a href="pay-game.html">🎱 Pay Game</a>
+          <a href="login.html" onclick="logout()">🚪 Logout</a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-<!-- ======= Navbar ======= -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="dap-logo">DAP⚡Pay</div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="nav-links" id="navLinks">
-      <a href="dashboard.html">🏠 Dashboard</a>
-      <a href="add-funds.html">➕ Add Funds</a>
-      <a href="balance.html">💰 Balance</a>
-      <a href="pay-game.html">🎱 Pay Game</a>
-      <a href="login.html" onclick="logout()">🚪 Logout</a>
+  <!-- Commit 4: Main content wrapper -->
+  <main role="main">
+    <div class="page-wrapper dashboard-wrapper">
+      <h2 class="sr-only">Dashboard</h2>
+
+      <!-- Hero Welcome -->
+      <div class="hero-section">
+        <h1 class="hero-title">👋 Welcome back, <span id="userName">Player</span>!</h1>
+        <p class="hero-subtitle">
+          ✅ Status: <span style="color: #0CC7F6;">Good Standing</span>
+        </p>
+      </div>
+
+      <!-- Wallet Balance -->
+      <div class="balance-card" aria-labelledby="walletHeading">
+        <h2 id="walletHeading" class="sr-only">Available Wallet Balance</h2>
+        <p id="walletBalance">$0.00</p>
+        <p>Available Wallet Balance</p>
+      </div>
+
+      <!-- Last Payment Info -->
+      <div class="form-card last-payment">
+        <h3>🧾 Last Payment</h3>
+        <p id="lastPaymentInfo" class="empty-state">No recent payments yet.</p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="form-card quick-stats">
+        <h3>📊 Quick Stats</h3>
+        <div>
+          <p>🎱 Games Played: <span id="gamesPlayed">0</span></p>
+          <p>🪑 Tables Paid: <span id="tablesPaid">0</span></p>
+          <p>💵 Total Spent: <span id="totalSpent">$0.00</span></p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="payment-options">
+        <button onclick="location.href='pay-game.html'">🎱 Start New Game/Table ➡️</button>
+        <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
+      </div>
+
+      <!-- Transaction History -->
+      <div class="transaction-history" aria-labelledby="historyHeading">
+        <h3 id="historyHeading">Transaction History</h3>
+        <div id="transactionList" class="empty-state">No transactions yet.</div>
+      </div>
+
+      <!-- Logout -->
+      <button class="logout-btn" aria-label="Log out" onclick="logout()">🚪 Logout</button>
     </div>
-  </div>
-</nav>
+  </main>
 
-<!-- ======= Main Content ======= -->
-<div class="dashboard-wrapper">
-
-  <!-- Hero Welcome -->
-  <div class="hero-section">
-    <h1 class="hero-title">👋 Welcome back, <span id="userName"></span>!</h1>
-    <p class="hero-subtitle">✅ Status: <span style="color: #0CC7F6;">Good Standing</span></p>
-  </div>
-
-  <!-- Wallet Balance -->
-  <div class="balance-card">
-    <h2 id="walletBalance">$0.00</h2>
-    <p>Available Wallet Balance</p>
-  </div>
-
-  <!-- Last Payment Info -->
-  <div class="form-card" style="margin-top: 20px; text-align: center;">
-    <h3 style="color: #0CC7F6;">🧾 Last Payment</h3>
-    <p id="lastPaymentInfo" style="color: #ccc;">No recent payments yet.</p>
-  </div>
-
-  <!-- Quick Stats -->
-  <div class="form-card" style="margin-top: 20px;">
-    <h3 style="color: #FFC857; text-align: center;">📊 Quick Stats</h3>
-    <div style="text-align: center; color: #ccc; font-size: 1rem;">
-      <p>🎱 Games Played: <span id="gamesPlayed">0</span></p>
-      <p>🪑 Tables Paid: <span id="tablesPaid">0</span></p>
-      <p>💵 Total Spent: $<span id="totalSpent">0.00</span></p>
+  <!-- Commit 5: Unified footer -->
+  <footer id="site-footer" class="footer-glass" role="contentinfo">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="signup.html">🚀 Join Now</a></li>
+          <li><a href="login.html">🔑 Login</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contact Us</h4>
+        <p>📧 <a href="mailto:info@daftitude.com">info@daftitude.com</a></p>
+        <p>📞 +1 (234) 567-890</p>
+        <p>📍 Birmingham, AL</p>
+      </div>
+      <div class="footer-column">
+        <h4>Follow Us</h4>
+        <p style="font-size:1.5rem;">🌐 🐦 📸 💼</p>
+        <p style="margin-top:10px;">
+          ⚡ Powered by <strong>Daftitude</strong><br/>
+          © 2025 All Rights Reserved
+        </p>
+      </div>
     </div>
-  </div>
+  </footer>
 
-  <!-- Action Buttons -->
-  <div class="payment-options" style="margin-top: 40px;">
-    <button onclick="location.href='pay-game.html'">🎱 Start New Game/Table ➡️</button>
-    <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
-  </div>
+  <!-- Commit 6: Core scripts -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+  <script>
+    if (typeof particlesJS === 'undefined') {
+      document.write('<script src="js/particles.min.js" defer><\\/script>');
+    }
+  </script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/toast.js" defer></script>
 
-  <!-- Transaction History -->
-  <div class="transaction-history" style="margin-top: 40px;">
-    <h3>Transaction History</h3>
-    <div id="transactionList">No transactions yet.</div>
-  </div>
+  <!-- Commit 7: Dashboard logic -->
+  <script>
+    // Toggle mobile menu
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      const open = nav.classList.toggle('show');
+      document.querySelector('.hamburger').setAttribute('aria-expanded', open);
+    }
 
-  <!-- Logout -->
-  <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    // Check login & greet
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+    document.getElementById('userName').textContent = currentUser;
 
-</div>
+    // Load user data
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.username === currentUser) || {};
+    const balance = user.balance || 0;
 
-<!-- ======= Scripts ======= -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="JS/popup.js"></script>
-<script src="JS/toast.js"></script>
+    // Update balance with currency formatting
+    document.getElementById('walletBalance').textContent =
+      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+        .format(balance);
 
-<script>
-// Particles Init
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
+    // Last payment
+    function updateLastPayment() {
+      const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+      const userHist = history.filter(tx => tx.username === currentUser);
+      if (userHist.length === 0) return;
+      const last = userHist[userHist.length - 1];
+      document.getElementById('lastPaymentInfo').innerHTML = `
+        🎱 ${last.type} - Table ${last.table}<br>
+        💵 ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(last.amount)}<br>
+        🕒 ${last.date}
+      `;
+    }
+    updateLastPayment();
 
-// Toggle Menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('show');
-}
+    // Quick stats & transaction list
+    function loadStatsAndHistory() {
+      const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+      const userHist = history.filter(tx => tx.username === currentUser);
 
-// Dashboard Logic
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let currentUser = localStorage.getItem('currentUser');
-if (!currentUser) {
-  window.location.href = "login.html";
-}
-let user = users.find(u => u.username === currentUser);
+      let games = 0, tables = 0, spent = 0;
+      const listContainer = document.getElementById('transactionList');
+      listContainer.innerHTML = '';
 
-// Update UI
-document.getElementById('userName').textContent = currentUser;
-document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
+      if (userHist.length === 0) {
+        listContainer.textContent = '';
+        return;
+      }
 
-// Show Last Payment
-function updateLastPayment() {
-  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-  const userHistory = history.filter(tx => tx.username === currentUser);
+      userHist.slice().reverse().forEach(tx => {
+        const div = document.createElement('div');
+        div.className = 'transaction-item';
+        div.innerHTML = `
+          <span>🎱 ${tx.type} - Table ${tx.table}</span>
+          <span>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(tx.amount)}</span>
+        `;
+        listContainer.appendChild(div);
+        if (tx.type === 'Game') games++;
+        if (tx.type === 'Table') tables++;
+        spent += tx.amount;
+      });
 
-  if (userHistory.length > 0) {
-    const last = userHistory[userHistory.length - 1];
-    document.getElementById('lastPaymentInfo').innerHTML = `
-      🎱 ${last.type} - Table ${last.table}<br>
-      💵 $${last.amount.toFixed(2)}<br>
-      🕒 ${last.date}
-    `;
-  } else {
-    document.getElementById('lastPaymentInfo').textContent = "No recent payments yet.";
-  }
-}
-updateLastPayment();
+      document.getElementById('gamesPlayed').textContent = games;
+      document.getElementById('tablesPaid').textContent = tables;
+      document.getElementById('totalSpent').textContent =
+        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(spent);
+    }
+    loadStatsAndHistory();
 
-// Load Transaction History
-function loadTransactions() {
-  const container = document.getElementById('transactionList');
-  container.innerHTML = "";
-
-  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-  const userHistory = history.filter(tx => tx.username === currentUser);
-
-  if (userHistory.length === 0) {
-    container.innerHTML = "<p style='color: #ccc; text-align: center;'>No transactions yet.</p>";
-    return;
-  }
-
-  userHistory.reverse().forEach(tx => {
-    let div = document.createElement('div');
-    div.className = 'transaction-item';
-    div.innerHTML = `
-      <span>🎱 ${tx.type} - Table ${tx.table}</span>
-      <span>💵 $${tx.amount.toFixed(2)}</span>
-    `;
-    container.appendChild(div);
-  });
-}
-loadTransactions();
-
-// Quick Stats
-function loadQuickStats() {
-  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-  const userHistory = history.filter(tx => tx.username === currentUser);
-
-  let games = 0;
-  let tables = 0;
-  let spent = 0;
-
-  userHistory.forEach(tx => {
-    if (tx.type === 'Game') games++;
-    if (tx.type === 'Table') tables++;
-    spent += tx.amount;
-  });
-
-  document.getElementById('gamesPlayed').textContent = games;
-  document.getElementById('tablesPaid').textContent = tables;
-  document.getElementById('totalSpent').textContent = spent.toFixed(2);
-}
-loadQuickStats();
-
-// Logout
-function logout() {
-  localStorage.removeItem('currentUser');
-  window.location.href = "login.html";
-}
-</script>
-
+    // Logout
+    function logout() {
+      localStorage.removeItem('currentUser');
+      showToast('👋 Logged out.');
+      setTimeout(() => window.location.href = 'login.html', 1000);
+    }
+  </script>
 </body>
 </html>
