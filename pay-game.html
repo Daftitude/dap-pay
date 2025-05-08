@@ -1,157 +1,275 @@
+<!-- pay-game.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Commit 1: Meta & external stylesheet -->
   <meta charset="UTF-8">
-  <title>DAP⚡Pay | Pay for Game/Table</title>
-
-  <!-- External Styles -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Pay for Game</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <!-- Commit 2: Particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
 
-<!-- Particle Background -->
-<div id="particles-js"></div>
+  <!-- Commit 3: Navbar -->
+  <header role="banner">
+    <nav class="navbar" aria-label="Main Navigation">
+      <div class="nav-container">
+        <div class="dap-logo">DAP⚡Pay</div>
+        <button class="hamburger" aria-expanded="false" aria-controls="navLinks" onclick="toggleMenu()">☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="dashboard.html">🏠 Dashboard</a>
+          <a href="add-funds.html">➕ Add Funds</a>
+          <a href="pay-game.html" class="active">🎱 Pay Game</a>
+          <a href="game-history.html">📜 History</a>
+          <a href="login.html" onclick="logout()">🚪 Logout</a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-<!-- ======= Navbar ======= -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="dap-logo">DAP⚡Pay</div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="nav-links" id="navLinks">
-      <a href="dashboard.html">🏠 Dashboard</a>
-      <a href="add-funds.html">➕ Add Funds</a>
-      <a href="balance.html">💰 Balance</a>
-      <a href="pay-game.html">🎱 Pay Game</a>
-      <a href="login.html" onclick="logout()">🚪 Logout</a>
-    </div>
-  </div>
-</nav>
+  <!-- Commit 4: Main content wrapper -->
+  <main role="main">
+    <div class="page-wrapper">
 
-<!-- ======= Main Content ======= -->
-<div class="dashboard-wrapper">
+      <h1 class="hero-title">🎱 Pay for Game</h1>
+      <!-- Commit 5: Tabs for League vs Casual -->
+      <div class="tabs" role="tablist" aria-label="Game Type">
+        <button class="tab-btn tab-active" data-tab="league" role="tab" aria-selected="true">League Tables</button>
+        <button class="tab-btn" data-tab="casual" role="tab" aria-selected="false">Casual Games</button>
+      </div>
 
-  <!-- Page Title -->
-  <h1 class="dashboard-welcome">🎱 Pay for Game / Table</h1>
+      <!-- Commit 6: League Tables Grid -->
+      <section id="league" class="tables-grid tab-panel tab-active" role="tabpanel">
+        <h2 class="sr-only">League Tables 1–10</h2>
+        <div class="table-list">
+          <!-- JS will inject table buttons here -->
+        </div>
+      </section>
 
-  <!-- Table Number Input -->
-  <div class="form-card" style="margin-top: 20px; text-align: center;">
-    <h3 style="color: #0CC7F6;">Enter Table Number</h3>
-    <input type="number" id="tableNumber" class="input-field" placeholder="Enter Table # (1, 2, 3...)">
-  </div>
+      <!-- Commit 7: Casual Games Grid (Page 2) -->
+      <section id="casual" class="tables-grid tab-panel" role="tabpanel" hidden>
+        <h2 class="sr-only">Casual Tables</h2>
+        <div class="table-list">
+          <!-- JS will inject casual table buttons here -->
+        </div>
+      </section>
 
-  <!-- Payment Buttons -->
-  <div class="payment-options" style="margin-top: 30px;">
-    <button onclick="payForGame()">🎱 Pay $5 for Game</button>
-    <button onclick="payForTable()">🪑 Pay $10 for Table</button>
-  </div>
+      <!-- Commit 43+: Summary Panel (unchanged) -->
+      <div class="summary-panel">
+        <h2>Summary</h2>
+        <p><strong>Table Number:</strong> <span id="selectedTableDisplay">None</span></p>
+        <p><strong>Amount:</strong> <span id="selectedAmountDisplay">$0.00</span></p>
+        <p><strong>Current Balance:</strong> <span id="currentBalanceDisplay">$0.00</span></p>
+      </div>
 
-  <!-- Back Button -->
-  <div style="margin-top: 40px; text-align: center;">
-    <button class="glow-btn secondary" onclick="goDashboard()">⬅️ Back to Dashboard</button>
-  </div>
 
-</div>
+      <!-- Commit 44: Mode & Other-Amount Panel -->
+      <div class="mode-wager-panel">
+        <!-- Mode toggle buttons -->
+        <div class="mode-buttons" role="group" aria-label="Payment Mode">
+          <button id="payGameBtn" class="mode-btn mode-active">Pay for Game</button>
+          <button id="payTableBtn" class="mode-btn">Pay for Table</button>
+          <button id="otherBtn" class="mode-btn">Other</button>
+        </div>
 
-<!-- ======= Scripts ======= -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="js/popup.js"></script>
-<script src="js/toast.js"></script>
+        <!-- Other-amount input & confirm -->
+        <div class="wager-panel">
+          <label for="otherAmount">Enter Amount ($10–$200)</label>
+          <input type="number" id="otherAmount" class="input-field" placeholder="10.00" min="10" max="200" step="0.01"
+            disabled />
+          <button id="confirmBtn" class="glow-btn" disabled>Confirm & Pay</button>
+        </div>
+      </div>
 
-<script>
-// Particles Init
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
 
-// Toggle Menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('show');
-}
 
-// Go back to Dashboard
-function goDashboard() {
-  window.location.href = "dashboard.html";
-}
 
-// Load User
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let currentUser = localStorage.getItem('currentUser');
-if (!currentUser) {
-  window.location.href = "login.html";
-}
-let user = users.find(u => u.username === currentUser);
+      <!-- Commit 9: Unified footer -->
+      <footer id="site-footer" class="footer-glass" role="contentinfo">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="dashboard.html">🏠 Dashboard</a></li>
+              <li><a href="add-funds.html">➕ Add Funds</a></li>
+              <li><a href="pay-game.html">🎱 Pay Game</a></li>
+              <li><a href="game-history.html">📜 History</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Contact Us</h4>
+            <p>📧 <a href="mailto:info@daftitude.com">info@daftitude.com</a></p>
+            <p>📞 +1 (234) 567-890</p>
+            <p>📍 Birmingham, AL</p>
+          </div>
+          <div class="footer-column">
+            <h4>Follow Us</h4>
+            <p style="font-size:1.5rem;">🌐 🐦 📸 💼</p>
+            <p style="margin-top:10px;">
+              ⚡ Powered by <strong>Daftitude</strong><br />
+              © 2025 All Rights Reserved
+            </p>
+          </div>
+        </div>
+      </footer>
 
-// Payment Functions
-function payForGame() {
-  const table = document.getElementById('tableNumber').value.trim();
-  if (!table) {
-    showPopup('error', '❌ Please enter a table number.');
-    return;
-  }
-  if (user.balance >= 5) {
-    user.balance -= 5;
-    saveTransaction('Game', 5, table);
-    localStorage.setItem('users', JSON.stringify(users));
-    showPopup('success', '✅ Paid $5 for Game!');
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 1500);
-  } else {
-    showPopup('error', '❌ Insufficient Balance.');
-  }
-}
+      <!-- ======= Scripts ======= -->
 
-function payForTable() {
-  const table = document.getElementById('tableNumber').value.trim();
-  if (!table) {
-    showPopup('error', '❌ Please enter a table number.');
-    return;
-  }
-  if (user.balance >= 10) {
-    user.balance -= 10;
-    saveTransaction('Table', 10, table);
-    localStorage.setItem('users', JSON.stringify(users));
-    showPopup('success', '✅ Paid $10 for Table!');
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 1500);
-  } else {
-    showPopup('error', '❌ Insufficient Balance.');
-  }
-}
+      <!-- Particles.js Background -->
+      <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-// Save Transaction
-function saveTransaction(type, amount, table) {
-  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-  history.push({
-    username: currentUser,
-    table: table,
-    amount: amount,
-    type: type,
-    date: new Date().toLocaleString()
-  });
-  localStorage.setItem('paymentHistory', JSON.stringify(history));
-}
+      <!-- Popup System -->
+      <script src="js/popup.js"></script>
 
-// Logout
-function logout() {
-  localStorage.removeItem('currentUser');
-  window.location.href = "login.html";
-}
-</script>
+      <!-- Toast System -->
+      <script src="js/toast.js"></script>
 
-</body>
-</html>
+      <script>
+        // Initialize Particles
+        particlesJS('particles-js', {
+          "particles": {
+            "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#0CC7F6" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.4, "random": true },
+            "size": { "value": 3, "random": true },
+            "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+            "move": { "enable": true, "speed": 1 }
+          },
+          "retina_detect": true
+        });
+        // Toggle mobile menu
+        function toggleMenu() {
+          const nl = document.getElementById('navLinks');
+          const ex = nl.classList.toggle('show');
+          document.querySelector('.hamburger')
+            .setAttribute('aria-expanded', ex);
+        }
+
+        // Logout
+        function logout() {
+          localStorage.removeItem('currentUser');
+          window.location.href = 'login.html';
+        }
+
+        // Tab switching (League vs Casual)
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn')
+              .forEach(b => b.classList.remove('tab-active'));
+            document.querySelectorAll('.tab-panel')
+              .forEach(p => { p.hidden = true; p.classList.remove('tab-active'); });
+            btn.classList.add('tab-active');
+            const panel = document.getElementById(btn.dataset.tab);
+            panel.hidden = false;
+            panel.classList.add('tab-active');
+            selectedTable = null;
+            confirmBtn.disabled = true;
+            updateSummary();
+          });
+        });
+
+        // Mode buttons (Game, Table, Other)
+        const payGameBtn = document.getElementById('payGameBtn');
+        const payTableBtn = document.getElementById('payTableBtn');
+        const otherBtn = document.getElementById('otherBtn');
+        const otherInput = document.getElementById('otherAmount');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const tableDisplay = document.getElementById('selectedTableDisplay');
+        const amountDisp = document.getElementById('selectedAmountDisplay');
+        const balanceDisp = document.getElementById('currentBalanceDisplay');
+
+        // Currency formatter
+        const fmt = v => new Intl.NumberFormat('en-US', {
+          style: 'currency', currency: 'USD'
+        }).format(v);
+
+        // Load user & balance
+        const currentUser = localStorage.getItem('currentUser');
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userObj = users.find(u => u.username === currentUser) || {};
+        const balance = userObj.balance || 0;
+        balanceDisp.textContent = fmt(balance);
+
+        // Set active mode
+        function setMode(mode) {
+          [payGameBtn, payTableBtn, otherBtn].forEach(b => b.classList.remove('mode-active'));
+          if (mode === 'game') payGameBtn.classList.add('mode-active');
+          if (mode === 'table') payTableBtn.classList.add('mode-active');
+          if (mode === 'other') otherBtn.classList.add('mode-active');
+          otherInput.disabled = (mode !== 'other');
+          if (mode !== 'other') otherInput.value = '';
+          updateSummary();
+        }
+
+        payGameBtn.addEventListener('click', () => setMode('game'));
+        payTableBtn.addEventListener('click', () => setMode('table'));
+        otherBtn.addEventListener('click', () => setMode('other'));
+
+        // Generate table buttons
+        const leagueContainer = document.querySelector('#league .table-list');
+        const casualContainer = document.querySelector('#casual .table-list');
+        for (let i = 1; i <= 10; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'table-item';
+          btn.textContent = `Table ${i}`;
+          btn.addEventListener('click', () => selectTable(i, btn));
+          leagueContainer.appendChild(btn);
+        }
+        for (let i = 11; i <= 15; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'table-item';
+          btn.textContent = `Table ${i}`;
+          btn.addEventListener('click', () => selectTable(i, btn));
+          casualContainer.appendChild(btn);
+        }
+
+        // Table selection
+        let selectedTable = null;
+        function selectTable(tableNum, buttonEl) {
+          document.querySelectorAll('.table-item.selected')
+            .forEach(el => el.classList.remove('selected'));
+          buttonEl.classList.add('selected');
+          selectedTable = tableNum;
+          updateSummary();
+        }
+
+        // Update summary panel & confirm button
+        function updateSummary() {
+          // Show selected table
+          tableDisplay.textContent = selectedTable || 'None';
+
+          // Determine amount
+          let total;
+          if (otherBtn.classList.contains('mode-active')) {
+            const val = parseFloat(otherInput.value);
+            total = (!isNaN(val) && val >= 10 && val <= 200) ? val : 0;
+          } else {
+            total = payGameBtn.classList.contains('mode-active') ? 5 : 10;
+          }
+
+          amountDisp.textContent = fmt(total);
+          confirmBtn.disabled = !selectedTable || total <= 0;
+        }
+
+        otherInput.addEventListener('input', updateSummary);
+
+        // Initialize summary
+        updateSummary();
+
+        // Confirm & Pay action
+        confirmBtn.addEventListener('click', () => {
+          const amt = parseFloat(amountDisp.textContent.replace(/[^0-9.-]+/g, ''));
+          showToast(`✅ Paid ${fmt(amt)} for Table ${selectedTable}!`);
+          // Reset selection and inputs
+          selectedTable = null;
+          otherInput.value = '';
+          setMode(payGameBtn.classList.contains('mode-active') ? 'game' : 'table');
+          document.querySelectorAll('.table-item.selected')
+            .forEach(el => el.classList.remove('selected'));
+        });
+      </script>

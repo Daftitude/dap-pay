@@ -709,3 +709,188 @@ body {
   color: #FFC857;
   font-weight: bold;
 }
+/* ========== PAY-GAME PAGE STYLES (Commit 39) ========== */
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+.tab-btn.tab-active {
+  color: #0CC7F6;
+}
+.tab-btn.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0CC7F6;
+}
+
+/* Tables grid */
+.tables-grid {
+  margin-bottom: 2rem;
+}
+.table-list {
+  display: grid;
+  /* Two columns, filling down then across: tables 1–5 in col 1, 6–10 in col 2 */
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-auto-rows: auto;
+  gap: 1rem;
+}
+
+.table-item {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #0CC7F6;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #ccc;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+.table-item:hover {
+  background: rgba(12, 199, 246, 0.1);
+}
+.table-item.selected {
+  background: #0CC7F6;
+  color: black;
+}
+
+/* Wager Panel */
+.wager-panel {
+  max-width: 400px;
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.wager-panel label {
+  color: white;
+  font-weight: bold;
+}
+.wager-panel .input-field {
+  margin-bottom: 0;
+}
+#wagerAmount {
+  /* ensure full width */
+}
+#confirmBtn {
+  align-self: center;
+  width: auto;
+}
+
+/* Highlight active nav link */
+.nav-links a.active {
+  color: #FFC857;
+  font-weight: bold;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .table-list {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  .tabs {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+/* ========== MODE + WAGER PANEL (Commit 41) ========== */
+.mode-wager-panel {
+  max-width: 450px;
+  margin: 0 auto 3rem;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(12,199,246,0.7);
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ensure mode-buttons and wager-panel stack nicely */
+.mode-wager-panel .mode-buttons {
+  margin-bottom: 1.5rem;
+}
+
+.mode-wager-panel .wager-panel {
+  margin: 0;
+}
+/* ========== PAY-GAME MODE BUTTONS (Commit 40) ========== */
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.mode-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #0CC7F6;
+  background: #0CC7F6;
+  color: black;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.mode-btn:hover {
+  background: #0aa6d1;
+}
+
+.mode-btn.mode-active {
+  /* active styling */
+  background: #0CC7F6;
+  color: black;
+  box-shadow: 0 0 10px #0CC7F6;
+}
+
+.mode-btn:not(.mode-active) {
+  /* inactive styling */
+  background: transparent;
+  color: #0CC7F6;
+}
+
+.mode-btn:not(.mode-active):hover {
+  background: rgba(12,199,246,0.1);
+}
+
+/* ========== PAY-GAME SUMMARY PANEL (Commit 43) ========== */
+.summary-panel {
+  max-width: 450px;
+  margin: 0 auto 2rem;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(12,199,246,0.7);
+  padding: 1.5rem 2rem;
+  color: #ccc;
+}
+.summary-panel h2 {
+  margin-bottom: 1rem;
+  color: #0CC7F6;
+  font-size: 1.25rem;
+}
+.summary-panel p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+.summary-panel strong {
+  color: #FFC857;
+}

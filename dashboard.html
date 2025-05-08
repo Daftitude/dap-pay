@@ -19,12 +19,7 @@
     <nav class="navbar" aria-label="Main Navigation">
       <div class="nav-container">
         <div class="dap-logo">DAP⚡Pay</div>
-        <button
-          class="hamburger"
-          aria-expanded="false"
-          aria-controls="navLinks"
-          onclick="toggleMenu()"
-        >☰</button>
+        <button class="hamburger" aria-expanded="false" aria-controls="navLinks" onclick="toggleMenu()">☰</button>
         <div class="nav-links" id="navLinks">
           <a href="dashboard.html" class="active">🏠 Dashboard</a>
           <a href="add-funds.html">➕ Add Funds</a>
@@ -50,10 +45,11 @@
       </div>
 
       <!-- Wallet Balance -->
+      <h1 class="dashboard-welcome">💰 Your Wallet Balance</h1>
       <div class="balance-card" aria-labelledby="walletHeading">
         <h2 id="walletHeading" class="sr-only">Available Wallet Balance</h2>
         <p id="walletBalance">$0.00</p>
-        <p>Available Wallet Balance</p>
+        <p>Available Funds</p>
       </div>
 
       <!-- Last Payment Info -->
@@ -110,25 +106,38 @@
         <h4>Follow Us</h4>
         <p style="font-size:1.5rem;">🌐 🐦 📸 💼</p>
         <p style="margin-top:10px;">
-          ⚡ Powered by <strong>Daftitude</strong><br/>
+          ⚡ Powered by <strong>Daftitude</strong><br />
           © 2025 All Rights Reserved
         </p>
       </div>
     </div>
   </footer>
 
-  <!-- Commit 6: Core scripts -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
-  <script>
-    if (typeof particlesJS === 'undefined') {
-      document.write('<script src="js/particles.min.js" defer><\\/script>');
-    }
-  </script>
-  <script src="js/popup.js" defer></script>
-  <script src="js/toast.js" defer></script>
+  <!-- ======= Scripts ======= -->
 
-  <!-- Commit 7: Dashboard logic -->
+  <!-- Particles.js Background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+  <!-- Popup System -->
+  <script src="js/popup.js"></script>
+
+  <!-- Toast System -->
+  <script src="js/toast.js"></script>
+
   <script>
+    // Initialize Particles
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#0CC7F6" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
+        "move": { "enable": true, "speed": 1 }
+      },
+      "retina_detect": true
+    });
     // Toggle mobile menu
     function toggleMenu() {
       const nav = document.getElementById('navLinks');
@@ -209,4 +218,5 @@
     }
   </script>
 </body>
+
 </html>
