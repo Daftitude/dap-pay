@@ -3,255 +3,90 @@
 <html lang="en">
 
 <head>
-  <!-- Commit 1: Meta & external stylesheet -->
+  <!-- Commit 1: Meta + Stylesheet -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DAP⚡Pay | Sign Up</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
-  <!-- Commit 2: Primary navbar -->
-  <header role="banner">
-    <nav class="navbar" aria-label="Main Navigation">
-      <div class="nav-container">
-        <div class="dap-logo">DAP⚡Pay</div>
-        <button
-          class="hamburger"
-          aria-expanded="false"
-          aria-controls="navLinks"
-          onclick="toggleMenu()"
-        >☰</button>
-        <div class="nav-links" id="navLinks">
-          <a href="login.html"><span class="nav-icon">🔑</span>Login</a>
-          <a href="signup.html"><span class="nav-icon new-badge">🆕</span>Join Now</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+<!-- Commit 2: Nav injected via main.js -->
 
-  <!-- Commit 3: Decorative particles background -->
+<body data-flavor="public">
+  <div id="nav-placeholder"></div>
+  <!-- Commit 3: Particles background -->
   <div id="particles-js" aria-hidden="true"></div>
-
-  <!-- Commit 4: Signup wizard panel -->
   <main role="main">
     <section class="signup-wrapper page-wrapper" aria-labelledby="signupTitle">
-      <h1 id="signupTitle" class="signup-title">DAP⚡Sign Up</h1>
+      <h1 id="signupTitle" class="signup-title">DAP⚡ Sign Up</h1>
 
-      <!-- Progress bar -->
-      <div class="progressbar">
-        <div class="progress-step progress-step-active" data-title="Account"></div>
-        <div class="progress-step"             data-title="Personal"></div>
-        <div class="progress-step"             data-title="Security"></div>
-      </div>
+      <!-- Add your 1px border to the wrapper instead of the card -->
+      <div class="form-card">
+        <!-- Progress bar -->
+        <div class="progressbar">
+          <div class="progress-step progress-step-active" data-title="Account"></div>
+          <div class="progress-step" data-title="Personal"></div>
+          <div class="progress-step" data-title="Confirm"></div>
+        </div>
 
-      <!-- Wizard form -->
-      <form id="signupForm" novalidate>
-        <!-- Step 1: Account -->
-        <fieldset class="form-step form-step-active">
-          <div class="form-group">
+        <form id="signupForm" onsubmit="registerUser(); return false;">
+          <!-- Step 1: Account -->
+          <fieldset class="form-step form-step-active">
             <label for="newUsername" class="sr-only">Username</label>
-            <input
-              type="text"
-              id="newUsername"
-              name="newUsername"
-              class="input-field"
-              placeholder="Choose your DAP⚡ username"
-              required
-            />
-          </div>
-          <div class="form-group">
+            <input type="text" id="newUsername" name="newUsername" placeholder="Choose your DAP⚡ username"
+              class="input-field" required>
             <label for="newEmail" class="sr-only">Email Address</label>
-            <input
-              type="email"
-              id="newEmail"
-              name="newEmail"
-              class="input-field"
-              placeholder="Your email address"
-              required
-            />
-          </div>
-          <div class="btn-group">
-            <span></span><!-- placeholder for alignment -->
-            <button type="button" class="btn-next">Next ➔</button>
-          </div>
-        </fieldset>
+            <input type="email" id="newEmail" name="newEmail" placeholder="Your email address" class="input-field"
+              required>
+            <div class="btn-group">
+              <button type="button" class="btn-next glow-btn">Next</button>
+            </div>
+          </fieldset>
 
-        <!-- Step 2: Personal -->
-        <fieldset class="form-step">
-          <div class="form-group">
+          <!-- Step 2: Personal -->
+          <fieldset class="form-step">
             <label for="dob" class="sr-only">Date of Birth</label>
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              class="input-field"
-              required
-            />
-          </div>
-          <div class="form-group">
+            <input type="date" id="dob" name="dob" class="input-field" required>
             <label for="address" class="sr-only">Address</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              class="input-field"
-              placeholder="Street address"
-              required
-            />
-          </div>
-          <div class="btn-group">
-            <button type="button" class="btn-prev">◀ Back</button>
-            <button type="button" class="btn-next">Next ➔</button>
-          </div>
-        </fieldset>
+            <input type="text" id="address" name="address" placeholder="Your address" class="input-field" required>
+            <div class="btn-group">
+              <button type="button" class="btn-prev glow-btn secondary">Previous</button>
+              <button type="button" class="btn-next glow-btn">Next</button>
+            </div>
+          </fieldset>
 
-        <!-- Step 3: Security -->
-        <fieldset class="form-step">
-          <div class="form-group password-field">
-            <label for="newPassword" class="sr-only">Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              class="input-field"
-              placeholder="Create a secure password"
-              required
-            />
-            <button type="button" class="toggle-password" aria-label="Show password">👁️</button>
-          </div>
-          <div class="form-group password-field">
-            <label for="confirmPassword" class="sr-only">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              class="input-field"
-              placeholder="Confirm password"
-              required
-            />
-            <button type="button" class="toggle-password" aria-label="Show password">👁️</button>
-          </div>
-          <div class="btn-group">
-            <button type="button" class="btn-prev">◀ Back</button>
-            <button type="submit" class="btn-next">Submit ✔</button>
-          </div>
-        </fieldset>
-      </form>
+          <!-- Step 3: Security -->
+          <fieldset class="form-step">
+            <div class="password-field">
+              <label for="newPassword" class="sr-only">Password</label>
+              <input type="password" id="newPassword" name="newPassword" placeholder="Create a secure password"
+                class="input-field" required>
+              <button type="button" class="toggle-password" aria-label="Show password">👁️</button>
+            </div>
+            <div class="password-field">
+              <label for="confirmPassword" class="sr-only">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
+                class="input-field" required>
+              <button type="button" class="toggle-password" aria-label="Show password">👁️</button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn-prev glow-btn secondary">Previous</button>
+              <button type="submit" class="glow-btn">Confirm</button>
+            </div>
+          </fieldset>
+        </form>
 
-      <!-- Commit 36: Existing-account link -->
-      <p class="existing-account" style="margin-top:1.5rem;">
-        Have an account? <a href="login.html" style="color:#0CC7F6;">Log In Here</a>
-      </p>
+      </div>
     </section>
   </main>
 
-  <!-- Commit 5: Unified footer -->
-  <footer id="site-footer" class="footer-glass" role="contentinfo">
-    <div class="footer-content">
-      <div class="footer-column">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">🏠 Home</a></li>
-          <li><a href="dashboard.html">📊 Dashboard</a></li>
-          <li><a href="signup.html">🚀 Join Now</a></li>
-          <li><a href="login.html">🔑 Login</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Contact Us</h4>
-        <p>📧 <a href="mailto:info@daftitude.com">info@daftitude.com</a></p>
-        <p>📞 +1 (234) 567-890</p>
-        <p>📍 Birmingham, AL</p>
-      </div>
-      <div class="footer-column">
-        <h4>Follow Us</h4>
-        <p style="font-size:1.5rem;">🌐 🐦 📸 💼</p>
-        <p style="margin-top:10px;">
-          ⚡ Powered by <strong>Daftitude</strong><br/>
-          © 2025 All Rights Reserved
-        </p>
-      </div>
-    </div>
-  </footer>
+  <!-- 5) Footer placeholder -->
+  <div id="footer-placeholder"></div>
 
-  <!-- Commit 6: Core scripts & initialization -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
-  <script>
-    if (typeof particlesJS === 'undefined') {
-      document.write('<script src="js/particles.min.js" defer><\\/script>');
-    }
-  </script>
-  <script src="js/popup.js" defer></script>
-  <script src="js/toast.js" defer></script>
-
-  <!-- Commit 7: Wizard logic & toggles -->
-  <script>
-    // Toggle mobile menu
-    function toggleMenu() {
-      const nl = document.getElementById('navLinks');
-      const ex = nl.classList.toggle('show');
-      document.querySelector('.hamburger').setAttribute('aria-expanded', ex);
-    }
-
-    // Wizard steps
-    const steps      = Array.from(document.querySelectorAll('.form-step'));
-    const progress   = document.querySelectorAll('.progress-step');
-    let currentIndex = 0;
-
-    document.querySelectorAll('.btn-next').forEach(btn =>
-      btn.addEventListener('click', () => {
-        if (currentIndex < steps.length - 1) {
-          steps[currentIndex].classList.remove('form-step-active');
-          progress[currentIndex].classList.add('progress-step-completed');
-          currentIndex++;
-          steps[currentIndex].classList.add('form-step-active');
-          progress[currentIndex].classList.add('progress-step-active');
-        }
-      })
-    );
-
-    document.querySelectorAll('.btn-prev').forEach(btn =>
-      btn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-          steps[currentIndex].classList.remove('form-step-active');
-          progress[currentIndex].classList.remove('progress-step-active');
-          currentIndex--;
-          steps[currentIndex].classList.add('form-step-active');
-          progress[currentIndex].classList.remove('progress-step-completed');
-        }
-      })
-    );
-
-    // Password toggles
-    document.querySelectorAll('.toggle-password').forEach(btn => {
-      const input = btn.previousElementSibling;
-      btn.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        btn.textContent = input.type === 'password' ? '👁️' : '🙈';
-        btn.setAttribute('aria-label', input.type === 'password' ? 'Show password' : 'Hide password');
-      });
-    });
-
-    // Final submission
-    document.getElementById('signupForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const data = {
-        username: document.getElementById('newUsername').value.trim(),
-        email:    document.getElementById('newEmail').value.trim(),
-        dob:      document.getElementById('dob').value,
-        address:  document.getElementById('address').value.trim(),
-        password: document.getElementById('newPassword').value.trim()
-      };
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      if (users.some(u => u.username === data.username)) {
-        return showToast('❌ Username taken.', 'error');
-      }
-      users.push(data);
-      localStorage.setItem('users', JSON.stringify(users));
-      showToast('✅ Account created!');
-      setTimeout(() => location.href = 'login.html', 1500);
-    });
-  </script>
+  <!-- Commit 8: Core scripts -->
+  <script src="js/particles.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/signup.js" defer></script>
 </body>
+
 </html>

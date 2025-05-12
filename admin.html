@@ -1,298 +1,91 @@
+<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>DAP⚡Pay | Admin Panel</title>
 
-  <!-- External Styles -->
+<head>
+  <!-- Commit 1: Meta & Stylesheet -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Admin Dashboard</title>
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Chart.js CDN for Earnings Graph -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Responsive Meta -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Commit 2: Chart.js for earnings graph -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 
-<body>
+<>
+  <!-- Commit 3: Nav injected via main.js -->
+  <div id="nav-placeholder"></div>
 
-<!-- Particle Background -->
-<div id="particles-js"></div>
+  <!-- Commit 4: Particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
 
-<!-- ======= Navbar ======= -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="dap-logo">DAP⚡Pay</div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="nav-links" id="navLinks">
-      <a href="dashboard.html">🏠 Dashboard</a>
-      <a href="admin.html">🛡️ Admin</a>
-      <a href="login.html" onclick="logout()">🚪 Logout</a>
+  <!-- Commit 5: Main admin content -->
+  <main role="main">
+    <div class="page-wrapper">
+
+      <!-- Admin Greeting -->
+      <section class="hero-section">
+        <h1 class="hero-title">👋 Admin Dashboard</h1>
+        <p class="hero-subtitle">
+          Welcome, <strong id="adminName">Admin</strong>
+        </p>
+      </section>
+
+      <!-- Wallet Balance Card -->
+      <div class="balance-card">
+        <h2 id="walletBalanceAdmin">$0.00</h2>
+        <p>Admin Wallet Balance</p>
+      </div>
+
+      <!-- Earnings Chart -->
+      <section class="form-card" aria-labelledby="earningsHeading">
+        <h2 id="earningsHeading" class="sr-only">Earnings Over Last 7 Days</h2>
+        <canvas id="earningsChart" width="400" height="200"></canvas>
+      </section>
+
+      <!-- Manage Users -->
+      <section class="form-card" aria-labelledby="usersHeading">
+        <h2 id="usersHeading">Manage Players</h2>
+        <label for="searchInput" class="sr-only">Search Users</label>
+        <input type="text" id="searchInput" class="input-field" placeholder="Search by username"
+          oninput="filterUsers()" />
+        <div id="usersTable" style="margin-top:1rem;"></div>
+      </section>
+
+      <!-- Transactions History -->
+      <section class="form-card" aria-labelledby="transactionsHeading">
+        <h2 id="transactionsHeading">All Transactions</h2>
+        <button onclick="downloadCSV()" class="glow-btn" style="margin-bottom:1rem;">
+          Download CSV
+        </button>
+        <div id="transactionTable"></div>
+      </section>
+
+      <!-- Adjust Player Balance -->
+      <section class="form-card" aria-labelledby="adjustHeading">
+        <h2 id="adjustHeading">Adjust Player Balance</h2>
+        <label for="adjustUsername" class="sr-only">Username</label>
+        <input type="text" id="adjustUsername" class="input-field" placeholder="Username to adjust" />
+        <label for="adjustAmount" class="sr-only">Amount</label>
+        <input type="number" id="adjustAmount" class="input-field" placeholder="Amount (+ or -)" step="0.01" />
+        <button onclick="adjustBalance()" class="glow-btn">
+          Update Balance
+        </button>
+      </section>
+
     </div>
-  </div>
-</nav>
+  </main>
 
-<!-- ======= Main Dashboard Content ======= -->
-<div class="dashboard-wrapper">
 
-  <!-- Welcome Section (User style) -->
-  <h1 class="dashboard-welcome">👋 Welcome back, <span id="adminName">Admin</span>!</h1>
+  <!-- Commit 8: Footer injected via main.js -->
+  <div id="footer-placeholder"></div>
 
-  <!-- Balance Card (Just for consistency) -->
-  <div class="balance-card">
-    <h2 id="walletBalanceAdmin">$0.00</h2>
-    <p>Admin Wallet View</p>
-  </div>
+  <!-- Commit 9: Scripts -->
+  <script src="js/particles.min.js" defer></script>
+  <script src="js/particles-init.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script type="module" src="js/admin.js" defer></script>
+  </body>
 
-  <!-- Payment Options Section (Hidden for Admin, but layout preserved) -->
-  <div class="payment-options" style="display: none;">
-    <button>Placeholder</button>
-    <button>Placeholder</button>
-  </div>
-
-  <!-- ======= Admin Features Start Here ======= -->
-
-  <!-- Admin Divider -->
-  <div class="form-card" style="text-align: center; margin-top: 50px;">
-    <h2 style="color: #FFC857;">🔒 Admin Controls</h2>
-    <p style="font-size: 1rem; color: #ccc;">Manage Users, View Transactions, Analyze Earnings</p>
-  </div>
-
-  <!-- Earnings Chart -->
-  <div class="form-card" style="margin-top: 30px;">
-    <h3 style="color: #0CC7F6; text-align: center;">📈 Earnings Last 7 Days</h3>
-    <canvas id="earningsChart" style="max-width: 100%; margin-top: 20px;"></canvas>
-  </div>
-
-  <!-- Search Users -->
-  <div class="form-card" style="margin-top: 30px;">
-    <input type="text" id="searchInput" class="input-field" placeholder="🔎 Search users by username" oninput="filterUsers()">
-  </div>
-
-  <!-- Users Management Table -->
-  <div class="transaction-history">
-    <h3>Manage Players</h3>
-    <div id="usersTable">Loading users...</div>
-  </div>
-
-  <!-- Manual Balance Adjustment -->
-  <div class="form-card" style="margin-top: 30px;">
-    <h3 style="color: #0CC7F6;">Adjust Player Balance</h3>
-    <input type="text" id="adjustUsername" class="input-field" placeholder="Enter Username">
-    <input type="number" id="adjustAmount" class="input-field" placeholder="Enter Amount (+/-)">
-    <button class="glow-btn" onclick="adjustBalance()">Update Balance</button>
-  </div>
-
-  <!-- Transactions History -->
-  <div class="transaction-history">
-    <h3>Payment History</h3>
-    <div id="transactionTable">Loading transactions...</div>
-    <button class="glow-btn secondary" style="margin-top: 20px;" onclick="downloadCSV()">⬇️ Download Transactions CSV</button>
-  </div>
-
-</div>
-
-<!-- ======= Scripts ======= -->
-
-<!-- Particles Background -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<script>
-// Initialize Particles
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
-
-/// ======= Admin.js =======
-
-// Toggle Mobile Menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('show');
-}
-
-// Load Wallet - DYNAMIC now
-function loadAdminWallet() {
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const totalBalance = users.reduce((sum, user) => sum + (user.balance || 0), 0);
-  document.getElementById('walletBalanceAdmin').textContent = `$${totalBalance.toFixed(2)}`;
-}
-
-// Load Users and Transactions
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let transactions = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-
-// Display Users
-function displayUsers() {
-  const container = document.getElementById('usersTable');
-  container.innerHTML = "";
-
-  if (users.length === 0) {
-    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No users found.</p>";
-    return;
-  }
-
-  users.forEach((user, index) => {
-    let div = document.createElement('div');
-    div.className = 'transaction-item';
-    div.innerHTML = `
-      <span>@${user.username} | 💰 $${user.balance.toFixed(2)}</span>
-      <div>
-        <button class="glow-btn secondary" onclick="confirmDeleteUser(${index}, '${user.username}')">🗑 Delete</button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-// Filter Users
-function filterUsers() {
-  const input = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = users.filter(u => u.username.toLowerCase().includes(input));
-  const container = document.getElementById('usersTable');
-  container.innerHTML = "";
-
-  if (filtered.length === 0) {
-    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No matching users found.</p>";
-    return;
-  }
-
-  filtered.forEach((user, index) => {
-    let div = document.createElement('div');
-    div.className = 'transaction-item';
-    div.innerHTML = `
-      <span>@${user.username} | 💰 $${user.balance.toFixed(2)}</span>
-      <div>
-        <button class="glow-btn secondary" onclick="confirmDeleteUser(${index}, '${user.username}')">🗑 Delete</button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-// Confirm Delete User
-function confirmDeleteUser(index, username) {
-  showPopup('warning', `⚠️ Are you sure you want to delete @${username}?`, () => {
-    users.splice(index, 1);
-    localStorage.setItem('users', JSON.stringify(users));
-    displayUsers();
-    loadAdminWallet(); // Update wallet after deleting user
-    showPopup('success', `✅ Deleted @${username}`);
-  });
-}
-
-// Adjust Balance
-function adjustBalance() {
-  const username = document.getElementById('adjustUsername').value.trim();
-  const amount = parseFloat(document.getElementById('adjustAmount').value);
-
-  if (!username || isNaN(amount)) {
-    showPopup('error', '❌ Please fill in both fields correctly.');
-    return;
-  }
-
-  let user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
-  if (!user) {
-    showPopup('error', '❌ User not found.');
-    return;
-  }
-
-  user.balance += amount;
-  localStorage.setItem('users', JSON.stringify(users));
-  displayUsers();
-  loadAdminWallet(); // Update wallet after adjustment
-  showPopup('success', `✅ Updated @${username}'s balance by $${amount.toFixed(2)}`);
-}
-
-// Display Transactions
-function displayTransactions() {
-  const container = document.getElementById('transactionTable');
-  container.innerHTML = "";
-
-  if (transactions.length === 0) {
-    container.innerHTML = "<p style='text-align: center; color: #ccc;'>No transactions found.</p>";
-    return;
-  }
-
-  transactions.forEach(tx => {
-    let div = document.createElement('div');
-    div.className = 'transaction-item';
-    div.innerHTML = `
-      <span>@${tx.username} paid $${tx.amount.toFixed(2)} for ${tx.type} (Table ${tx.table})</span>
-      <span style="font-size: 0.8rem; color: #aaa;">${tx.date}</span>
-    `;
-    container.appendChild(div);
-  });
-}
-
-// Download Transactions as CSV
-function downloadCSV() {
-  let csv = "Username,Table,Amount,Type,Date\n";
-  transactions.forEach(tx => {
-    csv += `${tx.username},${tx.table},${tx.amount},${tx.type},${tx.date}\n`;
-  });
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'transactions.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-// Display Earnings Chart
-function displayChart() {
-  const ctx = document.getElementById('earningsChart').getContext('2d');
-  let last7days = [];
-
-  for (let i = 6; i >= 0; i--) {
-    let d = new Date();
-    d.setDate(d.getDate() - i);
-    last7days.push(d.toLocaleDateString());
-  }
-
-  let dailyTotals = last7days.map(date => {
-    return transactions
-      .filter(tx => new Date(tx.date).toLocaleDateString() === date)
-      .reduce((sum, tx) => sum + tx.amount, 0);
-  });
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: last7days,
-      datasets: [{
-        label: 'Daily Earnings ($)',
-        data: dailyTotals,
-        backgroundColor: 'rgba(12, 199, 246, 0.2)',
-        borderColor: '#0CC7F6',
-        borderWidth: 2,
-        fill: true,
-        tension: 0.4
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
-}
-
-// Initialize Admin Page
-loadAdminWallet();
-displayUsers();
-displayTransactions();
-displayChart();
-</script>
+</html>

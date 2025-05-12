@@ -1,64 +1,77 @@
-function downloadAnalytics() {
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const payments = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-    const currentUser = localStorage.getItem('currentUser') || 'Unknown';
-    const timestamp = new Date().toLocaleString();
-  
-    const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>DAP⚡Pay Analytics Backup</title>
-      <style>
-        body { font-family: Arial, sans-serif; background: #111; color: white; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; box-shadow: 0 0 20px #0CC7F6; }
-        h1, h2 { color: #0CC7F6; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 10px; text-align: center; }
-        th { background: #0CC7F6; color: black; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>DAP⚡Pay Analytics Backup</h1>
-        <p><strong>Backup Time:</strong> ${timestamp}</p>
-        <p><strong>Current User:</strong> ${currentUser}</p>
-  
-        <h2>🧍 Users</h2>
-        <table>
-          <thead>
-            <tr><th>Username</th><th>Email</th><th>Balance ($)</th></tr>
-          </thead>
-          <tbody>
-            ${users.map(u => `
-              <tr><td>${u.username}</td><td>${u.email}</td><td>${u.balance.toFixed(2)}</td></tr>
-            `).join('')}
-          </tbody>
-        </table>
-  
-        <h2>🎱 Payment History</h2>
-        <table>
-          <thead>
-            <tr><th>Username</th><th>Table</th><th>Amount</th><th>Type</th><th>Date</th></tr>
-          </thead>
-          <tbody>
-            ${payments.map(p => `
-              <tr><td>${p.username}</td><td>${p.table}</td><td>$${p.amount.toFixed(2)}</td><td>${p.type}</td><td>${p.date}</td></tr>
-            `).join('')}
-          </tbody>
-        </table>
-  
-      </div>
-    </body>
-    </html>`;
-  
-    const blob = new Blob([htmlContent], {type: "text/html"});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `dap_pay_analytics_${Date.now()}.html`;
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-  
+<!-- analytics.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Commit 1: Meta & Styles -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Analytics</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Commit 2: Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+
+<body>
+  <!-- Commit 3: Nav injected via main.js -->
+  <div id="nav-placeholder"></div>
+
+  <!-- Commit 4: Particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
+
+  <!-- Commit 5: Analytics Content -->
+  <main role="main">
+    <div class="page-wrapper">
+
+      <section class="hero-section">
+        <h1 class="hero-title">📈 DAP⚡Pay Analytics</h1>
+      </section>
+
+      <!-- Commit 6: Summary Tiles -->
+      <section class="features-section" aria-labelledby="summaryHeading">
+        <h2 id="summaryHeading" class="sr-only">Key Metrics</h2>
+        <div class="features-list" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <div class="glass-card" style="flex:1">
+            <h3>Total Users</h3>
+            <p id="totalUsers">0</p>
+          </div>
+          <div class="glass-card" style="flex:1">
+            <h3>Total Deposits</h3>
+            <p id="totalDeposits">$0.00</p>
+          </div>
+          <div class="glass-card" style="flex:1">
+            <h3>Game Revenue</h3>
+            <p id="gameRevenue">$0.00</p>
+          </div>
+          <div class="glass-card" style="flex:1">
+            <h3>Avg Spend/User</h3>
+            <p id="avgSpend">$0.00</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Commit 7: Earnings Chart -->
+      <section class="form-card" aria-labelledby="earningsChartHeading">
+        <h2 id="earningsChartHeading">Earnings Over Last 7 Days</h2>
+        <canvas id="earningsChart" width="400" height="200"></canvas>
+      </section>
+
+      <!-- Commit 8: Transactions Backup -->
+      <section class="form-card" aria-labelledby="backupHeading">
+        <h2 id="backupHeading">Download Analytics Snapshot</h2>
+        <button class="glow-btn" onclick="downloadAnalytics()">Download HTML Report</button>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Commit 9: Footer injected via main.js -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Commit 10: Scripts -->
+  <script src="js/particles.min.js" defer></script>
+  <script type="module" src="js/main.js" defer></script>
+  <script type="module" src="js/analytics.js" defer></script>
+</body>
+</html>

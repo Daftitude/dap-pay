@@ -1,118 +1,58 @@
+<!-- balance.html -->
 <!DOCTYPE html>
-<html lang="en"> <!-- Corrected opening tag -->
+<html lang="en">
+
 <head>
+  <!-- Commit 1: Meta & Stylesheet -->
   <meta charset="UTF-8">
-  <title>DAP⚡Pay | Balance</title>
-
-  <!-- External Styles -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Responsive Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | Balance</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body> <!-- Corrected: no invalid <> -->
+<body>
+  <!-- Commit 2: Nav injected via main.js -->
+  <div id="nav-placeholder"></div>
 
-<!-- Particle Background -->
-<div id="particles-js"></div>
+  <!-- Commit 3: Particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
 
-<!-- ======= Navbar ======= -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="dap-logo">DAP⚡Pay</div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="nav-links" id="navLinks">
-      <a href="dashboard.html">🏠 Dashboard</a>
-      <a href="add-funds.html">➕ Add Funds</a>
-      <a href="balance.html">💰 Balance</a>
-      <a href="pay-game.html">🎱 Pay Game</a>
-      <a href="login.html" onclick="logout()">🚪 Logout</a>
+  <!-- Commit 4: Main content -->
+  <main role="main">
+    <div class="page-wrapper">
+
+      <!-- Page Title -->
+      <h1 class="hero-title">💰 Your Wallet Balance</h1>
+
+      <!-- Balance Card -->
+      <div class="balance-card">
+        <h2 id="walletBalance">$0.00</h2>
+        <p>Available Balance</p>
+      </div>
+
+      <!-- Last Deposit Info -->
+      <section class="form-card" aria-labelledby="lastDepositHeading">
+        <h2 id="lastDepositHeading" class="sr-only">Last Deposit</h2>
+        <p id="lastDeposit" style="color: #ccc; text-align: center;">
+          No deposits yet.
+        </p>
+      </section>
+
+      <!-- Quick Links -->
+      <div class="payment-options">
+        <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
+        <button onclick="location.href='dashboard.html'">🏠 Dashboard</button>
+      </div>
+
     </div>
-  </div>
-</nav>
+  </main>
 
-<!-- ======= Main Content ======= -->
-<div class="dashboard-wrapper">
+  <!-- Commit 5: Footer injected via main.js -->
+  <div id="footer-placeholder"></div>
 
-  <!-- Page Title -->
-  <h1 class="dashboard-welcome">💰 Your Wallet Balance</h1>
-
-  <!-- Wallet Balance Display -->
-  <div class="balance-card">
-    <h2 id="walletBalance">$0.00</h2>
-    <p>Available Funds</p>
-  </div>
-
-  <!-- Info Tip -->
-  <div class="form-card" style="margin-top: 20px; text-align: center;">
-    <p style="color: #ccc;">💡 Tip: Keep your balance above $5 to keep playing uninterrupted!</p>
-  </div>
-
-  <!-- Back Button -->
-  <div style="margin-top: 30px; text-align: center;">
-    <button class="glow-btn secondary" onclick="goDashboard()">⬅️ Back to Dashboard</button>
-  </div>
-
-</div>
-
-<!-- ======= Scripts ======= -->
-
-<!-- Particles.js Background -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<!-- Popup System -->
-<script src="js/popup.js"></script>
-
-<!-- Toast System -->
-<script src="js/toast.js"></script>
-
-<script>
-// Initialize Particles once
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
-    "color": { "value": "#0CC7F6" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4, "random": true },
-    "size": { "value": 3, "random": true },
-    "line_linked": { "enable": true, "distance": 150, "color": "#0CC7F6", "opacity": 0.3, "width": 1 },
-    "move": { "enable": true, "speed": 1 }
-  },
-  "retina_detect": true
-});
-
-// Toggle Mobile Menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('show');
-}
-
-// Go back to Dashboard
-function goDashboard() {
-  window.location.href = "dashboard.html";
-}
-
-// Load User and Show Balance
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let currentUser = localStorage.getItem('currentUser');
-
-if (!currentUser) {
-  window.location.href = "login.html";
-}
-
-let user = users.find(u => u.username === currentUser);
-
-if (user) {
-  document.getElementById('walletBalance').textContent = `$${user.balance.toFixed(2)}`;
-} else {
-  document.getElementById('walletBalance').textContent = '$0.00';
-}
-
-// Logout
-function logout() {
-  localStorage.removeItem('currentUser');
-  window.location.href = "login.html";
-}
-</script>
-
+  <!-- Commit 6: Scripts -->
+  <script src="js/particles.min.js" defer></script>
+  <script type="module" src="js/main.js" defer></script>
+  <script type="module" src="js/balance.js" defer></script>
 </body>
 </html>

@@ -117,4 +117,30 @@ function toggleMenu() {
       window.location.href = "dashboard.html";
     }, 2000);
   }
+  document.addEventListener('DOMContentLoaded', () => {
+    const steps = Array.from(document.querySelectorAll('.form-step'));
+    let current = 0;
+  
+    function showStep(idx) {
+      steps.forEach((fs, i) =>
+        fs.classList.toggle('form-step-active', i === idx)
+      );
+    }
+  
+    document.querySelectorAll('.btn-next').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (current < steps.length - 1) {
+          showStep(++current);
+        }
+      });
+    });
+  
+    document.querySelectorAll('.btn-prev').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (current > 0) {
+          showStep(--current);
+        }
+      });
+    });
+  });
   

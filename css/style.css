@@ -5,91 +5,23 @@
   box-sizing: border-box;
 }
 
-/* Commit 18: Screen-reader only utility */
+/* ========== UTILITY CLASSES ========== */
+/* Screen-reader only */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
 }
 
-/* ========== LOGIN + SIGNUP FORM STYLING ========== */
-/* Commit 20: Darker glass + lift above background */
-.form-card {
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 15px;
-  padding: 40px 30px;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 150px; /* Push down below navbar */
-  text-align: center;
-}
-
-/* Commit 16: Center form under heading */
-.login-wrapper .form-card,
-.signup-wrapper .form-card {
-  margin-top: 1rem !important;
-}
-
-/* ========== RESPONSIVE FORM ========== */
-@media (max-width: 768px) {
-  .form-card {
-    padding: 30px 20px;
-  }
-}
-
-/* Commit 17: Global password-toggle styling */
-.password-field {
-  position: relative;
-}
-.password-field .toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #ccc;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.password-field .toggle-password:focus {
-  outline: none;
-}
-
-/* ========== INPUT FIELDS ========== */
-.input-field {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid #0CC7F6;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-}
-.input-field::placeholder {
-  color: #ccc;
-}
-
 /* ========== NAVBAR (Commit 27) ========== */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
+  top: 0; left: 0;
+  width: 100%; height: 60px;
   background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
@@ -97,10 +29,8 @@
   z-index: 1000;
 }
 .nav-container {
-  max-width: 1200px;
-  width: 100%;
-  display: flex;
-  align-items: center;
+  max-width: 1200px; width: 100%;
+  display: flex; align-items: center;
   justify-content: space-between;
   padding: 0 20px;
 }
@@ -110,62 +40,41 @@
   text-shadow: 0 0 8px #0CC7F6;
 }
 .nav-links {
-  display: flex;
-  gap: 1.5rem;
+  display: flex; gap: 1.5rem;
 }
 .nav-links a {
   color: #fff;
   text-decoration: none;
   font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  display: flex; align-items: center; gap: 0.25rem;
   transition: color 0.3s;
 }
-.nav-links a:hover {
-  color: #0CC7F6;
-}
-.nav-icon.new-badge {
-  font-size: 0.9rem;
+.nav-links a:hover, .nav-links a.active {
+  color: #FFC857;
+  font-weight: bold;
 }
 .hamburger {
   display: none;
   font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: #0CC7F6;
-  cursor: pointer;
+  background: none; border: none;
+  color: #0CC7F6; cursor: pointer;
 }
-
-/* ========== MOBILE NAV ========== */
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
+  .hamburger { display: block; }
   .nav-links {
     display: none;
     position: absolute;
-    top: 60px;
-    right: 20px;
+    top: 60px; right: 20px;
     background: #111;
     flex-direction: column;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.7);
   }
-  .nav-links.show {
-    display: flex;
-  }
-  .nav-links a {
-    padding: 8px 12px;
-    border-radius: 4px;
-  }
-  .nav-links a:not(:last-child) {
-    margin-bottom: 4px;
-  }
+  .nav-links.show { display: flex; }
 }
 
-/* ========== BODY + BACKGROUND ========== */
+/* ========== BODY & PARTICLES ========== */
 body {
   font-family: 'Inter', sans-serif;
   background: #0b0c10;
@@ -176,18 +85,16 @@ body {
 }
 #particles-js {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   z-index: -1;
 }
 
-/* ========== WRAPPER ========== */
+/* ========== PAGE WRAPPER ========== */
 .page-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
-  max-width: 1200px;
+  width: 90%; max-width: 1200px;
   margin: 0 auto;
   padding-top: 100px;
 }
@@ -214,8 +121,7 @@ body {
   content: '';
   position: absolute;
   left: 50%;
-  width: 90%;
-  height: 1px;
+  width: 90%; height: 1px;
   background: linear-gradient(to right, #0CC7F6, #0CC7F6);
   opacity: 0.2;
   transform: translateX(-50%);
@@ -249,7 +155,36 @@ body {
   flex-wrap: wrap;
 }
 
-/* ========== GLOW BUTTON ========== */
+/* ========== FORM WRAPPERS ========== */
+/* SIGNUP WRAPPER (outer container) */
+.signup-wrapper {
+  max-width: 420px;
+  margin: 6rem auto 4rem;
+  background: rgba(0, 0, 0, 0);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
+  position: relative;
+  z-index: 1;
+}
+/* FORM-CARD (inner glass panel) */
+.form-card {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 2;
+}
+.signup-wrapper form fieldset {
+  border: none;
+  margin: 0; padding: 0;
+}
+
+/* ========== GLOW BUTTONS ========== */
 .glow-btn {
   background: #0CC7F6;
   color: black;
@@ -275,6 +210,21 @@ body {
 .glow-btn.secondary:hover {
   background: #0CC7F6;
   color: black;
+}
+
+/* ========== INPUT FIELDS ========== */
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #0CC7F6;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+}
+.input-field::placeholder {
+  color: #ccc;
 }
 
 /* ========== FEATURES SECTION ========== */
@@ -331,8 +281,7 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .mobile-cta .qr-code-placeholder {
-  width: 150px;
-  height: 150px;
+  width: 150px; height: 150px;
   background: #ccc;
   display: flex;
   align-items: center;
@@ -354,174 +303,276 @@ body {
 /* ========== RESPONSIVE DESIGN ========== */
 /* Under 768px */
 @media (max-width: 768px) {
-  .hero-title { font-size: 2rem; }
+  .hero-title            { font-size: 2rem; }
   .features-list,
-  .testimonials-list { font-size: 1rem; }
-  .glow-btn { width: 100%; text-align: center; }
-  .hero-buttons { flex-direction: column; gap: 10px; }
-  .payment-options,
-  .transaction-history,
-  .balance-card { width: 90%; }
+  .testimonials-list     { font-size: 1rem; }
+  .glow-btn              { width: 100%; text-align: center; }
+  .hero-buttons          { flex-direction: column; gap: 10px; }
 }
 /* Under 480px */
 @media (max-width: 480px) {
-  .hero-glass { min-height: 50vh; padding: 2rem 1rem; }
-  .hero-title { font-size: 1.5rem; }
-  .hero-subtitle { font-size: 1rem; }
-  .hero-buttons { gap: 0.75rem; }
-  .features-list { gap: 1rem; }
-  .features-section h2 { font-size: 1.75rem; }
+  .hero-glass            { min-height: 50vh; padding: 2rem 1rem; }
+  .hero-title            { font-size: 1.5rem; }
+  .hero-subtitle         { font-size: 1rem; }
+  .hero-buttons          { gap: 0.75rem; }
+  .features-list         { gap: 1rem; }
+  .features-section h2   { font-size: 1.75rem; }
   .testimonials-section h2 { font-size: 1.75rem; }
-  .testimonials-list { gap: 0.75rem; font-size: 1rem; }
-  .mobile-tease-content { flex-direction: column; }
-  .mobile-image img { width: 100%; max-width: 300px; }
+  .testimonials-list     { gap: 0.75rem; font-size: 1rem; }
+  .mobile-tease-content  { flex-direction: column; }
+  .mobile-image img      { width: 100%; max-width: 300px; }
   .mobile-cta .qr-code-placeholder { width: 120px; height: 120px; }
   .mobile-tease-section p,
-  .mobile-cta p { font-size: 0.9rem; }
+  .mobile-cta p          { font-size: 0.9rem; }
 }
-
-/* ========== DASHBOARD & TRANSACTION STYLING ========== */
+/* ========== DASHBOARD & TRANSACTION STYLING (Commit 38) ========== */
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 120px 20px 50px;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px; margin: 0 auto;
 }
 .dashboard-welcome {
-  font-size: 2rem;
-  color: #0CC7F6;
-  margin-bottom: 30px;
-  text-align: center;
+  font-size: 2rem; color: #0CC7F6;
+  margin-bottom: 30px; text-align: center;
 }
 .balance-card {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 30px 40px;
+  border-radius: 12px; padding: 30px 40px;
   text-align: center;
   box-shadow: 0 0 15px #0CC7F6;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 400px;
+  margin-bottom: 30px; width: 100%; max-width: 400px;
 }
-.balance-card h2 {
-  color: #FFC857;
-  margin-bottom: 10px;
-  font-size: 2rem;
-}
-.balance-card p {
-  font-size: 1.2rem;
-  color: white;
-}
-.payment-options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-.payment-options button {
-  width: 200px;
-  background: #0CC7F6;
-  color: black;
-  border: none;
-  padding: 14px 0;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #0CC7F6;
-}
-.payment-options button:hover {
-  background: #0aa6d1;
-  transform: scale(1.05);
-}
+.balance-card h2 { color: #FFC857; margin-bottom: 10px; font-size: 2rem; }
+.balance-card p  { font-size: 1.2rem; color: white; }
 .transaction-history {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 600px;
-  margin-bottom: 50px;
+  border-radius: 12px; padding: 30px;
+  max-width: 600px; margin-bottom: 50px;
   box-shadow: 0 0 10px #0CC7F6;
 }
 .transaction-history h3 {
-  margin-bottom: 20px;
-  color: #FFC857;
+  margin-bottom: 20px; color: #FFC857;
   text-align: center;
 }
 .transaction-item {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px 20px;
-  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  padding: 15px 20px; border-radius: 8px;
   margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
+  display: flex; justify-content: space-between;
   font-size: 0.95rem;
 }
 .logout-btn {
   margin-top: 30px;
-  background: transparent;
-  color: #ff6666;
-  border: 2px solid #ff6666;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+  background: transparent; color: #ff6666;
+  border: 2px solid #ff6666; padding: 10px 20px;
+  border-radius: 8px; cursor: pointer;
   font-weight: bold;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 .logout-btn:hover {
-  background: #ff6666;
-  color: black;
-  transform: scale(1.05);
+  background: #ff6666; color: black; transform: scale(1.05);
 }
 @media (max-width: 768px) {
-  .payment-options { flex-direction: column; }
-  .payment-options button { width: 100%; }
-  .balance-card,
-  .transaction-history { width: 90%; }
+  .transaction-item { flex-direction: column; gap: .5rem; align-items: center; }
 }
 
-/* ========== FOOTER STYLE ========== */
+/* ========== PROGRESS BAR (Commit 35) ========== */
+.progressbar {
+  position: relative; display: flex;
+  justify-content: space-between; align-items: center;
+  margin-bottom: 2rem; counter-reset: step;
+}
+.progressbar::before {
+  content: ''; position: absolute;
+  top: 50%; left: 1rem; right: 1rem;
+  height: 2px; background: #333; z-index: 0;
+}
+.progress-step {
+  position: relative; flex: 1; min-width: 80px;
+  text-align: center; z-index: 1;
+}
+.progress-step::before {
+  counter-increment: step;
+  content: counter(step);
+  width: 2.2rem; height: 2.2rem;
+  line-height: 2.2rem;
+  border: 2px solid #0CC7F6;
+  display: inline-block; border-radius: 50%;
+  background: #111; color: #ccc;
+}
+.progress-step::after {
+  content: attr(data-title);
+  display: block; margin-top: 0.5rem;
+  font-size: 0.85rem; color: #ccc;
+}
+.progress-step-active::before,
+.progress-step-completed::before {
+  background: #0CC7F6; color: black; border-color: #0CC7F6;
+}
+.progress-step-active::after,
+.progress-step-completed::after {
+  color: #0CC7F6; font-weight: bold;
+}
+
+/* ========== SIGNUP WIZARD BUTTONS (Commit 32/33/34) ========== */
+.btn-group {
+  display: flex; justify-content: space-between; margin-top: 2rem;
+}
+.btn-next, .btn-prev {
+  background: #0CC7F6; color: black;
+  padding: .75rem 1.5rem; border: none;
+  border-radius: 8px; cursor: pointer;
+  transition: background 0.3s;
+}
+.btn-next:hover, .btn-prev:hover {
+  background: #0aa6d1;
+}
+
+/* ========== PAY-GAME PAGE STYLES (Commit 39/40/41/43) ========== */
+/* Tabs */
+.tabs {
+  display: flex; justify-content: center;
+  gap: 1rem; margin: 2rem 0 1rem;
+}
+.tab-btn {
+  background: transparent; border: none;
+  color: #ccc; font-size: 1rem;
+  padding: .5rem 1rem; cursor: pointer;
+  position: relative; transition: color 0.3s;
+}
+.tab-btn.tab-active {
+  color: #0CC7F6;
+}
+.tab-btn.tab-active::after {
+  content: ''; position: absolute;
+  bottom: -4px; left:0; right:0;
+  height:2px; background:#0CC7F6;
+}
+
+/* Tables grid: two columns, fill down then across */
+.tables-grid .table-list {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-auto-flow: column;
+  gap: 1rem;
+}
+@media (max-width: 480px) {
+  .tables-grid .table-list {
+    grid-template-columns: 1fr;
+  }
+}
+.table-item {
+  background: rgba(0,0,0,0.5);
+  border: 2px solid #0CC7F6;
+  padding: 1rem; border-radius: 8px;
+  color: #ccc; text-align:center;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.table-item:hover {
+  background: rgba(12,199,246,0.1);
+  transform: translateY(-3px);
+}
+.table-item.selected {
+  background: #0CC7F6; color: black;
+  box-shadow:0 4px 15px rgba(12,199,246,0.6);
+}
+
+/* Mode + Wager panel */
+.mode-wager-panel {
+  max-width: 450px; margin: 0 auto 3rem;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(12,199,246,0.7);
+  padding: 2rem; text-align:center;
+}
+.mode-buttons {
+  display: flex; justify-content:center; gap:1rem;
+  margin-bottom:1.5rem;
+}
+.mode-btn {
+  padding:.75rem 1.5rem; font-size:1rem;
+  border:2px solid #0CC7F6; border-radius:8px;
+  cursor:pointer; transition:background .3s, color .3s;
+}
+.mode-btn.mode-active {
+  background:#0CC7F6; color:black;
+  box-shadow:0 0 10px #0CC7F6;
+}
+.mode-btn:not(.mode-active) {
+  background:transparent; color:#0CC7F6;
+}
+.mode-btn:not(.mode-active):hover {
+  background:rgba(12,199,246,0.1);
+}
+.wager-panel {
+  max-width:400px; margin:0 auto;
+  display:flex; flex-direction:column; gap:1rem;
+}
+.wager-panel label {
+  color:white; font-weight:bold; margin-bottom:.5rem;
+}
+.wager-panel .input-field {
+  margin-bottom:0;
+}
+#confirmBtn {
+  width:auto; align-self:center; margin-top:1rem;
+}
+
+/* Summary panel */
+.summary-panel {
+  max-width:450px; margin:0 auto 2rem;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius:1rem;
+  box-shadow:0 0 20px rgba(12,199,246,0.7);
+  padding:1.5rem 2rem;
+  position: relative; z-index:1;
+  color:#ccc;
+}
+.summary-panel h2 {
+  margin-bottom:1rem;
+  color:#0CC7F6; font-size:1.25rem;
+}
+.summary-panel p {
+  margin:0.5rem 0; font-size:1rem;
+}
+.summary-panel strong {
+  color:#FFC857;
+}
+
+/* ========== FOOTER ========== */
 .footer-glass {
   background: #11121a;
-  backdrop-filter: none;
   padding: 50px 20px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1),
-              0 -2px 10px rgba(0,0,0,0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 -2px 10px rgba(0,0,0,0.25);
   text-align: left;
 }
 .footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 40px;
+  max-width: 1200px; margin: 0 auto;
 }
 .footer-column {
-  flex: 1 1 250px;
-  min-width: 200px;
+  flex: 1 1 250px; min-width: 200px;
 }
 .footer-column h4 {
-  color: #0CC7F6;
-  margin-bottom: 12px;
+  color: #0CC7F6; margin-bottom: 12px;
 }
 .footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style: none; padding: 0; margin: 0;
 }
 .footer-links li {
   margin-bottom: 8px;
 }
 .footer-links li a {
-  color: #ccc;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  color: #ccc; text-decoration: none;
+  display: inline-flex; align-items:center; gap:0.5rem;
   transition: color 0.3s;
 }
 .footer-links li a:hover {
@@ -541,66 +592,21 @@ body {
     margin-bottom: 20px;
   }
 }
-
-/* ========== PROGRESS BAR FIX (Commit 35) ========== */
-.progressbar {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  counter-reset: step;
+/* Commit: allow clicks through the particles canvas */
+#particles-js,
+#particles-js canvas {
+  pointer-events: none;
 }
-.progressbar::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  right: 1rem;
-  height: 2px;
-  background: #333;
-  z-index: 0;
-}
-.progress-step {
+/* Commit: lift core containers above the canvas */
+.page-wrapper,
+.paygame-grid,
+.hero-glass,
+.form-card,
+.summary-panel {
   position: relative;
-  flex: 1;
-  min-width: 80px;
-  text-align: center;
   z-index: 1;
 }
-.progress-step::before {
-  counter-increment: step;
-  content: counter(step);
-  width: 2.2rem;
-  height: 2.2rem;
-  line-height: 2.2rem;
-  border: 2px solid #0CC7F6;
-  display: inline-block;
-  border-radius: 50%;
-  background: #111;
-  color: #ccc;
-}
-.progress-step::after {
-  content: attr(data-title);
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #ccc;
-  white-space: nowrap;
-}
-.progress-step-active::before,
-.progress-step-completed::before {
-  background: #0CC7F6;
-  color: black;
-  border-color: #0CC7F6;
-}
-.progress-step-active::after,
-.progress-step-completed::after {
-  color: #0CC7F6;
-  font-weight: bold;
-}
-
-/* ========== SIGNUP WIZARD STYLES (Commit 32) ========== */
+/* ========== SIGNUP WIZARD ========== */
 .form-step {
   display: none;
 }
@@ -614,283 +620,23 @@ body {
 }
 .btn-next,
 .btn-prev {
-  background: #0CC7F6;
-  color: black;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
 }
+.btn-next {
+  background: #0CC7F6;
+  color: black;
+}
+.btn-prev {
+  background: transparent;
+  color: #0CC7F6;
+  border: 2px solid #0CC7F6;
+}
 .btn-next:hover,
 .btn-prev:hover {
   background: #0aa6d1;
-}
-
-/* ========== SIGNUP PANEL WRAPPER (Commit 33) ========== */
-.signup-wrapper {
-  max-width: 400px;
-  margin: 6rem auto 4rem;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  position: relative;
-  z-index: 10;
-  padding: 2rem;
-  text-align: center;
-}
-.signup-wrapper .form-card {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin: 0;
-  padding: 0;
-}
-
-/* ========== WIZARD OVERRIDES (Commit 34) ========== */
-.signup-wrapper form fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-/* ========== DASHBOARD ENHANCEMENTS (Commit 38) ========== */
-/* Hero section on dashboard */
-.hero-section {
-  text-align: center;
-  margin-bottom: 60px;
-}
-.hero-section .hero-title {
-  font-size: 2.5rem;
-  color: #0CC7F6;
-  margin-bottom: 0.5rem;
-}
-.hero-section .hero-subtitle {
-  font-size: 1rem;
-  color: #ccc;
-  margin-bottom: 1.5rem;
-}
-
-/* Last‐payment & Quick‐stats cards */
-.last-payment,
-.quick-stats {
-  margin-top: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 10px #0CC7F6;
-}
-.last-payment h3,
-.quick-stats h3 {
-  margin-bottom: 12px;
-  color: #FFC857;
-  text-align: center;
-}
-
-/* Empty‐state messaging */
-.empty-state {
-  color: #ccc;
-  text-align: center;
-  font-style: italic;
-  padding: 1rem 0;
-}
-
-/* Transaction items (mobile wrap) */
-@media (max-width: 480px) {
-  .transaction-item {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-  }
-}
-
-/* Highlight the active nav link */
-.nav-links a.active {
-  color: #FFC857;
-  font-weight: bold;
-}
-/* ========== PAY-GAME PAGE STYLES (Commit 39) ========== */
-
-/* Tabs */
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 2rem 0 1rem;
-}
-.tab-btn {
-  background: transparent;
-  border: none;
-  color: #ccc;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  position: relative;
-  transition: color 0.3s;
-}
-.tab-btn.tab-active {
-  color: #0CC7F6;
-}
-.tab-btn.tab-active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #0CC7F6;
-}
-
-/* Tables grid */
-.tables-grid {
-  margin-bottom: 2rem;
-}
-.table-list {
-  display: grid;
-  /* Two columns, filling down then across: tables 1–5 in col 1, 6–10 in col 2 */
-  grid-template-columns: 1fr 1fr;
-  grid-auto-flow: column;
-  grid-auto-rows: auto;
-  gap: 1rem;
-}
-
-.table-item {
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid #0CC7F6;
-  padding: 1rem;
-  border-radius: 8px;
-  color: #ccc;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s, transform 0.2s;
-}
-.table-item:hover {
-  background: rgba(12, 199, 246, 0.1);
-}
-.table-item.selected {
-  background: #0CC7F6;
   color: black;
-}
-
-/* Wager Panel */
-.wager-panel {
-  max-width: 400px;
-  margin: 0 auto 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.wager-panel label {
-  color: white;
-  font-weight: bold;
-}
-.wager-panel .input-field {
-  margin-bottom: 0;
-}
-#wagerAmount {
-  /* ensure full width */
-}
-#confirmBtn {
-  align-self: center;
-  width: auto;
-}
-
-/* Highlight active nav link */
-.nav-links a.active {
-  color: #FFC857;
-  font-weight: bold;
-}
-
-/* Mobile tweaks */
-@media (max-width: 480px) {
-  .table-list {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
-  .tabs {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-}
-/* ========== MODE + WAGER PANEL (Commit 41) ========== */
-.mode-wager-panel {
-  max-width: 450px;
-  margin: 0 auto 3rem;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12,199,246,0.7);
-  padding: 2rem;
-  text-align: center;
-}
-
-/* ensure mode-buttons and wager-panel stack nicely */
-.mode-wager-panel .mode-buttons {
-  margin-bottom: 1.5rem;
-}
-
-.mode-wager-panel .wager-panel {
-  margin: 0;
-}
-/* ========== PAY-GAME MODE BUTTONS (Commit 40) ========== */
-.mode-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.mode-btn {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 2px solid #0CC7F6;
-  background: #0CC7F6;
-  color: black;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-
-.mode-btn:hover {
-  background: #0aa6d1;
-}
-
-.mode-btn.mode-active {
-  /* active styling */
-  background: #0CC7F6;
-  color: black;
-  box-shadow: 0 0 10px #0CC7F6;
-}
-
-.mode-btn:not(.mode-active) {
-  /* inactive styling */
-  background: transparent;
-  color: #0CC7F6;
-}
-
-.mode-btn:not(.mode-active):hover {
-  background: rgba(12,199,246,0.1);
-}
-
-/* ========== PAY-GAME SUMMARY PANEL (Commit 43) ========== */
-.summary-panel {
-  max-width: 450px;
-  margin: 0 auto 2rem;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12,199,246,0.7);
-  padding: 1.5rem 2rem;
-  color: #ccc;
-}
-.summary-panel h2 {
-  margin-bottom: 1rem;
-  color: #0CC7F6;
-  font-size: 1.25rem;
-}
-.summary-panel p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-}
-.summary-panel strong {
-  color: #FFC857;
 }

@@ -3,72 +3,36 @@
 <html lang="en">
 
 <head>
-  <!-- Commit 1: Best-practice head ordering -->
+  <!-- Commit 1: Meta & external stylesheet -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DAP⚡Pay | Pool League Wallet</title>
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Commit 2: Override hero to peek next sections and make fade-in sections visible immediately -->
-  <style>
-    .hero-glass {
-      /* was 100vh; now peeks below fold */
-      min-height: 60vh;
-    }
-    .fade-in {
-      /* show immediately for prototyping */
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  </style>
 </head>
 
-<body>
-  <!-- Commit 3: Navbar landmark with toggle -->
-  <header role="banner">
-    <nav class="navbar" aria-label="Main Navigation">
-      <div class="nav-container">
-        <div class="dap-logo">DAP⚡Pay</div>
-        <button
-          class="hamburger"
-          aria-expanded="false"
-          aria-controls="navLinks"
-          onclick="toggleMenu()"
-        >☰</button>
-        <div class="nav-links" id="navLinks">
-          <a href="login.html">🔑 Login</a>
-          <a href="signup.html">🆕 Join Now</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+<!-- Commit 2: Nav injected via main.js -->
 
-  <!-- Commit 4: Decorative particles background with aria-hidden -->
+<body data-flavor="public">
+  <div id="nav-placeholder"></div>
+
+  <!-- Commit 3: Particles background -->
   <div id="particles-js" aria-hidden="true"></div>
 
-  <!-- Commit 5: Hero section wrapped in <header> landmark -->
+  <!-- Commit 4: Hero section -->
   <header class="hero-glass" role="banner">
     <h1 class="hero-logo">DAP⚡Pay</h1>
     <h2 class="hero-title">Pool League Payments. Reinvented.</h2>
     <p class="hero-subtitle">Load. Play. Track. Win.</p>
     <div class="hero-buttons">
-      <!-- Commit 6: Added Join Today CTA -->
-      <button class="glow-btn" onclick="location.href='signup.html'">
-        Join Today 🚀
-      </button>
-      <button class="glow-btn" onclick="location.href='login.html'">
-        Login 📲
-      </button>
-      <button class="glow-btn secondary" onclick="scrollToFeatures()">
-        Learn More 👇
-      </button>
+      <button class="glow-btn" onclick="location.href='login.html'">Login 📲</button>
+      <button class="glow-btn secondary" id="learnMoreBtn">Learn More 👇</button>
     </div>
   </header>
 
-  <!-- Commit 7: Main content wrapped in <main> landmark -->
+  <!-- Commit 5: Main content -->
   <main role="main">
-    <!-- Commit 8: Features section with aria-labelledby and id for scroll -->
-    <section class="features-section fade-in" aria-labelledby="featuresHeading" id="features">
+    <!-- Features -->
+    <section id="features" class="features-section fade-in" aria-labelledby="featuresHeading">
       <h2 id="featuresHeading">Why Players Love DAP⚡Pay</h2>
       <div class="features-list">
         <div>💳 <strong>Tap & Play</strong> — No cash, no waiting</div>
@@ -78,7 +42,7 @@
       </div>
     </section>
 
-    <!-- Commit 9: Mobile tease section to highlight mobile-friendly design -->
+    <!-- Mobile tease -->
     <section class="mobile-tease-section fade-in" aria-labelledby="mobileHeading">
       <h2 id="mobileHeading">Use DAP⚡Pay Anywhere</h2>
       <p>Fully optimized for mobile phones and venue tablets. Scan the QR code to try it now.</p>
@@ -93,7 +57,7 @@
       </div>
     </section>
 
-    <!-- Commit 10: Testimonials section added -->
+    <!-- Testimonials -->
     <section class="testimonials-section fade-in" aria-labelledby="testimonialsHeading">
       <h2 id="testimonialsHeading">What Players Are Saying</h2>
       <div class="testimonials-list">
@@ -103,77 +67,16 @@
     </section>
   </main>
 
-  <!-- Commit 11: Unified footer design -->
-  <footer id="site-footer" class="footer-glass" role="contentinfo">
-    <div class="footer-content">
-      <div class="footer-column">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">🏠 Home</a></li>
-          <li><a href="signup.html">🚀 Join Now</a></li>
-          <li><a href="login.html">🔑 Login</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Contact Us</h4>
-        <p>📧 <a href="mailto:info@daftitall.com">info@daftitall.com</a></p>
-        <p>📞 +1 (234) 567-890</p>
-        <p>📍 Fayetteville, NC</p>
-      </div>
-      <div class="footer-column">
-        <h4>Follow Us</h4>
-        <p style="font-size: 1.5rem;">🌐 🐦 📸 💼</p>
-        <p style="margin-top:10px;">
-          ⚡ Powered by <strong>Daftitude</strong><br>
-          © 2025 All Rights Reserved
-        </p>
-      </div>
-    </div>
-  </footer>
+  <!-- Commit 6: Footer injected via main.js -->
+  <div id="footer-placeholder"></div>
 
-  <!-- ========== SCRIPTS & INITIALIZATION ========== -->
-
-  <!-- Commit 12: Load particles.js from CDN with local fallback -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
-  <script>
-    if (typeof particlesJS === 'undefined') {
-      document.write('<script src="js/particles.min.js" defer><\/script>');
-    }
-  </script>
-
-  <!-- Commit 13: Core app scripts deferred -->
-  <script src="js/popup.js" defer></script>
-  <script src="js/signup.js" defer></script>
-  <script src="js/toast.js" defer></script>
-
-  <!-- Commit 14: Smooth scroll and reveal animations -->
-  <script>
-    // Toggle mobile menu
-    function toggleMenu() {
-      const navLinks = document.getElementById('navLinks');
-      const expanded = navLinks.classList.toggle('show');
-      document.querySelector('.hamburger').setAttribute('aria-expanded', expanded);
-    }
-
-    // Smooth scroll to features
-    function scrollToFeatures() {
-      document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Reveal on scroll animation
-    const faders = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    faders.forEach(el => observer.observe(el));
-  </script>
-
-  <!-- Commit 15: Optional internal style tweaks for fade-in -->
-  <style>
-    .fade-in { opacity: 0; transform: translateY(20px); transition: 0.8s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-  </style>
+  <!-- Commit 7: Scripts -->
+  <!-- 1) Particles background library -->
+  <script src="js/particles.min.js" defer></script>
+  <!-- 2) Main injector (headers, footers, nav toggle, particles init) -->
+  <script type="module" src="js/main.js" defer></script>
+  <!-- 3) Page-specific logic -->
+  <script type="module" src="js/index.js" defer></script>
 </body>
+
 </html>
