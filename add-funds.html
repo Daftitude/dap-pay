@@ -1,80 +1,87 @@
-<!-- add-funds.html -->
+<!-- add‐funds.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <!-- Commit 1: Meta & external stylesheet -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DAP⚡Pay | Add Funds</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
 </head>
-
-
-<!-- Commit 2: Nav injected via main.js -->
-
 <body data-flavor="app">
   <div id="nav-placeholder"></div>
-
-  <!-- Commit 3: Particles background -->
   <div id="particles-js" aria-hidden="true"></div>
 
-  <!-- Commit 4: Main content wrapper -->
-  <main role="main">
-    <div class="page-wrapper">
+  <main class="page-wrapper">
+    <h1 class="hero-title">➕ Add Funds</h1>
 
-      <h1 class="hero-title">➕ Add Funds</h1>
+    <!-- Mode selector -->
+    <div class="mode-buttons" role="group" aria-label="Deposit Method">
+      <button id="fiatBtn" class="mode-btn mode-active">Fiat</button>
+      <button id="cryptoBtn" class="mode-btn">Crypto</button>
+      <button id="bankBtn" class="mode-btn">Bank Transfer</button>
+      <button id="promoBtn" class="mode-btn">Promo Code</button>
+    </div>
 
-      <section class="form-card" aria-labelledby="addFundsHeading">
-        <h2 id="addFundsHeading" class="sr-only">Add Funds to Your Wallet</h2>
+    <!-- Fiat Section -->
+    <section id="fiatSection" class="form-card deposit-section">
+      <form id="addFundsForm">
+        <label for="fiatAmount">Amount (USD)</label>
+        <input type="number" id="fiatAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 25.00">
 
-        <!-- Commit 5: Payment mode toggles -->
-        <div class="mode-buttons" role="group" aria-label="Payment Mode">
-          <button id="fiatBtn" class="mode-btn mode-active">Fiat</button>
-          <button id="cryptoBtn" class="mode-btn">Crypto</button>
-          <button id="otherBtn" class="mode-btn">Other</button>
-        </div>
+        <button id="submitBtn" type="submit" class="glow-btn" disabled>Deposit</button>
+      </form>
+    </section>
 
-        <!-- Commit 6: Mode-specific input sections -->
-        <form id="addFundsForm">
-          <div id="fiatSection" class="funds-section">
-            <label for="fiatAmount">Amount (USD)</label>
-            <input type="number" id="fiatAmount" class="input-field" placeholder="e.g. 25.00" min="1" step="0.01">
-          </div>
+    <!-- Crypto Section -->
+    <section id="cryptoSection" class="form-card deposit-section" hidden>
+      <form id="cryptoForm">
+        <label for="cryptoAmount">Amount (USD)</label>
+        <input type="number" id="cryptoAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 50.00">
+        <label for="walletAddr">Wallet Address</label>
+        <input type="text" id="walletAddr" class="input-field" placeholder="0x...">
 
-          <div id="cryptoSection" class="funds-section" hidden>
-            <label for="cryptoAmount">Amount (Crypto)</label>
-            <input type="number" id="cryptoAmount" class="input-field" placeholder="e.g. 0.005" min="0.0001"
-              step="0.0001">
-            <label for="cryptoType">Currency</label>
-            <select id="cryptoType" class="input-field">
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="ETH">Ethereum (ETH)</option>
-            </select>
-          </div>
+        <button id="cryptoSubmit" type="submit" class="glow-btn" disabled>Deposit</button>
+      </form>
+    </section>
 
-          <div id="otherSection" class="funds-section" hidden>
-            <label for="otherAmount">Enter Other Amount ($10–$200)</label>
-            <input type="number" id="otherAmount" class="input-field" placeholder="10.00" min="10" max="200"
-              step="0.01">
-          </div>
+    <!-- Bank Transfer Section -->
+    <section id="bankSection" class="form-card deposit-section" hidden>
+      <form id="bankForm">
+        <label for="bankAmount">Amount (USD)</label>
+        <input type="number" id="bankAmount" class="input-field" min="5" step="0.01" placeholder="e.g. 100.00">
+        <label for="acctNum">Account Number</label>
+        <input type="text" id="acctNum" class="input-field" placeholder="123456789">
+        <label for="routingNum">Routing Number</label>
+        <input type="text" id="routingNum" class="input-field" placeholder="011000015">
 
-          <!-- Commit 7: Submit button -->
-          <button type="submit" id="submitBtn" class="glow-btn" disabled>
-            Deposit
-          </button>
-        </form>
-      </section>
+        <button id="bankSubmit" type="submit" class="glow-btn" disabled>Deposit</button>
+      </form>
+    </section>
+
+    <!-- Promo Code Section -->
+    <section id="promoSection" class="form-card deposit-section" hidden>
+      <form id="promoForm">
+        <label for="promoCode">Promo Code</label>
+        <input type="text" id="promoCode" class="input-field" placeholder="Enter code">
+        <button id="promoApply" type="button" class="glow-btn">Apply</button>
+        <p id="promoFeedback" class="empty-state"></p>
+      </form>
+    </section>
+
+    <!-- Summary Panel -->
+    <div class="summary-panel">
+      <h2>Summary</h2>
+      <p><strong>Method:</strong> <span id="summaryMethod">Fiat</span></p>
+      <p><strong>Amount:</strong> $<span id="summaryAmount">0.00</span></p>
+      <p><strong>Fees:</strong> $<span id="summaryFees">0.00</span></p>
+      <p><strong>New Balance:</strong> $<span id="summaryBalance">0.00</span></p>
     </div>
   </main>
 
-  <!-- Commit 8: Footer injected via main.js -->
   <div id="footer-placeholder"></div>
 
-  <!-- Commit 9: Scripts -->
   <script src="js/particles.min.js" defer></script>
-  <script src="js/particles-init.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script type="module" src="js/main.js" defer></script>
+  <script src="js/add-funds.js" defer></script>
 </body>
-
 </html>

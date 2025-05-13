@@ -1,0 +1,65 @@
+<!-- game-history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Commit 1: Meta & external stylesheet -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP⚡Pay | History</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-flavor="app">
+
+  <!-- Commit 2: Nav injected via main.js -->
+  <div id="nav-placeholder"></div>
+
+  <!-- Commit 3: Particles background container -->
+  <div id="particles-js" aria-hidden="true"></div>
+
+  <main class="page-wrapper">
+
+    <!-- Commit 4: Page title -->
+    <h1 class="hero-title">📜 History</h1>
+
+    <!-- Commit 5: Search bar -->
+    <div style="max-width:400px; margin:1rem auto;">
+      <input id="historySearch" type="text" class="input-field" placeholder="🔍 Search by table, date, or amount">
+    </div>
+
+    <!-- Commit 6: Tabs for Games vs Deposits -->
+    <div class="tabs" role="tablist" aria-label="History Type">
+      <button class="tab-btn tab-active" data-tab="games" role="tab" aria-selected="true">Game Payments</button>
+      <button class="tab-btn" data-tab="deposits" role="tab" aria-selected="false">Deposits</button>
+    </div>
+
+    <!-- Commit 7: Game Payments panel -->
+    <section id="games" class="tab-panel tab-active" role="tabpanel">
+      <div class="transaction-history">
+        <h3>Game Payments</h3>
+        <div id="gamesList" class="history-list">
+          <!-- JS will inject .transaction-item cards here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Commit 8: Deposits panel -->
+    <section id="deposits" class="tab-panel" role="tabpanel" hidden>
+      <div class="transaction-history">
+        <h3>Deposits</h3>
+        <div id="depositsList" class="history-list">
+          <!-- JS will inject .transaction-item cards here -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Commit 9: Footer injected via main.js -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ========== Scripts ========== -->
+  <script src="js/particles.min.js" defer></script>
+  <script type="module" src="js/main.js" defer></script>
+  <script src="js/game-history.js" defer></script>
+</body>
+</html>

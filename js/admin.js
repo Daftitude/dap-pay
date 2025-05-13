@@ -176,3 +176,18 @@ function adjustBalance() {
   loadBalance('#walletBalanceAdmin');
 }
 window.adjustBalance = adjustBalance;  // for onclick in HTML
+
+// —— Clear all localStorage ——  
+document.getElementById('clearDataBtn').addEventListener('click', () => {
+  if (!confirm(
+    '⚠️ This will permanently delete ALL user accounts, balances, \n' +
+    '     payment history and log you out. Continue?'
+  )) return;
+
+  // wipe everything
+  localStorage.clear();
+
+  // feedback & reload
+  showToast('✅ All data wiped — reloading…');
+  setTimeout(() => location.reload(), 1200);
+});
