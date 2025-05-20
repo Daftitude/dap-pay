@@ -1,8 +1,7 @@
 // js/main.js
 
 // —— HTML Fragment Injection ——
-
-async function injectHTML(url, selector) {
+export async function injectHTML(url, selector) {
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -14,27 +13,20 @@ async function injectHTML(url, selector) {
 }
 
 // —— Particles Init ——
-// Assumes particles.min.js was loaded via <script src="js/particles.min.js" defer>
-function initParticles(containerId = 'particles-js') {
+export function initParticles(containerId = 'particles-js') {
   if (typeof particlesJS !== 'function') {
     console.warn('particlesJS not found — make sure particles.min.js is loaded.');
     return;
   }
   particlesJS(containerId, {
     particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: '#0CC7F6' },
-      shape: { type: 'circle' },
-      opacity: { value: 0.4, random: true },
-      size: { value: 3, random: true },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: '#0CC7F6',
-        opacity: 0.3,
-        width: 1
-      },
-      move: { enable: true, speed: 1 }
+      number:       { value: 80, density: { enable: true, value_area: 800 } },
+      color:        { value: '#0CC7F6' },
+      shape:        { type: 'circle' },
+      opacity:      { value: 0.4, random: true },
+      size:         { value: 3, random: true },
+      line_linked:  { enable: true, distance: 150, color: '#0CC7F6', opacity: 0.3, width: 1 },
+      move:         { enable: true, speed: 1 }
     },
     interactivity: {
       detect_on: 'canvas',
@@ -48,65 +40,54 @@ function initParticles(containerId = 'particles-js') {
   });
 }
 
-// —— Nav Toggle Helper ——  
-function toggleMenu() {
+// —— Nav Toggle Helper ——
+export function toggleMenu() {
   const navLinks = document.getElementById('navLinks');
   if (!navLinks) return;
   const expanded = navLinks.classList.toggle('show');
   document.querySelectorAll('.hamburger')
-    .forEach(btn => btn.setAttribute('aria-expanded', expanded));
+          .forEach(btn => btn.setAttribute('aria-expanded', expanded));
 }
-window.toggleMenu = toggleMenu;
-// —— Logout helper ——
-function logout() {
+
+// —— Logout Helper ——
+export function logout() {
   localStorage.removeItem('currentUser');
   window.location.href = 'login.html';
 }
-window.logout = logout;
 
-// js/index.js
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Smooth-scroll feature reveal
-  const learnBtn = document.getElementById('learnMoreBtn');
-  if (learnBtn) {
-    learnBtn.addEventListener('click', () => {
-      document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-
-  // Fade-in on scroll
-  const faders = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.1 });
-  faders.forEach(el => observer.observe(el));
-});
-
-
-
-// —— Common Bootstrap ——  
-async function initCommon() {
-  // Determine which header/footer to load based on <body data-flavor="...">
+// —— Common Bootstrap ——
+export async function initCommon() {
+  // 1) Inject header & footer based on <body data-flavor="...">
   const flavor = document.body.dataset.flavor || 'index';
-
-  // Inject the matching header and footer
   await Promise.all([
     injectHTML(`includes/header-${flavor}.html`, '#nav-placeholder'),
     injectHTML(`includes/footer-${flavor}.html`, '#footer-placeholder')
   ]);
 
-  // Wire up hamburger menu toggles
+  // 2) Wire up nav toggle & logout
   document.querySelectorAll('.hamburger')
     .forEach(btn => btn.addEventListener('click', toggleMenu));
+  document.querySelectorAll('[data-action="logout"]')
+    .forEach(el  => el.addEventListener('click', logout));
 
-  // Initialize the particles background
+  // 3) Init particles background
   initParticles();
 
-  // (Add any other global startup logic here)
+  // 4) Hook up “Reset Demo” button
+  const resetBtn = document.getElementById('reset-demo');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (!confirm('Are you sure you want to wipe all demo data?')) return;
+      // clear only our demo keys:
+      localStorage.removeItem('users');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('currentUserObj');
+      localStorage.removeItem('paymentHistory');
+      window.showToast?.('🧹 Demo data cleared!', 'success');
+      setTimeout(() => location.reload(), 800);
+    });
+  }
 }
 
-// Run bootstrap on DOM ready
+// —— Bootstrap on DOM ready ——
 document.addEventListener('DOMContentLoaded', initCommon);

@@ -1,6 +1,7 @@
 <!-- dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Commit 1: Meta & Stylesheet -->
   <meta charset="UTF-8">
@@ -32,6 +33,15 @@
         <h2 id="walletBalance">$0.00</h2>
         <p>Available Wallet Balance</p>
       </div>
+      <!-- Profile Card -->
+      <div class="form-card profile-card">
+        <h3>Your Profile</h3>
+        <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        <p><strong>DOB:</strong> <span id="profileDob"></span></p>
+        <p><strong>Address:</strong> <span id="profileAddress"></span></p>
+      </div>
+
 
       <!-- Last Payment Info -->
       <div class="form-card" aria-labelledby="lastPaymentHeading">
@@ -76,4 +86,5 @@
   <script type="module" src="js/main.js" defer></script>
   <script type="module" src="js/dashboard.js" defer></script>
 </body>
+
 </html>

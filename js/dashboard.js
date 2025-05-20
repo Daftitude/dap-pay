@@ -1,15 +1,28 @@
 // js/dashboard.js
 
 import { checkAuth, loadBalance, fmt } from './main.js';
-import { showToast } from './toast.js';
+import { showToast }         from './toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure user is logged in
+  // 1) Make sure someone is logged in
   checkAuth();
 
-  const currentUser = localStorage.getItem('currentUser');
-  // Display username
-  document.getElementById('userName').textContent = currentUser;
+  // 2) Grab the full user object
+  const userJson = localStorage.getItem('currentUserObj');
+  let user;
+  try {
+    user = JSON.parse(userJson);
+  } catch {
+    showToast('⚠️ Could not load your profile.', 'error');
+    return;
+  }
+
+  // 3) Populate the page
+  document.getElementById('userName').textContent        = user.username;
+  document.getElementById('profileUsername').textContent = user.username;
+  document.getElementById('profileEmail').textContent    = user.email;
+  document.getElementById('profileDob').textContent      = user.dob;
+  document.getElementById('profileAddress').textContent  = user.address;
 
   // Load and display wallet balance
   loadBalance('#walletBalance');

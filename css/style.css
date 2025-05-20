@@ -1,93 +1,46 @@
-/* ========== GLOBAL RESET ========== */
-* {
+/* ========== GLOBAL RESET & BASE ========== */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
   scroll-behavior: smooth;
 }
 
-/* ========== UTILITY CLASSES ========== */
-/* Screen-reader only */
-.sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ========== NAVBAR (Commit 27) ========== */
-.navbar {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 60px;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.nav-container {
-  max-width: 1200px; width: 100%;
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-}
-.dap-logo {
-  font-size: 1.8rem;
-  color: #0CC7F6;
-  text-shadow: 0 0 8px #0CC7F6;
-}
-.nav-links {
-  display: flex; gap: 1.5rem;
-}
-.nav-links a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-  display: flex; align-items: center; gap: 0.25rem;
-  transition: color 0.3s;
-}
-.nav-links a:hover, .nav-links a.active {
-  color: #FFC857;
-  font-weight: bold;
-}
-.hamburger {
-  display: none;
-  font-size: 1.5rem;
-  background: none; border: none;
-  color: #0CC7F6; cursor: pointer;
-}
-@media (max-width: 768px) {
-  .hamburger { display: block; }
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 60px; right: 20px;
-    background: #111;
-    flex-direction: column;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.7);
-  }
-  .nav-links.show { display: flex; }
-}
-
-/* ========== BODY & PARTICLES ========== */
 body {
   font-family: 'Inter', sans-serif;
   background: #0b0c10;
   color: white;
   overflow-x: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  /* make body fill screen vertically */
 }
-#particles-js {
+html, body {
+  height: 100%;
+}
+
+main {
+  flex: 1; /* take up all leftover space between header and footer */
+}
+/* ========== UTILITY CLASSES ========== */
+/* Screen-reader only */
+.sr-only {
   position: absolute;
-  width: 100%; height: 100%;
-  z-index: -1;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ========== PAGE WRAPPER ========== */
@@ -95,60 +48,164 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; max-width: 1200px;
+  width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   padding-top: 100px;
 }
 
+/* ========== PARTICLES BACKGROUND ========== */
+#particles-js,
+#particles-js canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.dap-logo {
+  font-size: 1.8rem;
+  color: #0CC7F6;
+  text-shadow: 0 0 8px #0CC7F6;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #FFC857;
+  font-weight: bold;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #0CC7F6;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #111;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+}
+
 /* ========== HERO SECTION ========== */
 .hero-glass {
+  position: relative;
   padding: 100px 30px 80px;
   margin: 100px auto 60px;
   max-width: 900px;
-  border-radius: 25px;
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 25px;
   box-shadow: 0 0 40px rgba(12, 199, 246, 0.3);
   transition: all 0.3s ease;
   animation: fadeIn 1.2s ease-in-out;
-  position: relative;
   min-height: 60vh;
 }
+
 .hero-glass::before,
 .hero-glass::after {
   content: '';
   position: absolute;
   left: 50%;
-  width: 90%; height: 1px;
+  width: 90%;
+  height: 1px;
   background: linear-gradient(to right, #0CC7F6, #0CC7F6);
-  opacity: 0.2;
+  opacity: .2;
   transform: translateX(-50%);
 }
-.hero-glass::before { top: -1px; }
-.hero-glass::after  { bottom: -1px; }
+
+.hero-glass::before {
+  top: -1px;
+}
+
+.hero-glass::after {
+  bottom: -1px;
+}
 
 .hero-logo {
   font-size: 3rem;
   color: #0CC7F6;
   font-weight: bold;
-  text-shadow: 0px 0px 15px #0CC7F6;
+  text-shadow: 0 0 15px #0CC7F6;
 }
+
 .hero-title {
   font-size: 2rem;
   margin-top: 20px;
   color: white;
-  text-shadow: 0 0 5px rgba(255,255,255,0.1);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
   animation: fadeIn 1.2s ease-in forwards;
 }
+
 .hero-subtitle {
   font-size: 1.2rem;
   color: #FFC857;
   margin: 20px 0 40px;
   animation: fadeIn 1.4s ease-in forwards;
 }
+
 .hero-buttons {
   display: flex;
   justify-content: center;
@@ -156,73 +213,50 @@ body {
   flex-wrap: wrap;
 }
 
-/* ========== FORM WRAPPERS ========== */
-/* SIGNUP WRAPPER (outer container) */
-.signup-wrapper {
-  max-width: 420px;
-  margin: 6rem auto 4rem;
-  background: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  position: relative;
-  z-index: 1;
-}
-
-/* FORM-CARD (inner glass panel) */
-.form-card {
-  /* center & constrain width */
-  width: 100%;
-  max-width: 400px;
-  margin: 2rem auto;
-
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 15px;
-  padding: 40px 30px;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.signup-wrapper form fieldset {
-  border: none;
-  margin: 0; padding: 0;
-}
-
-/* ========== GLOW BUTTONS ========== */
+/* ========== BUTTONS ========== */
 .glow-btn {
   background: #0CC7F6;
   color: black;
   padding: 12px 24px;
   font-weight: bold;
   font-size: 1rem;
-  border-radius: 8px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 0 10px #0CC7F6;
+  transition: all 0.3s ease;
 }
+
 .glow-btn:hover {
   background: #0aa6d1;
   transform: scale(1.05);
   box-shadow: 0 0 20px #0CC7F6;
 }
+
 .glow-btn.secondary {
   background: transparent;
   border: 2px solid #0CC7F6;
   color: #0CC7F6;
 }
+
 .glow-btn.secondary:hover {
   background: #0CC7F6;
   color: black;
 }
 
-/* ========== INPUT FIELDS ========== */
+/* ========== FORM CARD ========== */
+.form-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 2rem auto;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+
 .input-field {
   width: 100%;
   padding: 12px 15px;
@@ -233,42 +267,348 @@ body {
   color: white;
   font-size: 1rem;
 }
+
 .input-field::placeholder {
   color: #ccc;
 }
 
-/* ========== FEATURES SECTION ========== */
-.features-section {
-  text-align: center;
-  margin-bottom: 80px;
-}
-.features-section h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #0CC7F6;
-}
-.features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  font-size: 1.1rem;
+.password-field {
+  position: relative;
 }
 
-/* ========== TESTIMONIALS SECTION ========== */
-.testimonials-section {
+.password-field .toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ========== SIGNUP WIZARD ========== */
+.signup-wrapper {
+  max-width: 420px;
+  margin: 6rem auto 4rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
+  position: relative;
+  z-index: 1;
+}
+
+.signup-wrapper form fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.progressbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  counter-reset: step;
+}
+
+.progressbar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  right: 1rem;
+  height: 2px;
+  background: #333;
+  z-index: 0;
+}
+
+.progress-step {
+  position: relative;
+  flex: 1;
+  min-width: 80px;
   text-align: center;
-  margin-bottom: 80px;
+  z-index: 1;
 }
-.testimonials-section h2 {
-  font-size: 2rem;
-  color: #FFC857;
-  margin-bottom: 30px;
+
+.progress-step::before {
+  counter-increment: step;
+  content: counter(step);
+  width: 2.2rem;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  border: 2px solid #0CC7F6;
+  border-radius: 50%;
+  background: #111;
+  color: #ccc;
+  display: inline-block;
 }
-.testimonials-list {
+
+.progress-step::after {
+  content: attr(data-title);
+  margin-top: .5rem;
+  display: block;
+  font-size: .85rem;
+  color: #ccc;
+}
+
+.progress-step-active::before,
+.progress-step-completed::before {
+  background: #0CC7F6;
+  color: black;
+  border-color: #0CC7F6;
+}
+
+.progress-step-active::after,
+.progress-step-completed::after {
+  color: #0CC7F6;
+  font-weight: bold;
+}
+
+/* ========== DASHBOARD & TRANSACTIONS ========== */
+.dashboard-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  padding: 120px 20px 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-welcome {
+  font-size: 2rem;
+  color: #0CC7F6;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.balance-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px 40px;
+  text-align: center;
+  box-shadow: 0 0 15px #0CC7F6;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.balance-card h2 {
+  font-size: 2rem;
+  color: #FFC857;
+  margin-bottom: 10px;
+}
+
+.balance-card p {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.transaction-history {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  margin-bottom: 50px;
+  box-shadow: 0 0 10px #0CC7F6;
+}
+
+.transaction-history h3 {
+  text-align: center;
+  color: #FFC857;
+  margin-bottom: 20px;
+}
+
+.transaction-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: .95rem;
+  margin-bottom: 15px;
+}
+
+.logout-btn {
+  display: block;
+  margin: 30px auto 0;
+  background: transparent;
+  color: #ff6666;
+  border: 2px solid #ff6666;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.logout-btn:hover {
+  background: #ff6666;
+  color: black;
+  transform: scale(1.05);
+}
+.profile-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  max-width: 400px;
+  box-shadow: 0 0 15px #0CC7F6;
+  color: #ccc;
+}
+.profile-card h3 {
+  color: #FFC857;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.profile-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* ========== PAY-GAME PAGE ========== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  padding: .5rem 1rem;
+  cursor: pointer;
+  position: relative;
+  transition: color .3s;
+}
+
+.tab-btn.tab-active {
+  color: #0CC7F6;
+}
+
+.tab-btn.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0CC7F6;
+}
+
+.tables-grid .table-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-flow: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .tables-grid .table-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.table-item {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #0CC7F6;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  color: #ccc;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.table-item:hover {
+  background: rgba(12, 199, 246, 0.1);
+  transform: translateY(-3px);
+}
+
+.table-item.selected {
+  background: #0CC7F6;
+  color: black;
+  box-shadow: 0 4px 15px rgba(12, 199, 246, 0.6);
+}
+
+/* Mode + Wager Panel (Pay-Game + Add-Funds share) */
+.mode-wager-panel,
+.deposit-section,
+.summary-panel {
+  max-width: 450px;
+  margin: 0 auto 3rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  color: #ccc;
+}
+
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mode-btn {
+  padding: .75rem 1.5rem;
+  border: 2px solid #0CC7F6;
+  border-radius: 8px;
+  background: transparent;
+  color: #0CC7F6;
+  cursor: pointer;
+  transition: background .3s, color .3s;
+}
+
+.mode-btn.mode-active {
+  background: #0CC7F6;
+  color: black;
+}
+
+.mode-btn:not(.mode-active):hover {
+  background: rgba(12, 199, 246, 0.1);
+}
+
+.wager-panel,
+.deposit-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wager-panel label,
+.deposit-section label {
+  color: #ccc;
+  font-weight: bold;
+}
+
+#confirmBtn,
+#submitBtn,
+#cryptoSubmit,
+#bankSubmit {
+  margin-top: 1rem;
+}
+
+/* ========== ADD-FUNDS SPECIFIC ========== */
+.deposit-section {
+  margin-bottom: 2rem;
+}
+
+.empty-state {
   font-style: italic;
+  color: #ccc;
+  margin-top: .5rem;
 }
 
 /* ========== MOBILE TEASE SECTION ========== */
@@ -276,433 +616,151 @@ body {
   padding: 4rem 2rem;
   text-align: center;
 }
+
 .mobile-tease-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
   gap: 2rem;
   margin-top: 1.5rem;
 }
+
 .mobile-image img {
   width: 200px;
   max-width: 100%;
   border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .mobile-cta .qr-code-placeholder {
-  width: 150px; height: 150px;
+  width: 150px;
+  height: 150px;
   background: #ccc;
+  border-radius: .5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: .5rem;
   font-weight: bold;
 }
+
 .mobile-cta p {
   margin-top: .5rem;
   font-size: 1rem;
 }
 
-/* ========== FADE-IN ANIMATIONS ========== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0);  }
+/* ========== OTHER SECTIONS ========== */
+.features-section,
+.testimonials-section {
+  text-align: center;
+  margin-bottom: 80px;
 }
 
-/* ========== RESPONSIVE DESIGN ========== */
-/* Under 768px */
-@media (max-width: 768px) {
-  .hero-title            { font-size: 2rem; }
-  .features-list,
-  .testimonials-list     { font-size: 1rem; }
-  .glow-btn              { width: 100%; text-align: center; }
-  .hero-buttons          { flex-direction: column; gap: 10px; }
+.features-section h2,
+.testimonials-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
 }
-/* Under 480px */
-@media (max-width: 480px) {
-  .hero-glass            { min-height: 50vh; padding: 2rem 1rem; }
-  .hero-title            { font-size: 1.5rem; }
-  .hero-subtitle         { font-size: 1rem; }
-  .hero-buttons          { gap: 0.75rem; }
-  .features-list         { gap: 1rem; }
-  .features-section h2   { font-size: 1.75rem; }
-  .testimonials-section h2 { font-size: 1.75rem; }
-  .testimonials-list     { gap: 0.75rem; font-size: 1rem; }
-  .mobile-tease-content  { flex-direction: column; }
-  .mobile-image img      { width: 100%; max-width: 300px; }
-  .mobile-cta .qr-code-placeholder { width: 120px; height: 120px; }
-  .mobile-tease-section p,
-  .mobile-cta p          { font-size: 0.9rem; }
+
+.features-section h2 {
+  color: #0CC7F6;
 }
-/* ========== DASHBOARD & TRANSACTION STYLING (Commit 38) ========== */
-.dashboard-wrapper {
+
+.testimonials-section h2 {
+  color: #FFC857;
+}
+
+.features-list,
+.testimonials-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 120px 20px 50px;
-  max-width: 1200px; margin: 0 auto;
-}
-.dashboard-welcome {
-  font-size: 2rem; color: #0CC7F6;
-  margin-bottom: 30px; text-align: center;
-}
-.balance-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px; padding: 30px 40px;
-  text-align: center;
-  box-shadow: 0 0 15px #0CC7F6;
-  margin-bottom: 30px; width: 100%; max-width: 400px;
-}
-.balance-card h2 { color: #FFC857; margin-bottom: 10px; font-size: 2rem; }
-.balance-card p  { font-size: 1.2rem; color: white; }
-.transaction-history {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px; padding: 30px;
-  max-width: 600px; margin-bottom: 50px;
-  box-shadow: 0 0 10px #0CC7F6;
-}
-.transaction-history h3 {
-  margin-bottom: 20px; color: #FFC857;
-  text-align: center;
-}
-.transaction-item {
-  background: rgba(0,0,0,0.3);
-  padding: 15px 20px; border-radius: 8px;
-  margin-bottom: 15px;
-  display: flex; justify-content: space-between;
-  font-size: 0.95rem;
-}
-.logout-btn {
-  margin-top: 30px;
-  background: transparent; color: #ff6666;
-  border: 2px solid #ff6666; padding: 10px 20px;
-  border-radius: 8px; cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-.logout-btn:hover {
-  background: #ff6666; color: black; transform: scale(1.05);
-}
-@media (max-width: 768px) {
-  .transaction-item { flex-direction: column; gap: .5rem; align-items: center; }
+  gap: 15px;
 }
 
-/* ========== PROGRESS BAR (Commit 35) ========== */
-.progressbar {
-  position: relative; display: flex;
-  justify-content: space-between; align-items: center;
-  margin-bottom: 2rem; counter-reset: step;
-}
-.progressbar::before {
-  content: ''; position: absolute;
-  top: 50%; left: 1rem; right: 1rem;
-  height: 2px; background: #333; z-index: 0;
-}
-.progress-step {
-  position: relative; flex: 1; min-width: 80px;
-  text-align: center; z-index: 1;
-}
-.progress-step::before {
-  counter-increment: step;
-  content: counter(step);
-  width: 2.2rem; height: 2.2rem;
-  line-height: 2.2rem;
-  border: 2px solid #0CC7F6;
-  display: inline-block; border-radius: 50%;
-  background: #111; color: #ccc;
-}
-.progress-step::after {
-  content: attr(data-title);
-  display: block; margin-top: 0.5rem;
-  font-size: 0.85rem; color: #ccc;
-}
-.progress-step-active::before,
-.progress-step-completed::before {
-  background: #0CC7F6; color: black; border-color: #0CC7F6;
-}
-.progress-step-active::after,
-.progress-step-completed::after {
-  color: #0CC7F6; font-weight: bold;
-}
-
-/* ========== SIGNUP WIZARD BUTTONS (Commit 32/33/34) ========== */
-.btn-group {
-  display: flex; justify-content: space-between; margin-top: 2rem;
-}
-.btn-next, .btn-prev {
-  background: #0CC7F6; color: black;
-  padding: .75rem 1.5rem; border: none;
-  border-radius: 8px; cursor: pointer;
-  transition: background 0.3s;
-}
-.btn-next:hover, .btn-prev:hover {
-  background: #0aa6d1;
-}
-
-/* ========== PAY-GAME PAGE STYLES (Commit 39/40/41/43) ========== */
-/* Tabs */
-.tabs {
-  display: flex; justify-content: center;
-  gap: 1rem; margin: 2rem 0 1rem;
-}
-.tab-btn {
-  background: transparent; border: none;
-  color: #ccc; font-size: 1rem;
-  padding: .5rem 1rem; cursor: pointer;
-  position: relative; transition: color 0.3s;
-}
-.tab-btn.tab-active {
-  color: #0CC7F6;
-}
-.tab-btn.tab-active::after {
-  content: ''; position: absolute;
-  bottom: -4px; left:0; right:0;
-  height:2px; background:#0CC7F6;
-}
-
-/* Tables grid: two columns, fill down then across */
-.tables-grid .table-list {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-auto-flow: column;
-  gap: 1rem;
-}
-@media (max-width: 480px) {
-  .tables-grid .table-list {
-    grid-template-columns: 1fr;
-  }
-}
-.table-item {
-  background: rgba(0,0,0,0.5);
-  border: 2px solid #0CC7F6;
-  padding: 1rem; border-radius: 8px;
-  color: #ccc; text-align:center;
-  cursor:pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-.table-item:hover {
-  background: rgba(12,199,246,0.1);
-  transform: translateY(-3px);
-}
-.table-item.selected {
-  background: #0CC7F6; color: black;
-  box-shadow:0 4px 15px rgba(12,199,246,0.6);
-}
-
-/* Mode + Wager panel */
-.mode-wager-panel {
-  max-width: 450px; margin: 0 auto 3rem;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12,199,246,0.7);
-  padding: 2rem; text-align:center;
-}
-/* ==== ADD-FUNDS MODE BUTTONS ==== */
-.mode-buttons {
-  display: flex; justify-content: center; gap: 1rem; margin: 2rem 0;
-}
-.mode-btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #0CC7F6;
-  border-radius: 8px;
-  background: transparent;
-  color: #0CC7F6;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.mode-btn.mode-active {
-  background: #0CC7F6; color: black;
-}
-
-/* ==== DEPOSIT SECTIONS ==== */
-.deposit-section {
-  max-width: 400px;
-  margin: 0 auto 2rem;
-  padding: 1.5rem;
-  background: rgba(0,0,0,0.6);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12,199,246,0.7);
-  position: relative; z-index: 1;
-}
-.deposit-section label {
-  display: block; margin: 0.75rem 0 0.25rem; color: #ccc;
-}
-.deposit-section .input-field {
-  margin-bottom: 1rem;
-}
-
-/* ==== SUMMARY PANEL ==== */
-.summary-panel {
-  max-width: 450px;
-  margin: 0 auto 3rem;
-  background: rgba(0,0,0,0.6);
-  border-radius: 1rem;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 0 20px rgba(12,199,246,0.7);
-  color: #ccc;
-  text-align: left;
-}
-.summary-panel h2 { color: #0CC7F6; margin-bottom: 1rem; }
-.summary-panel p { margin: 0.5rem 0; font-size: 1rem; }
-.summary-panel strong { color: #FFC857; }
-
-/* Empty-state/promo feedback text */
-.empty-state {
+.testimonials-list {
   font-style: italic;
-  color: #ccc;
-  margin-top: 0.5rem;
 }
 
-.mode-buttons {
-  display: flex; justify-content:center; gap:1rem;
-  margin-bottom:1.5rem;
-}
-.mode-btn {
-  padding:.75rem 1.5rem; font-size:1rem;
-  border:2px solid #0CC7F6; border-radius:8px;
-  cursor:pointer; transition:background .3s, color .3s;
-}
-.mode-btn.mode-active {
-  background:#0CC7F6; color:black;
-  box-shadow:0 0 10px #0CC7F6;
-}
-.mode-btn:not(.mode-active) {
-  background:transparent; color:#0CC7F6;
-}
-.mode-btn:not(.mode-active):hover {
-  background:rgba(12,199,246,0.1);
-}
-.wager-panel {
-  max-width:400px; margin:0 auto;
-  display:flex; flex-direction:column; gap:1rem;
-}
-.wager-panel label {
-  color:white; font-weight:bold; margin-bottom:.5rem;
-}
-.wager-panel .input-field {
-  margin-bottom:0;
-}
-#confirmBtn {
-  width:auto; align-self:center; margin-top:1rem;
-}
+/* ========== FADE-IN ANIMATION ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 
-/* Summary panel */
-.summary-panel {
-  max-width:450px; margin:0 auto 2rem;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  border-radius:1rem;
-  box-shadow:0 0 20px rgba(12,199,246,0.7);
-  padding:1.5rem 2rem;
-  position: relative; z-index:1;
-  color:#ccc;
-}
-.summary-panel h2 {
-  margin-bottom:1rem;
-  color:#0CC7F6; font-size:1.25rem;
-}
-.summary-panel p {
-  margin:0.5rem 0; font-size:1rem;
-}
-.summary-panel strong {
-  color:#FFC857;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ========== FOOTER ========== */
+#footer-placeholder {
+  margin-top: auto;
+}
 .footer-glass {
   background: #11121a;
   padding: 50px 20px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 -2px 10px rgba(0,0,0,0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 -2px 10px rgba(0, 0, 0, 0.25);
   text-align: left;
 }
+
 .footer-content {
-  display: flex; justify-content: space-between;
-  align-items: flex-start; gap: 40px;
-  max-width: 1200px; margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .footer-column {
-  flex: 1 1 250px; min-width: 200px;
+  flex: 1 1 250px;
+  min-width: 200px;
 }
+
 .footer-column h4 {
-  color: #0CC7F6; margin-bottom: 12px;
+  color: #0CC7F6;
+  margin-bottom: 12px;
 }
+
 .footer-links {
-  list-style: none; padding: 0; margin: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
+
 .footer-links li {
   margin-bottom: 8px;
 }
+
 .footer-links li a {
-  color: #ccc; text-decoration: none;
-  display: inline-flex; align-items:center; gap:0.5rem;
-  transition: color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: #ccc;
+  text-decoration: none;
+  transition: color .3s;
 }
+
 .footer-links li a:hover {
   color: #0CC7F6;
 }
+
 .footer-column p {
-  margin: 0.5rem 0;
+  margin: .5rem 0;
 }
+
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
+
   .footer-column {
     width: 100%;
     margin-bottom: 20px;
   }
-}
-/* Commit: allow clicks through the particles canvas */
-#particles-js,
-#particles-js canvas {
-  pointer-events: none;
-}
-/* Commit: lift core containers above the canvas */
-.page-wrapper,
-.paygame-grid,
-.hero-glass,
-.form-card,
-.summary-panel {
-  position: relative;
-  z-index: 1;
-}
-/* ========== SIGNUP WIZARD ========== */
-.form-step {
-  display: none;
-}
-.form-step-active {
-  display: block;
-}
-.btn-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-.btn-next,
-.btn-prev {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.btn-next {
-  background: #0CC7F6;
-  color: black;
-}
-.btn-prev {
-  background: transparent;
-  color: #0CC7F6;
-  border: 2px solid #0CC7F6;
-}
-.btn-next:hover,
-.btn-prev:hover {
-  background: #0aa6d1;
-  color: black;
 }

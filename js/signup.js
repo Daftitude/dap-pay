@@ -1,146 +1,119 @@
-// ==== MOBILE MENU TOGGLE ====
-function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('show');
+// js/signup.js
+document.addEventListener('DOMContentLoaded', () => {
+  const steps = Array.from(document.querySelectorAll('.form-step'));
+  const dots  = Array.from(document.querySelectorAll('.progress-step'));
+  const form  = document.getElementById('signupForm');
+  let current = 0;
+
+  // Show only step “i” and highlight dots up to i
+  function showStep(i) {
+    steps.forEach((fs, j) => {
+      fs.style.display = j === i ? 'block' : 'none';
+      fs.classList.toggle('form-step-active', j === i);
+    });
+    dots.forEach((dot, j) => {
+      dot.classList.toggle('progress-step-active', j <= i);
+    });
   }
-  
-  // ==== PASSWORD VISIBILITY TOGGLE ====
-  function togglePassword(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    if (input.type === "password") {
-      input.type = "text";
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
-    } else {
-      input.type = "password";
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
-    }
+
+  // fallback to window.showToast or alert
+  function toast(msg, type) {
+    (window.showToast || alert)(msg, type);
   }
-  
-  // ==== MULTI-STEP FORM ====
-  let currentStep = 1;
-  const totalSteps = 6;
-  
-  function nextStep() {
-    if (!validateStep(currentStep)) return;
-    document.getElementById(`step${currentStep}`).style.display = 'none';
-    currentStep++;
-    if (currentStep > totalSteps) {
-      saveUser();
-      return;
-    }
-    document.getElementById(`step${currentStep}`).style.display = 'block';
-    document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
-    document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
-  }
-  
-  function prevStep() {
-    document.getElementById(`step${currentStep}`).style.display = 'none';
-    currentStep--;
-    document.getElementById(`step${currentStep}`).style.display = 'block';
-    document.getElementById('stepProgress').textContent = `Step ${currentStep} of ${totalSteps}`;
-    document.getElementById('backBtn').style.display = (currentStep > 1) ? 'inline-block' : 'none';
-  }
-  
-  // ==== VALIDATION ====
+
+  // Validate fields on each step
   function validateStep(step) {
     switch (step) {
       case 1:
-        if (!document.getElementById('username').value.trim()) {
-          showToast('❌ Please enter a username.', 'error');
+        if (!newUsername.value.trim() || !newEmail.value.trim()) {
+          toast('❌ Please enter a username and email.', 'error');
           return false;
         }
         break;
       case 2:
-        if (!document.getElementById('emailPhone').value.trim()) {
-          showToast('❌ Please enter your email or phone.', 'error');
+        if (!dob.value || !address.value.trim()) {
+          toast('❌ Please enter your date of birth and address.', 'error');
           return false;
         }
         break;
       case 3:
-        if (!document.getElementById('firstName').value.trim() || !document.getElementById('lastName').value.trim()) {
-          showToast('❌ Please fill in both names.', 'error');
+        if (newPassword.value.length < 6) {
+          toast('❌ Password must be at least 6 characters.', 'error');
           return false;
         }
-        break;
-      case 4:
-        const year = parseInt(document.getElementById('dobYear').value);
-        if (new Date().getFullYear() - year < 18) {
-          showToast('⚠️ Must be 18+ to join.', 'error');
-          return false;
-        }
-        break;
-      case 6:
-        const pass = document.getElementById('password').value;
-        const confirmPass = document.getElementById('confirmPassword').value;
-        if (!pass || pass.length < 6) {
-          showToast('❌ Password too short.', 'error');
-          return false;
-        }
-        if (pass !== confirmPass) {
-          showToast('❌ Passwords don’t match.', 'error');
+        if (newPassword.value !== confirmPassword.value) {
+          toast('❌ Passwords do not match.', 'error');
           return false;
         }
         break;
     }
     return true;
   }
-  
-  // ==== SAVE USER TO LOCALSTORAGE ====
+
+  // Next / Prev buttons
+  document.querySelectorAll('.btn-next').forEach(btn =>
+    btn.addEventListener('click', () => {
+      if (!validateStep(current+1)) return;
+      if (current < steps.length - 1) {
+        current++;
+        showStep(current);
+      }
+    })
+  );
+  document.querySelectorAll('.btn-prev').forEach(btn =>
+    btn.addEventListener('click', () => {
+      if (current > 0) {
+        current--;
+        showStep(current);
+      }
+    })
+  );
+
+  // Password visibility toggles
+  document.querySelectorAll('.toggle-password').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const inp = btn.previousElementSibling;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        inp.type = 'password';
+        btn.textContent = '👁️';
+      }
+    })
+  );
+
+  // Save new user, set currentUser, then redirect
   function saveUser() {
     const user = {
-      username: document.getElementById('username').value.trim(),
-      emailPhone: document.getElementById('emailPhone').value.trim(),
-      firstName: document.getElementById('firstName').value.trim(),
-      lastName: document.getElementById('lastName').value.trim(),
-      dob: `${document.getElementById('dobMonth').value}/${document.getElementById('dobDay').value}/${document.getElementById('dobYear').value}`,
-      address: document.getElementById('address').value.trim(),
-      password: document.getElementById('password').value.trim(),
-      balance: 0
+      username:  newUsername.value.trim(),
+      email:     newEmail.value.trim(),
+      dob:       dob.value,
+      address:   address.value.trim(),
+      password:  newPassword.value,
+      balance:   0
     };
-  
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-    let existing = users.find(u => u.username.toLowerCase() === user.username.toLowerCase());
-  
-    if (existing) {
-      showToast('❌ Username already taken.', 'error');
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    if (users.some(u => u.username.toLowerCase() === user.username.toLowerCase())) {
+      toast('❌ Username taken.', 'error');
       return;
     }
-  
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
     localStorage.setItem('currentUser', user.username);
-  
-    showToast('🎉 Account Created! Redirecting...');
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 2000);
+    toast('✅ Account created! Redirecting...');
+    setTimeout(() => window.location.href = 'dashboard.html', 1200);
   }
-  document.addEventListener('DOMContentLoaded', () => {
-    const steps = Array.from(document.querySelectorAll('.form-step'));
-    let current = 0;
-  
-    function showStep(idx) {
-      steps.forEach((fs, i) =>
-        fs.classList.toggle('form-step-active', i === idx)
-      );
-    }
-  
-    document.querySelectorAll('.btn-next').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (current < steps.length - 1) {
-          showStep(++current);
-        }
-      });
-    });
-  
-    document.querySelectorAll('.btn-prev').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (current > 0) {
-          showStep(--current);
-        }
-      });
-    });
+
+  // Expose for inline onsubmit
+  window.registerUser = saveUser;
+
+  // Also intercept the form submit
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (validateStep(3)) saveUser();
   });
-  
+
+  // Show step 0 on load
+  showStep(0);
+});
