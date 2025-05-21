@@ -1085,3 +1085,71 @@ main {
     margin-bottom: 20px;
   }
 }
+
+
+/* ========== CHART + SUMMARY SIDE-BY-SIDE BELOW INPUTS ========== */
+.deposit-chart-summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  justify-content: space-between;
+}
+
+.deposit-chart-col {
+  flex: 0 0 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deposit-summary-box {
+  flex: 1;
+  min-width: 180px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  color: #ccc;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #aaa;
+}
+
+.legend-deposit::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #0CC7F6;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.legend-fee::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #FFC857;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .deposit-chart-summary-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .deposit-summary-box {
+    align-items: center;
+    text-align: center;
+  }
+}

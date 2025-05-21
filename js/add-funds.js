@@ -187,22 +187,33 @@ function bindDepositForm(method, amtId, formId, sugId, chartId, submitId) {
   const submit = document.getElementById(submitId);
   updateChart(method, input.value);
 
-  input.addEventListener('input', () => {
-    let val = Number(input.value);
-    updateChart(method, val);
-    // suggestion logic
-    let suggestions = getSuggestions(method);
-    if (suggestions.length) {
-      const avg = (suggestions.reduce((a,b)=>a+b,0)/suggestions.length).toFixed(2);
-      sugBox.innerHTML = `Suggested: $${avg} (based on last ${suggestions.length} deposits: ${suggestions.join(", ")})`;
-    } else {
-      sugBox.innerHTML = '';
-    }
-    // Button state
-    submit.disabled = !(val && val >= (method === "Bank" ? 5 : 1));
-  });
+  
+input.addEventListener('input', () => {
+  const val = Number(input.value);
+  updateChart(method, val);
 
-  form.addEventListener('submit', e => {
+  const summaryBox = document.getElementById(method.toLowerCase() + "Summary");
+  if (summaryBox) {
+    const { fee, net } = getFee(method, val);
+    summaryBox.querySelector(".sum-amount").textContent = fmt(val);
+    summaryBox.querySelector(".sum-fee").textContent = fmt(fee);
+    const user = getCurrentUser();
+    const balance = user?.balance || 0;
+    summaryBox.querySelector(".sum-net").textContent = fmt(balance + net);
+  }
+
+  const suggestions = getSuggestions(method);
+  if (suggestions.length) {
+    const avg = (suggestions.reduce((a, b) => a + b, 0) / suggestions.length).toFixed(2);
+    sugBox.innerHTML = `Suggested: $${avg} (based on last ${suggestions.length} deposits: ${suggestions.join(", ")})`;
+  } else {
+    sugBox.innerHTML = '';
+  }
+
+  submit.disabled = !(val && val >= (method === "Bank" ? 5 : 1));
+});
+
+form.addEventListener('submit', e => {
     e.preventDefault();
     const amt = Number(input.value);
     if (!amt || (method === "Bank" && amt < 5) || amt < 1) return;
