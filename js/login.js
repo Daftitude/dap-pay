@@ -1,41 +1,44 @@
 // js/login.js
 
 import { toggleMenu, logout } from './main.js';
-// showToast() is provided globally by toast.js
+import { showToast }            from './toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1) Hamburger toggle (after nav injection)
+  // wire up mobile nav
   document.querySelectorAll('.hamburger')
-    .forEach(btn => btn.addEventListener('click', toggleMenu));
+          .forEach(btn => btn.addEventListener('click', toggleMenu));
 
-  // 2) Logout links/buttons (marked with data-action="logout")
-  document.querySelectorAll('[data-action="logout"]')
-    .forEach(el => el.addEventListener('click', logout));
-
-  // 3) Password visibility toggle
-  const pwd = password, btn = togglePwd;
-  btn.addEventListener('click', () => {
-    if (pwd.type === 'password') {
-      pwd.type = 'text'; btn.textContent = '🙈';
+  // toggle password visibility
+  const pwdField = document.getElementById('password');
+  const toggleBtn = document.getElementById('togglePwd');
+  toggleBtn.addEventListener('click', () => {
+    if (pwdField.type === 'password') {
+      pwdField.type = 'text';
+      toggleBtn.textContent = '🙈';
     } else {
-      pwd.type = 'password'; btn.textContent = '👁️';
+      pwdField.type = 'password';
+      toggleBtn.textContent = '👁️';
     }
   });
 
-  // 4) Login form submission
-  loginForm.addEventListener('submit', e => {
+  // login form
+  document.getElementById('loginForm').addEventListener('submit', e => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const u = users.find(u =>
-      u.username === username.value.trim() &&
-      u.password === pwd.value.trim()
-    );
-    if (!u) {
-      window.showToast?.('❌ Wrong credentials', 'error');
-      return;
+    const username = document.getElementById('username').value.trim();
+    const password = pwdField.value.trim();
+    const users    = JSON.parse(localStorage.getItem('users')) || [];
+    const user     = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      localStorage.setItem('currentUser', username);
+      showToast?.('✅ Login Successful!');
+      setTimeout(() => window.location.href = 'dashboard.html', 1200);
+    } else {
+      showToast?.('❌ Incorrect Username or Password.', 'error');
     }
-    localStorage.setItem('currentUserObj', JSON.stringify(u));
-    window.showToast?.('✅ Welcome back!', '');
-    setTimeout(() => window.location.href = 'dashboard.html', 800);
   });
-})
+
+  // also wire any logout buttons
+  document.querySelectorAll('[data-action="logout"]')
+          .forEach(el => el.addEventListener('click', logout));
+});

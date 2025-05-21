@@ -3,7 +3,7 @@
 // —— HTML Fragment Injection ——
 export async function injectHTML(url, selector) {
   try {
-    const res = await fetch(url);
+    const res  = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
     document.querySelector(selector).innerHTML = html;
@@ -20,13 +20,19 @@ export function initParticles(containerId = 'particles-js') {
   }
   particlesJS(containerId, {
     particles: {
-      number:       { value: 80, density: { enable: true, value_area: 800 } },
-      color:        { value: '#0CC7F6' },
-      shape:        { type: 'circle' },
-      opacity:      { value: 0.4, random: true },
-      size:         { value: 3, random: true },
-      line_linked:  { enable: true, distance: 150, color: '#0CC7F6', opacity: 0.3, width: 1 },
-      move:         { enable: true, speed: 1 }
+      number: { value: 80, density: { enable: true, value_area: 800 } },
+      color:  { value: '#0CC7F6' },
+      shape:  { type: 'circle' },
+      opacity:{ value: 0.4, random: true },
+      size:   { value: 3,   random: true },
+      line_linked: {
+        enable:   true,
+        distance: 150,
+        color:    '#0CC7F6',
+        opacity:  0.3,
+        width:    1
+      },
+      move: { enable: true, speed: 1 }
     },
     interactivity: {
       detect_on: 'canvas',
@@ -42,9 +48,9 @@ export function initParticles(containerId = 'particles-js') {
 
 // —— Nav Toggle Helper ——
 export function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  if (!navLinks) return;
-  const expanded = navLinks.classList.toggle('show');
+  const nav = document.getElementById('navLinks');
+  if (!nav) return;
+  const expanded = nav.classList.toggle('show');
   document.querySelectorAll('.hamburger')
           .forEach(btn => btn.setAttribute('aria-expanded', expanded));
 }
@@ -55,30 +61,50 @@ export function logout() {
   window.location.href = 'login.html';
 }
 
+// —— Auth + Balance Helpers ——
+export function checkAuth() {
+  const user = localStorage.getItem('currentUser');
+  if (!user) window.location.href = 'login.html';
+  return user;
+}
+
+export function fmt(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD'
+  }).format(amount);
+}
+
+export function loadBalance(selector) {
+  const currentUser = localStorage.getItem('currentUser');
+  const users       = JSON.parse(localStorage.getItem('users')) || [];
+  const obj         = users.find(u => u.username === currentUser) || {};
+  const bal         = obj.balance || 0;
+  document.querySelector(selector).textContent = fmt(bal);
+}
+
 // —— Common Bootstrap ——
 export async function initCommon() {
-  // 1) Inject header & footer based on <body data-flavor="...">
+  // 1) Inject the proper header & footer
   const flavor = document.body.dataset.flavor || 'index';
   await Promise.all([
     injectHTML(`includes/header-${flavor}.html`, '#nav-placeholder'),
     injectHTML(`includes/footer-${flavor}.html`, '#footer-placeholder')
   ]);
 
-  // 2) Wire up nav toggle & logout
+  // 2) Wire up nav toggle & logout buttons
   document.querySelectorAll('.hamburger')
     .forEach(btn => btn.addEventListener('click', toggleMenu));
   document.querySelectorAll('[data-action="logout"]')
     .forEach(el  => el.addEventListener('click', logout));
 
-  // 3) Init particles background
+  // 3) Start particles
   initParticles();
 
-  // 4) Hook up “Reset Demo” button
+  // 4) Demo reset (if present)
   const resetBtn = document.getElementById('reset-demo');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      if (!confirm('Are you sure you want to wipe all demo data?')) return;
-      // clear only our demo keys:
+      if (!confirm('Wipe all demo data?')) return;
       localStorage.removeItem('users');
       localStorage.removeItem('currentUser');
       localStorage.removeItem('currentUserObj');
@@ -89,5 +115,5 @@ export async function initCommon() {
   }
 }
 
-// —— Bootstrap on DOM ready ——
+// —— Kickoff ——
 document.addEventListener('DOMContentLoaded', initCommon);

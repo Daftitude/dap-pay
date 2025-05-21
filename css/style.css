@@ -22,13 +22,51 @@ body {
   min-height: 100vh;
   /* make body fill screen vertically */
 }
-html, body {
+
+html,
+body {
   height: 100%;
 }
 
 main {
-  flex: 1; /* take up all leftover space between header and footer */
+  flex: 1;
+  /* take up all leftover space between header and footer */
 }
+/* style.css additions for modal/row polish */
+.deposit-flex-row { display: flex; gap: 1.5rem; align-items: flex-start; }
+.deposit-amount-col { flex: 1 1 220px; }
+.deposit-chart-col { min-width: 180px; display: flex; flex-direction: column; align-items: center; }
+.quick-fill-row { display: flex; gap: 0.4rem; align-items: center; margin-bottom: 0.3em; }
+.quick-fill-btn { padding: 0.3em 0.9em; border-radius: 6px; font-weight: 600; border: none; background: #222; color: #0CC7F6; cursor: pointer; transition: background 0.18s; }
+.quick-fill-btn:hover { background: #0CC7F6; color: #fff; }
+.suggestion-text { font-size: 0.97em; color: #5dd2f6; margin-top: 0.25em; min-height: 1.2em; }
+.chart-legend { margin-top: 0.6em; font-size: 0.89em; display: flex; gap: 0.7em; align-items: center; }
+.legend-deposit { display:inline-block;width:12px;height:12px;background:#0CC7F6;border-radius:2px;margin-right:4px; }
+.legend-fee { display:inline-block;width:12px;height:12px;background:#FFC857;border-radius:2px;margin:0 8px 0 4px; }
+/* Modal */
+#modal-root { position: fixed; z-index: 3001; left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; }
+#modal-root > * { pointer-events: all; }
+.modal-badge, .modal-confirm, .modal-error, .modal-wheel {
+  position: fixed; left:0; top:0; width:100vw; height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.45); z-index:4000;
+}
+.modal-content {
+  background: #191b23;
+  border-radius: 14px;
+  padding: 2em 2.4em;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 40px #0CC7F6aa;
+  animation: fadeIn .33s;
+}
+.badge-emoji { font-size: 2.5em; }
+.badge-title { font-size: 1.3em; margin: 0.7em 0 1em 0;}
+@media (max-width: 800px) {
+  .deposit-flex-row { flex-direction: column; gap: 0.7em; }
+  .deposit-chart-col { min-width: 0; }
+}
+
 /* ========== UTILITY CLASSES ========== */
 /* Screen-reader only */
 .sr-only {
@@ -42,6 +80,31 @@ main {
   white-space: nowrap;
   border: 0;
 }
+/* ========== FLEX UTILITIES ========== */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.flex-1 {
+  flex: 1 1 0;
+}
+.flex-auto {
+  flex: auto;
+}
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 600px) {
+  .flex-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}
+
 
 /* ========== PAGE WRAPPER ========== */
 .page-wrapper {
@@ -256,6 +319,83 @@ main {
   backdrop-filter: blur(8px);
   text-align: center;
 }
+/* --- Add after .form-card --- */
+.deposit-flex-row {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.deposit-amount-col {
+  flex: 1 1 260px;
+  min-width: 230px;
+}
+
+.deposit-chart-col {
+  flex: 0 0 190px;
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+}
+
+.quick-fill-row {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.quick-fill-btn {
+  background: #0CC7F6;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 0 12px #0CC7F6;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+}
+.quick-fill-btn:hover, .quick-fill-btn:focus {
+  background: #11e0ff;
+  color: #111;
+  box-shadow: 0 0 18px #0CC7F6;
+}
+
+.suggestion-text {
+  color: #FFC857;
+  margin: 0.5em 0 0 0;
+  font-size: 1.08em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.chart-legend {
+  margin-top: 0.4em;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  color: #ccc;
+}
+.legend-deposit {
+  display: inline-block; width: 18px; height: 8px;
+  background: #49b7ff; border-radius: 5px; margin-right: 4px;
+}
+.legend-fee {
+  display: inline-block; width: 18px; height: 8px;
+  background: #ffe49d; border-radius: 5px; margin-right: 4px;
+}
+
+@media (max-width: 650px) {
+  .deposit-flex-row { flex-direction: column; gap: 1.5rem; align-items: stretch; }
+  .deposit-chart-col { align-items: flex-start; margin-top: 1.2rem; }
+}
+
 
 .input-field {
   width: 100%;
@@ -450,8 +590,9 @@ main {
   color: black;
   transform: scale(1.05);
 }
+
 .profile-card {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 20px;
   margin: 20px 0;
@@ -459,14 +600,193 @@ main {
   box-shadow: 0 0 15px #0CC7F6;
   color: #ccc;
 }
+
 .profile-card h3 {
   color: #FFC857;
   margin-bottom: 1rem;
   text-align: center;
 }
+
 .profile-card p {
   margin: 0.5rem 0;
   font-size: 0.95rem;
+}
+
+/* ========== ADD FUNDS: POPUPS & MODALS ========== */
+.badge-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #0CC7F6;
+  color: #222;
+  border-radius: 12px;
+  padding: 1.2rem 2rem;
+  font-size: 1.2rem;
+  z-index: 2001;
+  box-shadow: 0 0 20px #0CC7F6;
+  opacity: 0;
+  transform: translateY(-25px);
+  transition: all .3s;
+  pointer-events: none;
+}
+
+.badge-popup.show {
+  opacity: 1;
+  transform: none;
+}
+
+.badge-emoji {
+  font-size: 2.5rem;
+  display: block;
+  animation: pop .4s;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.4);
+  }
+
+  80% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.spin-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.66);
+  z-index: 2002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spin-container {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 0 25px #0CC7F6;
+  text-align: center;
+}
+
+.spin-wheel {
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+}
+
+.error-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.74);
+  z-index: 2003;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 3rem;
+  color: #c00;
+  font-size: 1.3rem;
+  text-align: center;
+  box-shadow: 0 0 12px #c00;
+}
+
+.input-glow {
+  box-shadow: 0 0 7px #FFC857, 0 0 2px #fff !important;
+  border-color: #FFC857 !important;
+  animation: glow-in .7s;
+}
+
+@keyframes glow-in {
+  0% {
+    box-shadow: none;
+  }
+
+  100% {
+    box-shadow: 0 0 7px #FFC857;
+  }
+}
+
+.deposit-confirm-anim {
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #0CC7F6;
+  padding: 2rem 3rem;
+  border-radius: 2rem;
+  font-size: 2rem;
+  text-align: center;
+  z-index: 3000;
+  box-shadow: 0 0 35px #0CC7F6;
+  opacity: 1;
+  animation: confirmfade 1.4s;
+  pointer-events: none;
+}
+
+@keyframes confirmfade {
+  0% {
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.mode-btn.active,
+.glow-btn.active {
+  box-shadow: 0 0 12px #0CC7F6;
+}
+
+#suggestion {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #FFC857;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: fixed;
+  background: #333;
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 1rem;
+  z-index: 4000;
+  pointer-events: none;
+  box-shadow: 0 0 12px #0CC7F6;
+}
+
+#secureToggle.active {
+  background: #0CC7F6;
+  color: #fff;
+}
+
+#secureToggle {
+  margin-bottom: 1.5rem;
 }
 
 /* ========== PAY-GAME PAGE ========== */
@@ -697,6 +1017,7 @@ main {
 #footer-placeholder {
   margin-top: auto;
 }
+
 .footer-glass {
   background: #11121a;
   padding: 50px 20px;

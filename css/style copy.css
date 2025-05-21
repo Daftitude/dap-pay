@@ -587,6 +587,81 @@ body {
 #confirmBtn {
   width:auto; align-self:center; margin-top:1rem;
 }
+.deposit-flex-row {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.deposit-amount-col {
+  flex: 1 1 260px;
+  min-width: 230px;
+}
+
+.deposit-chart-col {
+  flex: 0 0 190px;
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+}
+
+.quick-fill-row {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.quick-fill-btn {
+  background: #0CC7F6;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 0 12px #0CC7F6;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+}
+.quick-fill-btn:hover, .quick-fill-btn:focus {
+  background: #11e0ff;
+  color: #111;
+  box-shadow: 0 0 18px #0CC7F6;
+}
+
+.suggestion-text {
+  color: #FFC857;
+  margin: 0.75em 0 0 0;
+  font-size: 1.08em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.chart-legend {
+  margin-top: 0.7em;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  color: #ccc;
+}
+.legend-deposit {
+  display: inline-block; width: 18px; height: 8px;
+  background: #49b7ff; border-radius: 5px; margin-right: 4px;
+}
+.legend-fee {
+  display: inline-block; width: 18px; height: 8px;
+  background: #ffe49d; border-radius: 5px; margin-right: 4px;
+}
+
+@media (max-width: 650px) {
+  .deposit-flex-row { flex-direction: column; gap: 1.5rem; align-items: stretch; }
+  .deposit-chart-col { align-items: flex-start; margin-top: 1.2rem; }
+}
 
 /* Summary panel */
 .summary-panel {

@@ -1,91 +1,124 @@
-<!-- add‐funds.html -->
+<!-- add-funds.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>DAP⚡Pay | Add Funds</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body data-flavor="app">
   <div id="nav-placeholder"></div>
-  <div id="particles-js" aria-hidden="true"></div>
-
   <main class="page-wrapper">
     <h1 class="hero-title">➕ Add Funds</h1>
-
-    <!-- Mode selector -->
+    <!-- Secure Mode Toggle -->
+    <button id="secureToggle" class="glow-btn" type="button" style="margin-bottom:1.5rem;" title="Mask sensitive fields">🔒 Secure Mode</button>
+    <!-- Live Balance -->
+    <div style="text-align:center;margin-bottom:1.2rem;">
+      <b>Balance:</b> <span id="liveBalance">$0.00</span>
+    </div>
+    <!-- Deposit Method Tabs -->
     <div class="mode-buttons" role="group" aria-label="Deposit Method">
-      <button id="fiatBtn" class="mode-btn mode-active">Fiat</button>
-      <button id="cryptoBtn" class="mode-btn">Crypto</button>
-      <button id="bankBtn" class="mode-btn">Bank Transfer</button>
-      <button id="promoBtn" class="mode-btn">Promo Code</button>
+      <button class="mode-btn mode-active" data-method="Fiat">Fiat</button>
+      <button class="mode-btn" data-method="Crypto">Crypto</button>
+      <button class="mode-btn" data-method="Bank">Bank Transfer</button>
+      <button class="mode-btn" data-method="Promo">Promo Code</button>
     </div>
 
-    <!-- Fiat Section -->
+    <!-- ==== FIAT SECTION ==== -->
     <section id="fiatSection" class="form-card deposit-section">
-      <form id="addFundsForm">
-        <label for="fiatAmount">Amount (USD)</label>
-        <input type="number" id="fiatAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 25.00">
-
-        <button id="submitBtn" type="submit" class="glow-btn" disabled>Deposit</button>
+      <form id="addFundsForm" autocomplete="off">
+        <div class="deposit-flex-row">
+          <div class="deposit-amount-col">
+            <label for="fiatAmount">Amount (USD) <span data-tooltip="Deposit between $1–$1,000">💡</span></label>
+            <div class="quick-fill-row">
+              <input type="number" id="fiatAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 25.00">
+              <button class="quick-fill-btn" type="button" data-value="10">$10</button>
+              <button class="quick-fill-btn" type="button" data-value="25">$25</button>
+              <button class="quick-fill-btn" type="button" data-value="50">$50</button>
+            </div>
+            <div id="suggestion" class="suggestion-text"></div>
+          </div>
+          <div class="deposit-chart-col">
+            <canvas id="fiatFeeChart" width="160" height="120" aria-label="Deposit Fee Breakdown"></canvas>
+            <div class="chart-legend"><span class="legend-deposit"></span>Deposit <span class="legend-fee"></span>Fee</div>
+          </div>
+        </div>
+        <button id="submitBtn" type="submit" class="glow-btn" style="margin-top:1rem;">Deposit</button>
       </form>
     </section>
 
-    <!-- Crypto Section -->
+    <!-- ==== CRYPTO SECTION ==== -->
     <section id="cryptoSection" class="form-card deposit-section" hidden>
-      <form id="cryptoForm">
-        <label for="cryptoAmount">Amount (USD)</label>
-        <input type="number" id="cryptoAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 50.00">
+      <form id="cryptoForm" autocomplete="off">
+        <div class="deposit-flex-row">
+          <div class="deposit-amount-col">
+            <label for="cryptoAmount">Amount (USD) <span data-tooltip="Deposit between $1–$1,000 in crypto">💡</span></label>
+            <div class="quick-fill-row">
+              <input type="number" id="cryptoAmount" class="input-field" min="1" step="0.01" placeholder="e.g. 50.00">
+              <button class="quick-fill-btn" type="button" data-value="10">$10</button>
+              <button class="quick-fill-btn" type="button" data-value="25">$25</button>
+              <button class="quick-fill-btn" type="button" data-value="50">$50</button>
+            </div>
+            <div id="cryptoSuggestion" class="suggestion-text"></div>
+          </div>
+          <div class="deposit-chart-col">
+            <canvas id="cryptoFeeChart" width="160" height="120" aria-label="Deposit Fee Breakdown"></canvas>
+            <div class="chart-legend"><span class="legend-deposit"></span>Deposit <span class="legend-fee"></span>Fee</div>
+          </div>
+        </div>
         <label for="walletAddr">Wallet Address</label>
         <input type="text" id="walletAddr" class="input-field" placeholder="0x...">
-
-        <button id="cryptoSubmit" type="submit" class="glow-btn" disabled>Deposit</button>
+        <button id="cryptoSubmit" type="submit" class="glow-btn" style="margin-top:1rem;">Deposit</button>
       </form>
     </section>
 
-    <!-- Bank Transfer Section -->
+    <!-- ==== BANK SECTION ==== -->
     <section id="bankSection" class="form-card deposit-section" hidden>
-      <form id="bankForm">
-        <label for="bankAmount">Amount (USD)</label>
-        <input type="number" id="bankAmount" class="input-field" min="5" step="0.01" placeholder="e.g. 100.00">
+      <form id="bankForm" autocomplete="off">
+        <div class="deposit-flex-row">
+          <div class="deposit-amount-col">
+            <label for="bankAmount">Amount (USD) <span data-tooltip="Deposit min $5 by bank">💡</span></label>
+            <div class="quick-fill-row">
+              <input type="number" id="bankAmount" class="input-field" min="5" step="0.01" placeholder="e.g. 100.00">
+              <button class="quick-fill-btn" type="button" data-value="10">$10</button>
+              <button class="quick-fill-btn" type="button" data-value="25">$25</button>
+              <button class="quick-fill-btn" type="button" data-value="50">$50</button>
+            </div>
+            <div id="bankSuggestion" class="suggestion-text"></div>
+          </div>
+          <div class="deposit-chart-col">
+            <canvas id="bankFeeChart" width="160" height="120" aria-label="Deposit Fee Breakdown"></canvas>
+            <div class="chart-legend"><span class="legend-deposit"></span>Deposit <span class="legend-fee"></span>Fee</div>
+          </div>
+        </div>
         <label for="acctNum">Account Number</label>
-        <input type="text" id="acctNum" class="input-field" placeholder="123456789">
+        <input type="text" id="acctNum" class="input-field" placeholder="123456789" data-maskable>
         <label for="routingNum">Routing Number</label>
-        <input type="text" id="routingNum" class="input-field" placeholder="011000015">
-
-        <button id="bankSubmit" type="submit" class="glow-btn" disabled>Deposit</button>
+        <input type="text" id="routingNum" class="input-field" placeholder="011000015" data-maskable>
+        <button id="bankSubmit" type="submit" class="glow-btn" style="margin-top:1rem;">Deposit</button>
       </form>
     </section>
 
-    <!-- Promo Code Section -->
+    <!-- ==== PROMO SECTION ==== -->
     <section id="promoSection" class="form-card deposit-section" hidden>
-      <form id="promoForm">
+      <form id="promoForm" autocomplete="off">
         <label for="promoCode">Promo Code</label>
-        <input type="text" id="promoCode" class="input-field" placeholder="Enter code">
-        <button id="promoApply" type="button" class="glow-btn">Apply</button>
+        <div style="display:flex;gap:0.5rem;">
+          <input type="text" id="promoCode" class="input-field" placeholder="Enter code" style="flex:1;">
+          <button id="promoApply" type="submit" class="glow-btn">Apply</button>
+        </div>
+        <div id="promoSuggestion" class="suggestion-text"></div>
         <p id="promoFeedback" class="empty-state"></p>
       </form>
     </section>
-
-    <!-- Summary Panel -->
-    <div class="summary-panel">
-      <h2>Summary</h2>
-      <p><strong>Method:</strong> <span id="summaryMethod">Fiat</span></p>
-      <p><strong>Amount:</strong> $<span id="summaryAmount">0.00</span></p>
-      <p><strong>Fees:</strong> $<span id="summaryFees">0.00</span></p>
-      <p><strong>New Balance:</strong> $<span id="summaryBalance">0.00</span></p>
-    </div>
+    <!-- Modal overlays for achievements, wheel, etc., are inserted here by JS -->
+    <div id="modal-root"></div>
   </main>
-
   <div id="footer-placeholder"></div>
-
   <script src="js/particles.min.js" defer></script>
   <script type="module" src="js/main.js" defer></script>
   <script type="module" src="js/add-funds.js" defer></script>
-
 </body>
-
 </html>

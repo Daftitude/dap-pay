@@ -1,152 +1,283 @@
 // js/add-funds.js
-document.addEventListener('DOMContentLoaded', () => {
-    // Mode buttons + sections
-    const modes   = ['fiat','crypto','bank','promo'];
-    const buttons = modes.reduce((o,m) => {
-      o[m] = document.getElementById(m + 'Btn'); return o;
-    }, {});
-    const secs    = modes.reduce((o,m) => {
-      o[m] = document.getElementById(m + 'Section'); return o;
-    }, {});
-    const inputs  = {
-      fiat:   document.getElementById('fiatAmount'),
-      crypto: document.getElementById('cryptoAmount'),
-      bank:   document.getElementById('bankAmount'),
-      // promo code uses promoCode input
-    };
-    const wallet  = document.getElementById('walletAddr');
-    const acct    = document.getElementById('acctNum');
-    const routing = document.getElementById('routingNum');
-    const promoIn = document.getElementById('promoCode');
-    const promoFB = document.getElementById('promoFeedback');
-  
-    // Submit buttons
-    const sub = {
-      fiat:   document.getElementById('submitBtn'),
-      crypto: document.getElementById('cryptoSubmit'),
-      bank:   document.getElementById('bankSubmit'),
-    };
-  
-    // Summary elements
-    const sumMethod  = document.getElementById('summaryMethod');
-    const sumAmount  = document.getElementById('summaryAmount');
-    const sumFees    = document.getElementById('summaryFees');
-    const sumBalance = document.getElementById('summaryBalance');
-  
-    let currentMode = 'fiat';
-    const feeRates = { fiat:0.005, crypto:0.01, bank:0.002 }; // 0.5%, 1%, 0.2%
-  
-    // load balance
-    const user       = JSON.parse(localStorage.getItem('users'))
-                     .find(u=>u.username===localStorage.getItem('currentUser'));
-    let balance      = user?.balance || 0;
-    function fmt(v){ return v.toLocaleString('en-US',{style:'currency',currency:'USD'}); }
-    
-    // switch mode
-    function setMode(m){
-      currentMode = m;
-      modes.forEach(x=> secs[x].hidden = x!==m);
-      modes.forEach(x=> buttons[x].classList.toggle('mode-active', x===m));
-      updateSummary();
-    }
-  
-    // calculate & update summary
-    function updateSummary(){
-      let amt = 0, fee = 0;
-      if (currentMode==='promo') {
-        sumMethod.textContent = 'Promo';
-        sumAmount.textContent = '0.00';
-        sumFees.textContent   = '0.00';
-        sumBalance.textContent= fmt(balance);
-        return;
-      }
-  
-      // get amount from correct input
-      amt = parseFloat(inputs[currentMode]?.value) || 0;
-      // extra validations
-      if (currentMode==='crypto' && (!wallet.value.trim())) amt = 0;
-      if (currentMode==='bank' && (!acct.value.trim()||!routing.value.trim())) amt = 0;
-  
-      fee = amt * (feeRates[currentMode]||0);
-      sumMethod.textContent  = currentMode.charAt(0).toUpperCase()+currentMode.slice(1);
-      sumAmount.textContent  = amt.toFixed(2);
-      sumFees.textContent    = fee.toFixed(2);
-      sumBalance.textContent = fmt(balance + amt - fee);
-  
-      // enable/disable submit
-      if (currentMode!=='promo') {
-        sub[currentMode].disabled = amt <= 0;
-      }
-    }
-  
-    // wiring up mode buttons
-    modes.forEach(m => {
-      buttons[m].addEventListener('click', ()=> setMode(m));
-    });
-  
-    // inputs → update
-    Object.values(inputs).forEach(i=> i.addEventListener('input',updateSummary));
-    [wallet, acct, routing].forEach(i=> i?.addEventListener('input',updateSummary));
-  
-    // fiat deposit
-    document.getElementById('addFundsForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const amt = parseFloat(inputs.fiat.value);
-      balance += amt - amt*feeRates.fiat;
-      user.balance = balance;
-      localStorage.setItem('users', JSON.stringify(
-        JSON.parse(localStorage.getItem('users')).map(u=>u.username===user.username?user:u)
-      ));
-      showToast(`✅ Deposited ${fmt(amt)} (Fiat)!`);
-      inputs.fiat.value = '';
-      updateSummary();
-    });
-  
-    // crypto deposit
-    document.getElementById('cryptoForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const amt = parseFloat(inputs.crypto.value);
-      balance += amt - amt*feeRates.crypto;
-      user.balance = balance;
-      localStorage.setItem('users', JSON.stringify(
-        JSON.parse(localStorage.getItem('users')).map(u=>u.username===user.username?user:u)
-      ));
-      showToast(`✅ Deposited ${fmt(amt)} via Crypto!`);
-      inputs.crypto.value = ''; wallet.value = '';
-      updateSummary();
-    });
-  
-    // bank transfer deposit
-    document.getElementById('bankForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const amt = parseFloat(inputs.bank.value);
-      balance += amt - amt*feeRates.bank;
-      user.balance = balance;
-      localStorage.setItem('users', JSON.stringify(
-        JSON.parse(localStorage.getItem('users')).map(u=>u.username===user.username?user:u)
-      ));
-      showToast(`✅ Deposited ${fmt(amt)} via Bank Transfer!`);
-      inputs.bank.value = ''; acct.value = ''; routing.value = '';
-      updateSummary();
-    });
-  
-    // promo code apply (stub)
-    document.getElementById('promoApply').addEventListener('click', () => {
-      const code = promoIn.value.trim().toUpperCase();
-      if (code==='FREEDAP') {
-        balance += 10;
-        user.balance = balance;
-        localStorage.setItem('users', JSON.stringify(
-          JSON.parse(localStorage.getItem('users')).map(u=>u.username===user.username?user:u)
-        ));
-        promoFB.textContent = '✔️ $10 credited!';
-        updateSummary();
-      } else {
-        promoFB.textContent = '❌ Invalid code.';
-      }
-    });
-  
-    // init
-    setMode('fiat');
+// (ES module, ensure Chart.js loaded!)
+
+const FEE_MAP = {
+  Fiat:    { pct: 0.04, min: 1 },
+  Crypto:  { pct: 0.02, min: 0.5 },
+  Bank:    { pct: 0.015, min: 0.75 },
+};
+
+const SUGGEST_KEY = "dap_pay_suggestions";
+const ACHIEVE_KEY = "dap_pay_achievements";
+const WHEEL_BONUS = [1,2,3,5,7,10];
+const BADGES = {
+  first: { label: "💸 First Deposit!", cond: (d) => d.length >= 1 },
+  five:  { label: "🏅 Five Deposits!", cond: (d) => d.length >= 5 },
+  big:   { label: "💰 $100 Club!", cond: (d) => d.some(x => x.amount >= 100) },
+};
+
+function fmt(amount) {
+  return "$" + (Number(amount) || 0).toFixed(2);
+}
+function saveSuggestion(method, amt) {
+  let all = JSON.parse(localStorage.getItem(SUGGEST_KEY) || '{}');
+  all[method] = (all[method] || []);
+  all[method].unshift(Number(amt));
+  all[method] = all[method].slice(0, 3);
+  localStorage.setItem(SUGGEST_KEY, JSON.stringify(all));
+}
+function getSuggestions(method) {
+  let all = JSON.parse(localStorage.getItem(SUGGEST_KEY) || '{}');
+  return all[method] || [];
+}
+function getCurrentUser() {
+  const username = localStorage.getItem("currentUser");
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  return users.find(u => u.username === username);
+}
+function setUserBalance(newBal) {
+  const username = localStorage.getItem("currentUser");
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  users = users.map(u => (u.username === username ? { ...u, balance: newBal } : u));
+  localStorage.setItem("users", JSON.stringify(users));
+}
+function updateLiveBalance() {
+  const user = getCurrentUser();
+  document.getElementById("liveBalance").textContent = fmt(user?.balance || 0);
+}
+function pushDepositHistory(obj) {
+  let h = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
+  h.push(obj);
+  localStorage.setItem("paymentHistory", JSON.stringify(h));
+}
+function markAchievement(badge) {
+  let got = JSON.parse(localStorage.getItem(ACHIEVE_KEY) || "[]");
+  if (!got.includes(badge)) {
+    got.push(badge);
+    localStorage.setItem(ACHIEVE_KEY, JSON.stringify(got));
+    showModal(badge);
+  }
+}
+function showModal(badge) {
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `<div class="modal-badge">
+    <div class="modal-content">
+      <div class="badge-emoji">${BADGES[badge].label}</div>
+      <div class="badge-title">${BADGES[badge].label}</div>
+      <button onclick="document.getElementById('modal-root').innerHTML=''">Close</button>
+    </div>
+  </div>`;
+  setTimeout(() => root.innerHTML = "", 2500);
+}
+function showSpinWheel(onResult) {
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `<div class="modal-wheel">
+    <div class="modal-content">
+      <div class="wheel-spin" id="theWheel">🎰</div>
+      <div id="wheelMsg" style="margin:1em 0">Spin to win a bonus!</div>
+      <button id="spinBtn" class="glow-btn">Spin!</button>
+    </div>
+  </div>`;
+  document.getElementById("spinBtn").onclick = () => {
+    const val = WHEEL_BONUS[Math.floor(Math.random()*WHEEL_BONUS.length)];
+    document.getElementById("wheelMsg").textContent = `🎉 Bonus: $${val}!`;
+    setTimeout(() => { root.innerHTML = ""; onResult(val); }, 1200);
+  };
+}
+function applyBadgeChecks(method) {
+  let hist = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
+  let user = localStorage.getItem("currentUser");
+  let myDeposits = hist.filter(tx => tx.username === user && tx.type === method);
+  if (BADGES.first.cond(myDeposits)) markAchievement("first");
+  if (BADGES.five.cond(myDeposits))  markAchievement("five");
+  if (BADGES.big.cond(myDeposits))   markAchievement("big");
+}
+
+function getFee(method, amount) {
+  const conf = FEE_MAP[method];
+  const amt = Number(amount) || 0;
+  const fee = Math.max(amt * conf.pct, conf.min);
+  return { fee, net: amt - fee };
+}
+
+// Secure mode
+function applySecureMode(on) {
+  document.querySelectorAll('[data-maskable]').forEach(inp => {
+    inp.type = on ? "password" : "text";
   });
-  
+  localStorage.setItem("dap_pay_secure", on ? "1" : "0");
+}
+function restoreSecureMode() {
+  applySecureMode(localStorage.getItem("dap_pay_secure") === "1");
+}
+
+// Chart setup
+let charts = {};
+function updateChart(method, amount) {
+  const chartId = method.toLowerCase() + "FeeChart";
+  const ctx = document.getElementById(chartId);
+  if (!ctx) return;
+  const { fee, net } = getFee(method, amount);
+  if (!charts[method]) {
+    charts[method] = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Deposit', 'Fee'],
+        datasets: [{
+          data: [Math.max(amount - fee, 0), fee],
+          backgroundColor: ['#0CC7F6', '#FFC857'],
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        cutout: '70%'
+      }
+    });
+  } else {
+    charts[method].data.datasets[0].data = [Math.max(amount - fee, 0), fee];
+    charts[method].update();
+  }
+}
+
+// Main tab and form logic
+document.addEventListener("DOMContentLoaded", () => {
+  restoreSecureMode();
+  updateLiveBalance();
+  // Tab switch logic
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove("mode-active"));
+      btn.classList.add("mode-active");
+      let m = btn.dataset.method;
+      ['fiat','crypto','bank','promo'].forEach(id =>
+        document.getElementById(id+"Section").hidden = (m.toLowerCase() !== id)
+      );
+    };
+  });
+
+  // Secure mode toggle
+  document.getElementById("secureToggle").onclick = () => {
+    let on = localStorage.getItem("dap_pay_secure") !== "1";
+    applySecureMode(on);
+    document.getElementById("secureToggle").classList.toggle("glow-btn-secondary", !on);
+  };
+
+  // --- Fiat Form Logic ---
+  bindDepositForm("Fiat", "fiatAmount", "addFundsForm", "fiatSuggestion", "fiatFeeChart", "submitBtn");
+  // --- Crypto ---
+  bindDepositForm("Crypto", "cryptoAmount", "cryptoForm", "cryptoSuggestion", "cryptoFeeChart", "cryptoSubmit");
+  // --- Bank ---
+  bindDepositForm("Bank", "bankAmount", "bankForm", "bankSuggestion", "bankFeeChart", "bankSubmit");
+
+  // Quick fill for all forms
+  document.querySelectorAll('.quick-fill-btn').forEach(btn =>
+    btn.onclick = (e) => {
+      const input = btn.parentElement.querySelector('input');
+      input.value = btn.dataset.value;
+      input.dispatchEvent(new Event('input'));
+    }
+  );
+});
+
+// Handles deposit logic for each method
+function bindDepositForm(method, amtId, formId, sugId, chartId, submitId) {
+  const form = document.getElementById(formId);
+  const input = document.getElementById(amtId);
+  const sugBox = document.getElementById(sugId);
+  const submit = document.getElementById(submitId);
+  updateChart(method, input.value);
+
+  input.addEventListener('input', () => {
+    let val = Number(input.value);
+    updateChart(method, val);
+    // suggestion logic
+    let suggestions = getSuggestions(method);
+    if (suggestions.length) {
+      const avg = (suggestions.reduce((a,b)=>a+b,0)/suggestions.length).toFixed(2);
+      sugBox.innerHTML = `Suggested: $${avg} (based on last ${suggestions.length} deposits: ${suggestions.join(", ")})`;
+    } else {
+      sugBox.innerHTML = '';
+    }
+    // Button state
+    submit.disabled = !(val && val >= (method === "Bank" ? 5 : 1));
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const amt = Number(input.value);
+    if (!amt || (method === "Bank" && amt < 5) || amt < 1) return;
+    // Simulate network error
+    if (Math.random() < 0.10) {
+      showError("Network Error. Please retry.", () => form.dispatchEvent(new Event('submit')));
+      return;
+    }
+    // Save suggestion
+    saveSuggestion(method, amt);
+
+    // Calc fee
+    const { fee } = getFee(method, amt);
+
+    // Update balance
+    let user = getCurrentUser();
+    let bal = (user?.balance || 0) + amt - fee;
+    setUserBalance(bal);
+    updateLiveBalance();
+
+    // Log transaction
+    pushDepositHistory({
+      type: method, username: user.username, amount: amt, fee, date: new Date().toLocaleString()
+    });
+
+    // Achievements
+    applyBadgeChecks(method);
+
+    // Animate confirmation
+    showConfirmation(amt - fee, fee, method, () => {
+      // Spin wheel mini-game
+      showSpinWheel(bonus => {
+        let user = getCurrentUser();
+        let bal = (user?.balance || 0) + bonus;
+        setUserBalance(bal);
+        updateLiveBalance();
+        pushDepositHistory({
+          type: "Bonus", username: user.username, amount: bonus, fee: 0, date: new Date().toLocaleString()
+        });
+      });
+    });
+
+    form.reset();
+    submit.disabled = true;
+    updateChart(method, 0);
+  });
+}
+
+function showConfirmation(net, fee, method, next) {
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `
+    <div class="modal-confirm">
+      <div class="modal-content">
+        <h2>✅ Deposit Successful!</h2>
+        <div>Method: <b>${method}</b></div>
+        <div>Amount: <b>${fmt(net+fee)}</b></div>
+        <div>Fee: <b>${fmt(fee)}</b></div>
+        <div>Net Added: <b>${fmt(net)}</b></div>
+        <div style="font-size:2em; margin:1em 0;">🎉</div>
+        <button onclick="document.getElementById('modal-root').innerHTML=''; (${next})();" class="glow-btn">Spin Wheel</button>
+      </div>
+    </div>`;
+  setTimeout(() => {
+    if (document.getElementById("modal-root").innerHTML) next();
+  }, 2500);
+}
+
+function showError(msg, retryFn) {
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `
+    <div class="modal-error">
+      <div class="modal-content">
+        <h2>❌ ${msg}</h2>
+        <button onclick="document.getElementById('modal-root').innerHTML='';">Cancel</button>
+        <button onclick="document.getElementById('modal-root').innerHTML=''; (${retryFn})();" class="glow-btn">Retry</button>
+      </div>
+    </div>`;
+}
