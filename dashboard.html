@@ -1,47 +1,84 @@
-<!-- dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- Commit 1: Meta & Stylesheet -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAP⚡Pay | Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
-<!-- Commit 2: Nav injected via main.js -->
 
 <body data-flavor="app">
   <div id="nav-placeholder"></div>
-
-  <!-- Commit 3: Particles background -->
   <div id="particles-js" aria-hidden="true"></div>
 
-  <!-- Commit 4: Main dashboard content -->
   <main role="main">
     <div class="dashboard-wrapper">
 
-      <!-- Hero Welcome -->
+      <!-- 👋 Hero Welcome -->
       <section class="hero-section">
-        <h1 class="hero-title">👋 Welcome back, <span id="userName"></span>!</h1>
+        <h1 class="hero-title">👋 Welcome back, <span id="userName">Player</span>!</h1>
         <p class="hero-subtitle">✅ Status: <span style="color:#0CC7F6;">Good Standing</span></p>
       </section>
 
-      <!-- Wallet Balance -->
+      <!-- 💼 Wallet Tier & Progress -->
+      <section class="wallet-tier">
+        <h3>💼 Wallet Level: <span id="walletTier">Bronze</span></h3>
+        <div class="tier-bar">
+          <div id="tierProgress" class="tier-progress"></div>
+        </div>
+      </section>
+
+      <!-- 🔥 Daily Streak -->
+      <section class="streak-card">
+        <h3>🔥 Daily Streak</h3>
+        <p><strong id="dailyStreak">0</strong> Days in a Row</p>
+      </section>
+
+      <!-- 💰 Wallet Balance -->
       <div class="balance-card">
         <h2 id="walletBalance">$0.00</h2>
         <p>Available Wallet Balance</p>
+        <div class="balance-details">
+          <div>Last Deposit: <span id="lastDeposit">$0.00</span></div>
+          <div>Total Bonuses: <span id="totalBonuses">$0.00</span></div>
+        </div>
       </div>
-      <!-- Profile Card -->
+
+      <!-- 💡 Motivator Tip -->
+      <section class="dashboard-tip">
+        <p id="dashTip">💡 Tip: Use your promo code today for a bonus spin!</p>
+      </section>
+
+      <!-- 📈 Deposit Activity Chart -->
+      <section class="dashboard-chart-card">
+        <h3>💹 Deposit Activity (Last 7 Days)</h3>
+        <canvas id="depositChart" height="160"></canvas>
+      </section>
+
+      <!-- 📊 Spend Breakdown (Optional) -->
+      <section class="category-spend">
+        <h3>🧩 Spend Breakdown</h3>
+        <canvas id="categoryChart" height="160"></canvas>
+      </section>
+
+      <!-- 🏆 Badge Grid -->
+      <section class="badge-grid">
+        <h3>🏆 Achievements</h3>
+        <div class="badge-container" id="badgeContainer"></div>
+      </section>
+
+      <!-- 👤 Profile Info -->
       <div class="form-card profile-card">
         <h3>Your Profile</h3>
-        <p><strong>Username:</strong> <span id="profileUsername"></span></p>
-        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-        <p><strong>DOB:</strong> <span id="profileDob"></span></p>
-        <p><strong>Address:</strong> <span id="profileAddress"></span></p>
+        <p><strong>Username:</strong> <span id="profileUsername">-</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
+        <p><strong>DOB:</strong> <span id="profileDob">-</span></p>
+        <p><strong>Address:</strong> <span id="profileAddress">-</span></p>
       </div>
-      <!-- Quick Stats -->
+
+      <!-- 📌 Quick Stats -->
       <div class="form-card" aria-labelledby="quickStatsHeading">
         <h2 id="quickStatsHeading" class="sr-only">Quick Stats</h2>
         <div class="features-list" style="text-align:center;">
@@ -51,8 +88,7 @@
         </div>
       </div>
 
-
-      <!-- Last Payment Info -->
+      <!-- 🧾 Last Payment Info -->
       <div class="form-card" aria-labelledby="lastPaymentHeading">
         <h2 id="lastPaymentHeading" class="sr-only">Last Payment</h2>
         <p id="lastPaymentInfo" style="color:#ccc; text-align:center;">
@@ -60,29 +96,46 @@
         </p>
       </div>
 
-      
+      <!-- 📌 Recent Actions -->
+      <section class="recent-actions">
+        <h3>📌 Recent Actions</h3>
+        <ul id="actionFeed" class="action-feed-list"></ul>
+      </section>
 
-      <!-- Action Buttons -->
+      <!-- 🎁 Bonus History -->
+      <section class="bonus-history">
+        <h3>🎁 Bonus History</h3>
+        <ul id="bonusList" class="bonus-list"></ul>
+      </section>
+
+      <!-- 🟢 Action Buttons -->
       <div class="payment-options">
         <button onclick="location.href='pay-game.html'">🎱 Start New Game/Table ➡️</button>
         <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
       </div>
 
-      <!-- Transaction History -->
+      <!-- 📜 Transaction History -->
       <div class="transaction-history" aria-labelledby="historyHeading">
-        <h2 id="historyHeading">Transaction History</h2>
+        <h2 id="historyHeading">🧾 Transaction History</h2>
         <div id="transactionList" style="color:#ccc; text-align:center;">
           No transactions yet.
         </div>
       </div>
 
+      <!-- 🎉 Confetti Overlay (on badge unlock) -->
+      <div id="confetti" class="confetti-overlay" hidden>
+        🎉 Badge Unlocked!
+      </div>
+      <div id="confetti" class="confetti-overlay" onclick="this.classList.remove('show')">
+        🎉 Badge Unlocked!
+      </div>
+
+
     </div>
   </main>
 
-  <!-- Commit 5: Footer injected via main.js -->
   <div id="footer-placeholder"></div>
 
-  <!-- Commit 6: Scripts -->
   <script src="js/particles.min.js" defer></script>
   <script type="module" src="js/main.js" defer></script>
   <script type="module" src="js/dashboard.js" defer></script>

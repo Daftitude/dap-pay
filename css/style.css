@@ -1,4 +1,6 @@
-/* ========== GLOBAL RESET & BASE ========== */
+/* ========================================
+   GLOBAL RESET & BASE
+======================================== */
 *,
 *::before,
 *::after {
@@ -7,106 +9,42 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #0b0c10;
-  color: white;
-  overflow-x: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* make body fill screen vertically */
-}
-
 html,
 body {
   height: 100%;
-}
-
-main {
-  flex: 1;
-  /* take up all leftover space between header and footer */
-}
-/* style.css additions for modal/row polish */
-.deposit-flex-row { display: flex; gap: 1.5rem; align-items: flex-start; }
-.deposit-amount-col { flex: 1 1 220px; }
-.deposit-chart-col { min-width: 180px; display: flex; flex-direction: column; align-items: center; }
-.quick-fill-row { display: flex; gap: 0.4rem; align-items: center; margin-bottom: 0.3em; }
-.quick-fill-btn { padding: 0.3em 0.9em; border-radius: 6px; font-weight: 600; border: none; background: #222; color: #0CC7F6; cursor: pointer; transition: background 0.18s; }
-.quick-fill-btn:hover { background: #0CC7F6; color: #fff; }
-.suggestion-text { font-size: 0.97em; color: #5dd2f6; margin-top: 0.25em; min-height: 1.2em; }
-.chart-legend { margin-top: 0.6em; font-size: 0.89em; display: flex; gap: 0.7em; align-items: center; }
-.legend-deposit { display:inline-block;width:12px;height:12px;background:#0CC7F6;border-radius:2px;margin-right:4px; }
-.legend-fee { display:inline-block;width:12px;height:12px;background:#FFC857;border-radius:2px;margin:0 8px 0 4px; }
-/* Modal */
-#modal-root { position: fixed; z-index: 3001; left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; }
-#modal-root > * { pointer-events: all; }
-.modal-badge, .modal-confirm, .modal-error, .modal-wheel {
-  position: fixed; left:0; top:0; width:100vw; height:100vh;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.45); z-index:4000;
-}
-.modal-content {
-  background: #191b23;
-  border-radius: 14px;
-  padding: 2em 2.4em;
-  min-width: 300px;
-  text-align: center;
-  box-shadow: 0 8px 40px #0CC7F6aa;
-  animation: fadeIn .33s;
-}
-.badge-emoji { font-size: 2.5em; }
-.badge-title { font-size: 1.3em; margin: 0.7em 0 1em 0;}
-@media (max-width: 800px) {
-  .deposit-flex-row { flex-direction: column; gap: 0.7em; }
-  .deposit-chart-col { min-width: 0; }
-}
-
-/* ========== UTILITY CLASSES ========== */
-/* Screen-reader only */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-/* ========== FLEX UTILITIES ========== */
-.flex-row {
+  font-family: 'General Sans', sans-serif;
+  background: #050A18;
+  color: white;
+  scroll-behavior: smooth;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-}
-.flex-1 {
-  flex: 1 1 0;
-}
-.flex-auto {
-  flex: auto;
-}
-.flex-center {
-  align-items: center;
-  justify-content: center;
-}
-@media (max-width: 600px) {
-  .flex-row {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: stretch;
-  }
+  flex-direction: column;
 }
 
+/* ========== BODY & PARTICLES BACKGROUND ========== */
+body {
+  font-family: 'General Sans', sans-serif;
+  background: #050A18;
+  color: white;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
 
-/* ========== PAGE WRAPPER ========== */
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -115,47 +53,45 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 100px;
+  position: relative;
+  z-index: 1;
 }
 
-/* ========== PARTICLES BACKGROUND ========== */
-#particles-js,
-#particles-js canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
+
+
+main {
+  flex: 1;
 }
 
-/* ========== NAVBAR ========== */
+/* ========== NAVBAR — HYBRID ========== */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 64px;
+  background: rgba(5, 10, 24, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
 
 .nav-container {
   max-width: 1200px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dap-logo {
   font-size: 1.8rem;
-  color: #0CC7F6;
-  text-shadow: 0 0 8px #0CC7F6;
+  color: #69FF7F;
+  font-weight: bold;
+  text-shadow: 0 0 6px #69FF7F;
+  letter-spacing: 0.03em;
 }
 
 .nav-links {
@@ -165,26 +101,28 @@ main {
 
 .nav-links a {
   color: #fff;
-  text-decoration: none;
   font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: .25rem;
-  transition: color 0.3s;
+  gap: 0.25rem;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: #FFC857;
-  font-weight: bold;
+  color: #4187FF;
+  text-shadow: 0 0 5px rgba(65, 135, 255, 0.5);
 }
 
+/* Mobile Nav */
 .hamburger {
   display: none;
   font-size: 1.5rem;
   background: none;
   border: none;
-  color: #0CC7F6;
+  color: #69FF7F;
   cursor: pointer;
 }
 
@@ -196,13 +134,13 @@ main {
   .nav-links {
     display: none;
     position: absolute;
-    top: 60px;
+    top: 64px;
     right: 20px;
     background: #111;
     flex-direction: column;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
   }
 
   .nav-links.show {
@@ -210,828 +148,535 @@ main {
   }
 }
 
-/* ========== HERO SECTION ========== */
-.hero-glass {
-  position: relative;
-  padding: 100px 30px 80px;
-  margin: 100px auto 60px;
-  max-width: 900px;
-  text-align: center;
+/* ========== DAILY STREAK ========== */
+.wallet-tier,
+.streak-card,
+.balance-card,
+.dashboard-tip {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+
+.balance-card {
+  padding: 2rem 2.5rem;
+  font-size: 1rem;
+}
+/* ========== WALLET PROGRESS PILL ========== */
+.tier-bar {
+  width: 100%;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+
+.tier-progress {
+  height: 100%;
+  width: 50%; /* updated via JS */
+  background: linear-gradient(to right, #69FF7F, #4187FF);
+  transition: width 0.4s ease;
+  border-radius: inherit;
+}
+
+
+
+/* ========== RECENT ACTIONS FEED ========== */
+.recent-actions {
+  margin-bottom: 2rem;
+}
+
+.action-feed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.action-feed-list li {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+  color: #ccc;
+  font-size: 0.95rem;
+}
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+  margin-bottom: 2rem;
+}
+
+/* ========== DASHBOARD TIP ========== */
+.dashboard-tip {
+  background: rgba(65, 135, 255, 0.15);
+  border-left: 5px solid #4187FF;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+
+
+/* ========== DASHBOARD SECTION SPACING ========== */
+.dashboard-wrapper > * {
+  margin-bottom: 2rem;
+}
+
+.dashboard-wrapper section:last-child,
+.dashboard-wrapper div:last-child {
+  margin-bottom: 3rem;
+}
+
+/* ========== REUSABLE DASHBOARD CARD STYLE ========== */
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(12, 199, 246, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ========== SPEND BREAKDOWN CHART ========== */
+.dashboard-chart-card,
+.category-spend {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 25px;
-  box-shadow: 0 0 40px rgba(12, 199, 246, 0.3);
-  transition: all 0.3s ease;
-  animation: fadeIn 1.2s ease-in-out;
-  min-height: 60vh;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.04);
+  text-align: center;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.hero-glass::before,
-.hero-glass::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  width: 90%;
-  height: 1px;
-  background: linear-gradient(to right, #0CC7F6, #0CC7F6);
-  opacity: .2;
-  transform: translateX(-50%);
+.dashboard-chart-card canvas,
+.category-spend canvas {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
 }
 
-.hero-glass::before {
-  top: -1px;
-}
-
-.hero-glass::after {
-  bottom: -1px;
-}
-
-.hero-logo {
-  font-size: 3rem;
-  color: #0CC7F6;
+/* ========== CONFETTI OVERLAY ========== */
+.confetti-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 2rem;
   font-weight: bold;
-  text-shadow: 0 0 15px #0CC7F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.confetti-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+@keyframes popConfetti {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+/* ========== MOBILE RESPONSIVE LAYOUT ========== */
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .balance-card,
+  .streak-card,
+  .wallet-tier,
+  .dashboard-tip,
+  .category-spend,
+  .recent-actions,
+  .bonus-history {
+    padding: 1.25rem;
+  }
+
+  .tier-bar {
+    height: 12px;
+  }
+
+  .dashboard-wrapper {
+    padding: 1.25rem;
+  }
+}
+.payment-options button {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1.05rem;
+  border-radius: 12px;
+  background: #0CC7F6;
+  color: #111;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 10px rgba(12,199,246,0.3);
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.payment-options button:hover {
+  background: #11e0ff;
+  box-shadow: 0 6px 16px rgba(12,199,246,0.45);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   PAGE STRUCTURE
+======================================== */
+.page-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
 }
 
 .hero-title {
-  font-size: 2rem;
-  margin-top: 20px;
-  color: white;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-  animation: fadeIn 1.2s ease-in forwards;
-}
-
-.hero-subtitle {
-  font-size: 1.2rem;
-  color: #FFC857;
-  margin: 20px 0 40px;
-  animation: fadeIn 1.4s ease-in forwards;
-}
-
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* ========== BUTTONS ========== */
-.glow-btn {
-  background: #0CC7F6;
-  color: black;
-  padding: 12px 24px;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #0CC7F6;
-  transition: all 0.3s ease;
-}
-
-.glow-btn:hover {
-  background: #0aa6d1;
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #0CC7F6;
-}
-
-.glow-btn.secondary {
-  background: transparent;
-  border: 2px solid #0CC7F6;
-  color: #0CC7F6;
-}
-
-.glow-btn.secondary:hover {
-  background: #0CC7F6;
-  color: black;
-}
-
-/* ========== FORM CARD ========== */
-.form-card {
-  width: 100%;
-  max-width: 400px;
-  margin: 2rem auto;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 15px;
-  padding: 40px 30px;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  backdrop-filter: blur(8px);
   text-align: center;
-}
-/* --- Add after .form-card --- */
-.deposit-flex-row {
-  display: flex;
-  gap: 2.5rem;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.deposit-amount-col {
-  flex: 1 1 260px;
-  min-width: 230px;
-}
-
-.deposit-chart-col {
-  flex: 0 0 190px;
-  min-width: 190px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  margin-top: 2.5rem;
-}
-
-.quick-fill-row {
-  display: flex;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
-}
-
-.quick-fill-btn {
-  background: #0CC7F6;
-  color: #111;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 0.6rem 1.2rem;
-  cursor: pointer;
-  box-shadow: 0 0 12px #0CC7F6;
-  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
-}
-.quick-fill-btn:hover, .quick-fill-btn:focus {
-  background: #11e0ff;
-  color: #111;
-  box-shadow: 0 0 18px #0CC7F6;
-}
-
-.suggestion-text {
-  color: #FFC857;
-  margin: 0.5em 0 0 0;
-  font-size: 1.08em;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-.chart-legend {
-  margin-top: 0.4em;
-  font-size: 0.95em;
-  display: flex;
-  align-items: center;
-  gap: 0.9em;
-  color: #ccc;
-}
-.legend-deposit {
-  display: inline-block; width: 18px; height: 8px;
-  background: #49b7ff; border-radius: 5px; margin-right: 4px;
-}
-.legend-fee {
-  display: inline-block; width: 18px; height: 8px;
-  background: #ffe49d; border-radius: 5px; margin-right: 4px;
-}
-
-@media (max-width: 650px) {
-  .deposit-flex-row { flex-direction: column; gap: 1.5rem; align-items: stretch; }
-  .deposit-chart-col { align-items: flex-start; margin-top: 1.2rem; }
-}
-
-
-.input-field {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid #0CC7F6;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-}
-
-.input-field::placeholder {
-  color: #ccc;
-}
-
-.password-field {
-  position: relative;
-}
-
-.password-field .toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #ccc;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* ========== SIGNUP WIZARD ========== */
-.signup-wrapper {
-  max-width: 420px;
-  margin: 6rem auto 4rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  position: relative;
-  z-index: 1;
-}
-
-.signup-wrapper form fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-.progressbar {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  counter-reset: step;
-}
-
-.progressbar::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  right: 1rem;
-  height: 2px;
-  background: #333;
-  z-index: 0;
-}
-
-.progress-step {
-  position: relative;
-  flex: 1;
-  min-width: 80px;
-  text-align: center;
-  z-index: 1;
-}
-
-.progress-step::before {
-  counter-increment: step;
-  content: counter(step);
-  width: 2.2rem;
-  height: 2.2rem;
-  line-height: 2.2rem;
-  border: 2px solid #0CC7F6;
-  border-radius: 50%;
-  background: #111;
-  color: #ccc;
-  display: inline-block;
-}
-
-.progress-step::after {
-  content: attr(data-title);
-  margin-top: .5rem;
-  display: block;
-  font-size: .85rem;
-  color: #ccc;
-}
-
-.progress-step-active::before,
-.progress-step-completed::before {
-  background: #0CC7F6;
-  color: black;
-  border-color: #0CC7F6;
-}
-
-.progress-step-active::after,
-.progress-step-completed::after {
-  color: #0CC7F6;
-  font-weight: bold;
-}
-
-/* ========== DASHBOARD & TRANSACTIONS ========== */
-.dashboard-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 120px 20px 50px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.dashboard-welcome {
-  font-size: 2rem;
-  color: #0CC7F6;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.balance-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 30px 40px;
-  text-align: center;
-  box-shadow: 0 0 15px #0CC7F6;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.balance-card h2 {
-  font-size: 2rem;
-  color: #FFC857;
-  margin-bottom: 10px;
-}
-
-.balance-card p {
-  font-size: 1.2rem;
-  color: white;
-}
-
-.transaction-history {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 600px;
-  margin-bottom: 50px;
-  box-shadow: 0 0 10px #0CC7F6;
-}
-
-.transaction-history h3 {
-  text-align: center;
-  color: #FFC857;
-  margin-bottom: 20px;
-}
-
-.transaction-item {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px 20px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  font-size: .95rem;
-  margin-bottom: 15px;
-}
-
-.logout-btn {
-  display: block;
-  margin: 30px auto 0;
-  background: transparent;
-  color: #ff6666;
-  border: 2px solid #ff6666;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all .3s ease;
-}
-
-.logout-btn:hover {
-  background: #ff6666;
-  color: black;
-  transform: scale(1.05);
-}
-
-.profile-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 20px 0;
-  max-width: 400px;
-  box-shadow: 0 0 15px #0CC7F6;
-  color: #ccc;
-}
-
-.profile-card h3 {
-  color: #FFC857;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.profile-card p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-}
-
-/* ========== ADD FUNDS: POPUPS & MODALS ========== */
-.badge-popup {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #0CC7F6;
-  color: #222;
-  border-radius: 12px;
-  padding: 1.2rem 2rem;
-  font-size: 1.2rem;
-  z-index: 2001;
-  box-shadow: 0 0 20px #0CC7F6;
-  opacity: 0;
-  transform: translateY(-25px);
-  transition: all .3s;
-  pointer-events: none;
-}
-
-.badge-popup.show {
-  opacity: 1;
-  transform: none;
-}
-
-.badge-emoji {
-  font-size: 2.5rem;
-  display: block;
-  animation: pop .4s;
-}
-
-@keyframes pop {
-  0% {
-    transform: scale(0.4);
-  }
-
-  80% {
-    transform: scale(1.2);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.spin-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.66);
-  z-index: 2002;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spin-container {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 2rem 2.5rem;
-  box-shadow: 0 0 25px #0CC7F6;
-  text-align: center;
-}
-
-.spin-wheel {
-  font-size: 3rem;
-  margin-bottom: 1.2rem;
-}
-
-.error-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.74);
-  z-index: 2003;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.error-content {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 2rem 3rem;
-  color: #c00;
-  font-size: 1.3rem;
-  text-align: center;
-  box-shadow: 0 0 12px #c00;
-}
-
-.input-glow {
-  box-shadow: 0 0 7px #FFC857, 0 0 2px #fff !important;
-  border-color: #FFC857 !important;
-  animation: glow-in .7s;
-}
-
-@keyframes glow-in {
-  0% {
-    box-shadow: none;
-  }
-
-  100% {
-    box-shadow: 0 0 7px #FFC857;
-  }
-}
-
-.deposit-confirm-anim {
-  position: fixed;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #0CC7F6;
-  padding: 2rem 3rem;
-  border-radius: 2rem;
-  font-size: 2rem;
-  text-align: center;
-  z-index: 3000;
-  box-shadow: 0 0 35px #0CC7F6;
-  opacity: 1;
-  animation: confirmfade 1.4s;
-  pointer-events: none;
-}
-
-@keyframes confirmfade {
-  0% {
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 1;
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.mode-btn.active,
-.glow-btn.active {
-  box-shadow: 0 0 12px #0CC7F6;
-}
-
-#suggestion {
-  margin-top: 8px;
-  font-size: 1rem;
-  color: #FFC857;
-  cursor: pointer;
-}
-
-.tooltip {
-  position: fixed;
-  background: #333;
-  color: #fff;
-  padding: 7px 16px;
-  border-radius: 6px;
-  font-size: 1rem;
-  z-index: 4000;
-  pointer-events: none;
-  box-shadow: 0 0 12px #0CC7F6;
-}
-
-#secureToggle.active {
-  background: #0CC7F6;
-  color: #fff;
-}
-
-#secureToggle {
+  font-size: 2.25rem;
+  color: #69FF7F;
+  margin-top: 100px;
   margin-bottom: 1.5rem;
 }
 
-/* ========== PAY-GAME PAGE ========== */
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 2rem 0 1rem;
+#liveBalance {
+  font-weight: 600;
+  color: #FFFFFF;
 }
 
-.tab-btn {
-  background: transparent;
-  border: none;
-  color: #ccc;
-  padding: .5rem 1rem;
-  cursor: pointer;
-  position: relative;
-  transition: color .3s;
-}
-
-.tab-btn.tab-active {
-  color: #0CC7F6;
-}
-
-.tab-btn.tab-active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #0CC7F6;
-}
-
-.tables-grid .table-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-flow: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-@media (max-width: 480px) {
-  .tables-grid .table-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-.table-item {
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid #0CC7F6;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  color: #ccc;
-  cursor: pointer;
-  transition: all .2s;
-}
-
-.table-item:hover {
-  background: rgba(12, 199, 246, 0.1);
-  transform: translateY(-3px);
-}
-
-.table-item.selected {
-  background: #0CC7F6;
-  color: black;
-  box-shadow: 0 4px 15px rgba(12, 199, 246, 0.6);
-}
-
-/* Mode + Wager Panel (Pay-Game + Add-Funds share) */
-.mode-wager-panel,
-.deposit-section,
-.summary-panel {
-  max-width: 450px;
-  margin: 0 auto 3rem;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(12, 199, 246, 0.7);
-  padding: 2rem;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  color: #ccc;
-}
-
+/* ========== MODE SWITCH TABS ========== */
 .mode-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 2rem 0 2.5rem;
+  flex-wrap: wrap;
 }
 
 .mode-btn {
-  padding: .75rem 1.5rem;
-  border: 2px solid #0CC7F6;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid #69FF7F;
+  border-radius: 10px;
   background: transparent;
-  color: #0CC7F6;
+  color: #69FF7F;
+  font-weight: 600;
   cursor: pointer;
-  transition: background .3s, color .3s;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
 .mode-btn.mode-active {
-  background: #0CC7F6;
-  color: black;
+  background: #69FF7F;
+  color: #050A18;
+  box-shadow: 0 0 12px rgba(105, 255, 127, 0.5);
 }
 
-.mode-btn:not(.mode-active):hover {
-  background: rgba(12, 199, 246, 0.1);
+.mode-btn:hover:not(.mode-active) {
+  background: rgba(105, 255, 127, 0.1);
+  color: #69FF7F;
 }
 
-.wager-panel,
-.deposit-section form {
+
+/* ========================================
+   FORM CARDS (Used on All Sections)
+======================================== */
+.form-card {
+  width: 100%;
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(65, 135, 255, 0.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+
+/* ========== GLOW BUTTON (Primary Action) ========== */
+.glow-btn {
+  background: #4187FF;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(65, 135, 255, 0.4);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.glow-btn:hover {
+  background: #5aa3ff;
+  box-shadow: 0 0 16px rgba(65, 135, 255, 0.6);
+  transform: scale(1.02);
+}
+
+
+/* ========== INPUT FIELD ========== */
+/* Used in all forms: amount input, text, password, promo */
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 1.2rem;
+}
+
+.input-field::placeholder {
+  color: #bbbbbb;
+  opacity: 0.7;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #69FF7F;
+  box-shadow: 0 0 0 2px rgba(105, 255, 127, 0.25);
+}
+/* ========== PROMO CODE ROW ========== */
+.promo-code-row {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.wager-panel label,
-.deposit-section label {
-  color: #ccc;
-  font-weight: bold;
-}
-
-#confirmBtn,
-#submitBtn,
-#cryptoSubmit,
-#bankSubmit {
+  gap: 0.75rem;
+  align-items: center;
   margin-top: 1rem;
 }
 
-/* ========== ADD-FUNDS SPECIFIC ========== */
-.deposit-section {
+#promoCode {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .promo-code-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #promoCode {
+    width: 100%;
+  }
+}
+
+
+/* ========================================
+   MODE SWITCH TABS
+======================================== */
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
 }
 
-.empty-state {
-  font-style: italic;
-  color: #ccc;
-  margin-top: .5rem;
+.mode-btn {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  border: 2px solid #4187FF;
+  border-radius: 10px;
+  color: #4187FF;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* ========== MOBILE TEASE SECTION ========== */
-.mobile-tease-section {
-  padding: 4rem 2rem;
-  text-align: center;
+.mode-btn.mode-active {
+  background: #4187FF;
+  color: #050A18;
+  font-weight: 600;
 }
 
-.mobile-tease-content {
+/* ========== QUICK FILL ROW ========== */
+/* Appears just below the label — before the input */
+.quick-fill-row {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 1.5rem;
 }
 
-.mobile-image img {
-  width: 200px;
-  max-width: 100%;
-  border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
 
-.mobile-cta .qr-code-placeholder {
-  width: 150px;
-  height: 150px;
-  background: #ccc;
-  border-radius: .5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.mobile-cta p {
-  margin-top: .5rem;
+.quick-fill-btn {
+  background: #69FF7F;
+  color: #050A18;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
   font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(105, 255, 127, 0.4);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.quick-fill-btn.active {
+  background: #4187FF;
+  color: white;
+  box-shadow: 0 0 12px rgba(65, 135, 255, 0.6);
+  transform: scale(0.96);
 }
 
-/* ========== OTHER SECTIONS ========== */
-.features-section,
-.testimonials-section {
-  text-align: center;
-  margin-bottom: 80px;
+
+.quick-fill-btn:hover,
+.quick-fill-btn:focus {
+  background: #52e667;
+  transform: scale(1.05);
 }
 
-.features-section h2,
-.testimonials-section h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.features-section h2 {
-  color: #0CC7F6;
-}
-
-.testimonials-section h2 {
+/* ========== SUGGESTION TEXT (Smart Average) ========== */
+.suggestion-text {
+  font-size: 0.9rem;
   color: #FFC857;
+  margin-top: 0.5rem;
+  text-align: center;
+  min-height: 1.2em;
+}
+@media (max-width: 600px) {
+  .quick-fill-btn {
+    flex: 1 1 30%;
+    text-align: center;
+  }
 }
 
-.features-list,
-.testimonials-list {
+
+
+/* ========== CHART + SUMMARY ROW ========== */
+/* Appears below input — used in all deposit types */
+.deposit-chart-summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+
+.deposit-chart-col {
+  flex: 0 0 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ========== TRANSACTION SUMMARY BOX ========== */
+.deposit-summary-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 0 12px rgba(65, 135, 255, 0.1);
+  font-size: 0.95rem;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0.4rem;
+  color: #eee;
 }
 
-.testimonials-list {
-  font-style: italic;
+.deposit-summary-box div {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-/* ========== FADE-IN ANIMATION ========== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #aaa;
+  align-items: center;
 }
 
-/* ========== FOOTER ========== */
-#footer-placeholder {
-  margin-top: auto;
+.legend-deposit::before,
+.legend-fee::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 5px;
 }
 
+.legend-deposit::before {
+  background-color: #4187FF;
+}
+
+.legend-fee::before {
+  background-color: #FFC857;
+}
+/* ========== ANIMATED FLASH ON VALUE CHANGE ========== */
+.flash-animate {
+  animation: flashFade 0.6s ease-in-out;
+}
+
+@keyframes flashFade {
+  0% { background-color: rgba(65, 135, 255, 0.2); }
+  50% { background-color: rgba(105, 255, 127, 0.3); }
+  100% { background-color: transparent; }
+}
+
+
+
+/* ========================================
+   FOOTER — GLASS STYLE FINTECH THEME
+   - Builds from your existing layout
+   - Dark gradient background
+   - Uses Cash App–inspired spacing and font balance
+======================================== */
+/* ========== FOOTER — HYBRID ========== */
 .footer-glass {
-  background: #11121a;
-  padding: 50px 20px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 -2px 10px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to top, #050A18, #0b0c10);
+  padding: 3rem 2rem;
   text-align: left;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 -4px 12px rgba(0, 0, 0, 0.35);
+  color: #bbb;
+  font-size: 0.95rem;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 40px;
+  gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -1042,35 +687,39 @@ main {
 }
 
 .footer-column h4 {
-  color: #0CC7F6;
-  margin-bottom: 12px;
+  color: #69FF7F;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer-column p {
+  color: #ccc;
+  margin: 0.4rem 0;
 }
 
 .footer-links {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 .footer-links li {
-  margin-bottom: 8px;
+  margin-bottom: 0.6rem;
 }
 
 .footer-links li a {
+  color: #4187FF;
+  font-weight: 500;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  color: #ccc;
-  text-decoration: none;
-  transition: color .3s;
+  gap: 0.4rem;
+  transition: color 0.3s;
 }
 
 .footer-links li a:hover {
-  color: #0CC7F6;
-}
-
-.footer-column p {
-  margin: .5rem 0;
+  color: #69FF7F;
 }
 
 @media (max-width: 768px) {
@@ -1082,66 +731,15 @@ main {
 
   .footer-column {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 }
 
 
-/* ========== CHART + SUMMARY SIDE-BY-SIDE BELOW INPUTS ========== */
-.deposit-chart-summary-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  justify-content: space-between;
-}
 
-.deposit-chart-col {
-  flex: 0 0 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.deposit-summary-box {
-  flex: 1;
-  min-width: 180px;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.3rem;
-  color: #ccc;
-}
-
-.chart-legend {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: #aaa;
-}
-
-.legend-deposit::before {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: #0CC7F6;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-
-.legend-fee::before {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: #FFC857;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-
+/* ========================================
+   RESPONSIVE
+======================================== */
 @media (max-width: 768px) {
   .deposit-chart-summary-row {
     flex-direction: column;
@@ -1149,7 +747,17 @@ main {
   }
 
   .deposit-summary-box {
-    align-items: center;
     text-align: center;
+    align-items: center;
+  }
+
+  .quick-fill-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .quick-fill-btn {
+    flex: 1 1 30%;
   }
 }
