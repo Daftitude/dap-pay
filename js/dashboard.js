@@ -1,6 +1,16 @@
 // js/dashboard.js
 
+import Chart from 'chart.js/auto';
 import { checkAuth, loadBalance, fmt } from './main.js';
+
+// ─── Reusable Chart Creators ───
+export function createBarChart(ctx, data, options) {
+  return new Chart(ctx, { type: 'bar', data, options });
+}
+
+export function createDoughnutChart(ctx, data, options) {
+  return new Chart(ctx, { type: 'doughnut', data, options });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAuth();
@@ -197,7 +207,7 @@ function loadRecentActions() {
 
 // ========== DEPOSIT CHART ==========
 function drawDepositChart() {
-  const history = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
   const currentUser = localStorage.getItem('currentUser');
   const deposits = history.filter(tx => tx.username === currentUser && tx.type === 'Fiat');
 
@@ -208,58 +218,42 @@ function drawDepositChart() {
   });
 
   const labels = Object.keys(daily).slice(-7);
-  const data = labels.map(k => daily[k]);
+  const values = labels.map(k => daily[k]);
 
-  new Chart(document.getElementById('depositChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Deposits',
-        data,
-        backgroundColor: '#0CC7F6'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
+  const data = {
+    labels,
+    datasets: [{
+      label: 'Deposits',
+      data: values,
+      backgroundColor: '#0CC7F6'
+    }]
+  };
+  const options = { scales: { y: { beginAtZero: true } } };
+  createBarChart(document.getElementById('depositChart'), data, options);
 }
 
 // ========== CATEGORY CHART ==========
 function drawCategoryChart() {
-  const history = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+  const history = JSON.parse(localStorage.getItem('paymentHistory')) || [];
   const currentUser = localStorage.getItem('currentUser');
   const filtered = history.filter(tx => tx.username === currentUser);
 
-  const totals = {
-    Game: 0,
-    Table: 0,
-    Fiat: 0,
-    Bonus: 0
-  };
-
+  const totals = { Game: 0, Table: 0, Fiat: 0, Bonus: 0 };
   filtered.forEach(tx => {
     if (totals[tx.type] !== undefined) {
       totals[tx.type] += tx.amount;
     }
   });
 
-  new Chart(document.getElementById('categoryChart'), {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(totals),
-      datasets: [{
-        data: Object.values(totals),
-        backgroundColor: ['#0CC7F6', '#FFC857', '#69FF7F', '#f44']
-      }]
-    },
-    options: {
-      cutout: '60%'
-    }
-  });
+  const data = {
+    labels: Object.keys(totals),
+    datasets: [{
+      data: Object.values(totals),
+      backgroundColor: ['#0CC7F6', '#FFC857', '#69FF7F', '#f44']
+    }]
+  };
+  const options = { cutout: '60%' };
+  createDoughnutChart(document.getElementById('categoryChart'), data, options);
 }
 
 // ========== DASHBOARD TIP ==========

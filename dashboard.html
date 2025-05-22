@@ -15,11 +15,14 @@
 
   <main role="main">
     <div class="dashboard-wrapper">
-
       <!-- 👋 Hero Welcome -->
       <section class="hero-section">
-        <h1 class="hero-title">👋 Welcome back, <span id="userName">Player</span>!</h1>
-        <p class="hero-subtitle">✅ Status: <span style="color:#0CC7F6;">Good Standing</span></p>
+        <h1 class="hero-title">
+          👋 Welcome back, <span id="userName">Player</span>!
+        </h1>
+        <p class="hero-subtitle">
+          ✅ Status: <span style="color:#0CC7F6;">Good Standing</span>
+        </p>
       </section>
 
       <!-- 💼 Wallet Tier & Progress -->
@@ -48,7 +51,9 @@
 
       <!-- 💡 Motivator Tip -->
       <section class="dashboard-tip">
-        <p id="dashTip">💡 Tip: Use your promo code today for a bonus spin!</p>
+        <p id="dashTip">
+          💡 Tip: Use your promo code today for a bonus spin!
+        </p>
       </section>
 
       <!-- 📈 Deposit Activity Chart -->
@@ -70,7 +75,7 @@
       </section>
 
       <!-- 👤 Profile Info -->
-      <div class="form-card profile-card">
+      <div class="form-card card-glass profile-card">
         <h3>Your Profile</h3>
         <p><strong>Username:</strong> <span id="profileUsername">-</span></p>
         <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
@@ -79,9 +84,9 @@
       </div>
 
       <!-- 📌 Quick Stats -->
-      <div class="form-card" aria-labelledby="quickStatsHeading">
+      <div class="form-card card-glass quick-stats-card" aria-labelledby="quickStatsHeading">
         <h2 id="quickStatsHeading" class="sr-only">Quick Stats</h2>
-        <div class="features-list" style="text-align:center;">
+        <div class="features-list">
           <p>🎱 Games Played: <strong id="gamesPlayed">0</strong></p>
           <p>🪑 Tables Paid: <strong id="tablesPaid">0</strong></p>
           <p>💵 Total Spent: <strong id="totalSpent">$0.00</strong></p>
@@ -89,11 +94,9 @@
       </div>
 
       <!-- 🧾 Last Payment Info -->
-      <div class="form-card" aria-labelledby="lastPaymentHeading">
+      <div class="form-card card-glass last-payment-card" aria-labelledby="lastPaymentHeading">
         <h2 id="lastPaymentHeading" class="sr-only">Last Payment</h2>
-        <p id="lastPaymentInfo" style="color:#ccc; text-align:center;">
-          No recent payments yet.
-        </p>
+        <p id="lastPaymentInfo">No recent payments yet.</p>
       </div>
 
       <!-- 📌 Recent Actions -->
@@ -126,10 +129,9 @@
       <div id="confetti" class="confetti-overlay" hidden>
         🎉 Badge Unlocked!
       </div>
-      <div id="confetti" class="confetti-overlay" onclick="this.classList.remove('show')">
+      <div class="confetti-overlay show" onclick="this.classList.remove('show')">
         🎉 Badge Unlocked!
       </div>
-
 
     </div>
   </main>
