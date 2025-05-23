@@ -14,7 +14,8 @@
   --radius-lg: 16px;
   --shadow: 0 8px 24px rgba(12, 199, 246, 0.07);
   --radius: 12px;
-  --accent: #4187FF;
+  --accent: #69FF7F;
+  --accent-rgb: 105,255,127;
 }
 
 /* ========================================
@@ -169,18 +170,56 @@ main {
 /* ========== DAILY STREAK ========== */
 .wallet-tier,
 .streak-card,
-.balance-card,
-.dashboard-tip {
+.balance-card {
   margin-bottom: 2rem;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.03);
   background: rgba(255, 255, 255, 0.04);
 }
+/* ─── Levels Overview Styling ─── */
+.wallet-tier h3 {
+  margin-bottom: 1rem;
+}
 
+.wallet-tier .levels-info p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wallet-tier .levels-info p strong {
+  color: #69FF7F;
+}
+
+.wallet-tier .tier-bar {
+  margin-top: 1rem;
+}
 
 .balance-card {
   padding: 2rem 2.5rem;
   font-size: 1rem;
+}
+
+/* Add Funds button in Wallet Balance panel */
+.balance-card .balance-add-funds-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background: #0CC7F6;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(12, 199, 246, 0.3);
+  transition: background 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
+.balance-card .balance-add-funds-btn:hover {
+  background: #11e0ff;
+  transform: translateY(-2px);
 }
 
 /* ========== WALLET PROGRESS PILL ========== */
@@ -235,16 +274,14 @@ main {
 
 /* ========== DASHBOARD TIP ========== */
 
-
-
 /* ─── DASHBOARD WRAPPER GRID (Symmetrical & Even Rows) ─── */
 .dashboard-wrapper {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  grid-auto-rows: 1fr;       /* ensure each row is equal height */
-  align-items: stretch;      /* stretch items to fill row height */
+  grid-template-columns: repeat(4, 1fr);
+  align-items: start; /* ensure items align to top (stretch for uniform, start for content) */
   padding: 1rem;
+  grid-auto-rows: auto;
 }
 
 /* ─── Profile Card Full-Width in Grid ─── */
@@ -252,20 +289,27 @@ main {
   width: 100%;       /* fill its grid column */
   max-width: none;   /* override any form-card max-width */
   margin: 0;         /* remove auto centering */
+  min-height: auto;
 }
 
 /* Hero banner spans full width */
 .dashboard-wrapper .hero-section {
   grid-column: 1 / -1;
   width: 100%;
+  padding: 0.25rem 1rem;   /* reduced padding */
+  min-height: 60px;       /* increase height */
+  border: 2px solid var(--accent);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 0 20px var(--accent);
+  margin-bottom: 0.25rem;
 }
 
 /* ─── Summary Panels Minimum Height ─── */
-.card-glass:not(.dashboard-chart-card):not(.category-spend):not(.badge-grid) {
-  min-height: 180px;
+.card-glass {
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 }
 
 /* ─── Wide Chart Panels ─── */
@@ -297,8 +341,8 @@ main {
   transition: opacity 0.6s ease, transform 0.6s ease;
   width: 100%;
   /* always fill its grid cell */
-  text-align: center;
-  /* center the contents of each card */
+  text-align: left;
+  /* left-align the contents of each card for readability */
 }
 
 /* ─── Card Header Typography ─── */
@@ -327,6 +371,7 @@ main {
 .card-glass:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 28px rgba(12, 199, 246, 0.2);
+  border: 2px solid var(--accent); /* neon border on hover */
 }
 
 /* Animated gradient accent bar */
@@ -344,12 +389,16 @@ main {
   animation: slideGradient 6s linear infinite;
 }
 
+/* Profile card uses same min-height as other card-glass panels */
 .profile-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Removed align-items: center; to allow left alignment by default */
+  align-items: flex-start;
   padding-top: 2rem; /* space for accent bar */
+  justify-content: flex-start;
+  min-height: 200px;
 }
 .profile-card::before {
   content: "";
@@ -359,18 +408,45 @@ main {
   background: linear-gradient(90deg, rgba(65,135,255,0.8), rgba(105,255,127,0.8));
   animation: slideGradient 6s linear infinite;
 }
-.profile-avatar {
-  width: 60px; height: 60px;
-  background: rgba(65,135,255,0.2);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  position: relative;
-}
 .profile-card h3 {
   margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* Profile details flex layout */
+.profile-card .profile-details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.profile-card .profile-avatar,
+.profile-card .profile-info-box {
+  background: rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.profile-card .profile-header {
   text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.profile-card .profile-info-box {
+  flex: none;
+  width: 100%;
+}
+.profile-card .profile-avatar {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background: rgba(65,135,255,0.2);
+  border-radius: 50%;
 }
 
 
@@ -395,12 +471,31 @@ main {
 /* ----------------------------------------
    Hero blob background
 ---------------------------------------- */
-/* ------------ 4.1 Hero ------------ */
+/* ─── Hero Header Flex ─── */
+.hero-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.status-pill {
+  margin: 0; /* remove auto centering now handled by flex */
+}
 .hero-section {
   position: relative;
   overflow: hidden;
-  padding: 0.5rem 0.5rem;
+  padding: 0.75rem 1rem;
+  min-height: 60px;
 }
+
+/* Ensure hero banner is always visible */
+.hero-section {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 
 .hero-section::after {
   content: "";
@@ -415,15 +510,36 @@ main {
 }
 
 .hero-banner {
-  background: linear-gradient(135deg, rgba(65,135,255,0.2), rgba(105,255,127,0.2));
+  background: linear-gradient(135deg, rgba(105,255,127,0.3), rgba(65,135,255,0.3), rgba(105,255,127,0.3));
+  background-size: 200% 200%;
+  animation: shiftBackground 15s ease infinite, pulseBanner 5s ease-in-out infinite alternate;
   border: 1px solid rgba(255,255,255,0.15);
   box-shadow: 0 4px 16px rgba(12,199,246,0.1);
+  border-radius: var(--radius);
 }
-.hero-status {
-  text-align: center;
-  font-size: 1rem;
-  margin-top: 0.25rem;
-  color: #ccc;
+
+/* Pulsing glow on hero banner */
+@keyframes pulseBanner {
+  0%   { box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.2); }
+  50%  { box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.4); }
+  100% { box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.6); }
+}
+
+@keyframes shiftBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* ─── Hero Status Pill ─── */
+.status-pill {
+  display: inline-block;
+  background: #69FF7F;
+  color: #050A18;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0.5rem auto 0;
 }
 
 /* Tooltip info icon */
@@ -541,19 +657,28 @@ main {
   }
 }
 
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: auto;
+}
+
 .payment-options button {
   display: block;
   width: 100%;
-  padding: 0.85rem 1rem;
-  font-size: 1.05rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
   border-radius: 12px;
   background: #0CC7F6;
   color: #111;
   font-weight: 600;
   border: none;
   box-shadow: 0 4px 10px rgba(12, 199, 246, 0.3);
-  margin-bottom: 1rem;
   transition: all 0.2s ease;
+}
+
+.payment-options button:last-child {
 }
 
 .payment-options button:hover {
@@ -573,11 +698,12 @@ main {
 }
 
 .hero-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
   text-align: center;
-  font-size: 1.75rem;
-  margin: 0 auto 0.5rem;
   color: #69FF7F;
   white-space: nowrap;
+  text-shadow: 0 0 6px #69FF7F, 0 0 12px #69FF7F;
 }
 
 #liveBalance {
@@ -621,6 +747,7 @@ main {
 /* ========================================
    FORM CARDS (Used on All Sections)
 ======================================== */
+/*
 .form-card {
   width: 100%;
   max-width: 480px;
@@ -639,6 +766,7 @@ main {
   z-index: 2;
   text-align: center;
 }
+*/
 
 
 /* ========== GLOW BUTTON (Primary Action) ========== */
@@ -1014,9 +1142,9 @@ main {
   }
 }
 
-# ─── LOWER DASHBOARD SECTION STYLING ───
 
 /* Unified card style for profile, quick stats, last payment */
+/*
 .form-card {
   position: relative;
   overflow: hidden;
@@ -1051,6 +1179,7 @@ main {
       rgba(65, 135, 255, 0.8));
   animation: slideGradient 6s linear infinite reverse;
 }
+*/
 
 /* Recent actions, bonus history, transaction history as neon cards */
 .recent-actions,
@@ -1128,3 +1257,8 @@ main {
 
 /* Reuse slideGradient keyframes */
 
+
+/* Tighten row spacing immediately below the hero */
+.dashboard-wrapper > .hero-section + * {
+  margin-top: 0.5rem;
+}There is no code to improve.

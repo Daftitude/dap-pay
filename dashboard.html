@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAP⚡Pay | Dashboard</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body data-flavor="app">
@@ -16,114 +15,147 @@
   <main role="main">
     <div class="dashboard-wrapper">
       <!-- 👋 Hero Welcome -->
-      <section class="hero-section">
-        <h1 class="hero-title">
-          👋 Welcome back, <span id="userName">Player</span>!
-        </h1>
-        <p class="hero-subtitle">
-          ✅ Status: <span style="color:#0CC7F6;">Good Standing</span>
-        </p>
-      </section>
-
-      <!-- 💼 Wallet Tier & Progress -->
-      <section class="wallet-tier">
-        <h3>💼 Wallet Level: <span id="walletTier">Bronze</span></h3>
-        <div class="tier-bar">
-          <div id="tierProgress" class="tier-progress"></div>
+      <section class="hero-section card-glass hero-banner">
+        <div class="hero-header">
+          <h1 class="hero-title">
+            👋 Welcome back, <span id="userName">Player</span>!
+          </h1>
+          <div class="status-pill" id="heroStatusPill">
+            ✅ <span id="statusText">Good Standing</span>
+          </div>
         </div>
       </section>
 
-      <!-- 🔥 Daily Streak -->
-      <section class="streak-card">
-        <h3>🔥 Daily Streak</h3>
-        <p><strong id="dailyStreak">0</strong> Days in a Row</p>
-      </section>
+
+
+      <!-- ======================== -->
+      <!-- Group 1: User Summary   -->
+      <!-- ======================== -->
+      <!-- 🟢 Action Buttons -->
+      <div class="payment-options card-glass">
+        <h3>⚡ Quick Actions</h3>
+        <button onclick="location.href='pay-game.html'">🎱 Start New Game/Table ➡️</button>
+        <button onclick="location.href='add-funds.html'">💰 Add Funds</button>
+        <button onclick="location.href='team.html'">⚙️ Change/Create Team</button>
+      </div>
+
+      <!-- 👤 Profile Info -->
+      <div class="card-glass profile-card">
+        <h3>👤 Your Profile</h3>
+        <p class="profile-header"><strong>Player:</strong> <span id="displayName">Player</span> &nbsp;|&nbsp;
+          <strong>Team:</strong> <span id="teamName">DaFTitude</span></p>
+        <div class="profile-details">
+          <div class="profile-avatar">
+            👤
+          </div>
+          <div class="profile-info-box">
+            <p><strong>Username:</strong> <span id="profileUsername">-</span></p>
+            <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
+            <p><strong>DOB:</strong> <span id="profileDob">-</span></p>
+            <p><strong>Address:</strong> <span id="profileAddress">-</span></p>
+          </div>
+        </div>
+      </div>
 
       <!-- 💰 Wallet Balance -->
-      <div class="balance-card">
+      <div class="balance-card card-glass">
+        <h3>💰 Wallet Balance</h3>
         <h2 id="walletBalance">$0.00</h2>
         <p>Available Wallet Balance</p>
         <div class="balance-details">
           <div>Last Deposit: <span id="lastDeposit">$0.00</span></div>
           <div>Total Bonuses: <span id="totalBonuses">$0.00</span></div>
         </div>
+        <button class="balance-add-funds-btn" onclick="location.href='add-funds.html'">💰 Add Funds</button>
       </div>
 
-      <!-- 💡 Motivator Tip -->
-      <section class="dashboard-tip">
-        <p id="dashTip">
-          💡 Tip: Use your promo code today for a bonus spin!
-        </p>
+      <!-- 💼 Levels Overview -->
+      <section class="wallet-tier card-glass">
+        <h3>💼 Levels Overview</h3>
+        <div class="levels-info">
+          <p><strong>Player Level:</strong> <span id="playerLevel">1</span></p>
+          <p><strong>Team Level:</strong> <span id="teamLevel">Bronze</span></p>
+          <p><strong>Wallet Level:</strong> <span id="walletTier">Bronze</span></p>
+        </div>
+        <div class="tier-bar">
+          <div id="tierProgress" class="tier-progress"></div>
+        </div>
       </section>
 
+
+
+
+      <!-- ======================== -->
+      <!-- Group 2: Analytics      -->
+      <!-- ======================== -->
       <!-- 📈 Deposit Activity Chart -->
-      <section class="dashboard-chart-card">
+      <section class="dashboard-chart-card card-glass">
         <h3>💹 Deposit Activity (Last 7 Days)</h3>
+        <p class="chart-summary">
+          Total Deposited: <strong id="totalDeposited">$0.00</strong>
+        </p>
         <canvas id="depositChart" height="160"></canvas>
       </section>
 
-      <!-- 📊 Spend Breakdown (Optional) -->
-      <section class="category-spend">
-        <h3>🧩 Spend Breakdown</h3>
-        <canvas id="categoryChart" height="160"></canvas>
-      </section>
 
-      <!-- 🏆 Badge Grid -->
-      <section class="badge-grid">
-        <h3>🏆 Achievements</h3>
-        <div class="badge-container" id="badgeContainer"></div>
-      </section>
-
-      <!-- 👤 Profile Info -->
-      <div class="form-card card-glass profile-card">
-        <h3>Your Profile</h3>
-        <p><strong>Username:</strong> <span id="profileUsername">-</span></p>
-        <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
-        <p><strong>DOB:</strong> <span id="profileDob">-</span></p>
-        <p><strong>Address:</strong> <span id="profileAddress">-</span></p>
-      </div>
 
       <!-- 📌 Quick Stats -->
-      <div class="form-card card-glass quick-stats-card" aria-labelledby="quickStatsHeading">
-        <h2 id="quickStatsHeading" class="sr-only">Quick Stats</h2>
+      <section class="quick-stats-card card-glass" aria-labelledby="quickStatsHeading">
+        <h3 id="quickStatsHeading">📌 Quick Stats</h3>
         <div class="features-list">
           <p>🎱 Games Played: <strong id="gamesPlayed">0</strong></p>
           <p>🪑 Tables Paid: <strong id="tablesPaid">0</strong></p>
           <p>💵 Total Spent: <strong id="totalSpent">$0.00</strong></p>
         </div>
-      </div>
+      </section>
 
       <!-- 🧾 Last Payment Info -->
-      <div class="form-card card-glass last-payment-card" aria-labelledby="lastPaymentHeading">
-        <h2 id="lastPaymentHeading" class="sr-only">Last Payment</h2>
+      <section class="last-payment-card card-glass" aria-labelledby="lastPaymentHeading">
+        <h3 id="lastPaymentHeading">🧾 Last Payment</h3>
         <p id="lastPaymentInfo">No recent payments yet.</p>
+      </section>
+
+      <!-- 📊 Spend Breakdown (Optional) -->
+      <section class="category-spend dashboard-chart-card card-glass">
+        <h3>🧩 Spend Breakdown</h3>
+        <canvas id="categoryChart" height="160"></canvas>
+      </section>
+
+      <!-- 📜 Transaction History -->
+      <div class="transaction-history card-glass" aria-labelledby="historyHeading">
+        <h3 id="historyHeading">🧾 Transaction History</h3>
+        <div id="transactionList" style="color:#ccc; text-align:center;">
+          No transactions yet.
+        </div>
       </div>
 
+      <!-- 🔥 Daily Streak -->
+      <section class="streak-card card-glass">
+        <h3>🔥 Daily Streak</h3>
+        <p><strong id="dailyStreak">0</strong> Days in a Row</p>
+      </section>
+
+      <!-- ======================== -->
+      <!-- Group 4: Achievements & Actions -->
+      <!-- ======================== -->
+      <!-- 🏆 Badge Grid -->
+      <section class="badge-grid dashboard-chart-card card-glass">
+        <h3>🏆 Achievements</h3>
+        <div class="badge-container" id="badgeContainer"></div>
+      </section>
+
       <!-- 📌 Recent Actions -->
-      <section class="recent-actions">
+      <section class="recent-actions card-glass">
         <h3>📌 Recent Actions</h3>
         <ul id="actionFeed" class="action-feed-list"></ul>
       </section>
 
       <!-- 🎁 Bonus History -->
-      <section class="bonus-history">
+      <section class="bonus-history card-glass">
         <h3>🎁 Bonus History</h3>
         <ul id="bonusList" class="bonus-list"></ul>
       </section>
 
-      <!-- 🟢 Action Buttons -->
-      <div class="payment-options">
-        <button onclick="location.href='pay-game.html'">🎱 Start New Game/Table ➡️</button>
-        <button onclick="location.href='add-funds.html'">➕ Add Funds</button>
-      </div>
-
-      <!-- 📜 Transaction History -->
-      <div class="transaction-history" aria-labelledby="historyHeading">
-        <h2 id="historyHeading">🧾 Transaction History</h2>
-        <div id="transactionList" style="color:#ccc; text-align:center;">
-          No transactions yet.
-        </div>
-      </div>
 
       <!-- 🎉 Confetti Overlay (on badge unlock) -->
       <div id="confetti" class="confetti-overlay" hidden>
@@ -140,7 +172,8 @@
 
   <script src="js/particles.min.js" defer></script>
   <script type="module" src="js/main.js" defer></script>
-  <script type="module" src="js/dashboard.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/dashboard.js" defer></script>
 </body>
 
 </html>

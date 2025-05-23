@@ -1,6 +1,6 @@
 // js/dashboard.js
 
-import Chart from 'chart.js/auto';
+const Chart = window.Chart;
 import { checkAuth, loadBalance, fmt } from './main.js';
 
 // ─── Reusable Chart Creators ───
@@ -10,6 +10,10 @@ export function createBarChart(ctx, data, options) {
 
 export function createDoughnutChart(ctx, data, options) {
   return new Chart(ctx, { type: 'doughnut', data, options });
+}
+
+export function createLineChart(ctx, data, options) {
+  return new Chart(ctx, { type: 'line', data, options });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadBadges();
   loadRecentActions();
   loadTip();
+
 });
 
 // ========== DAILY STREAK ==========
@@ -217,19 +222,45 @@ function drawDepositChart() {
     daily[day] = (daily[day] || 0) + tx.amount;
   });
 
-  const labels = Object.keys(daily).slice(-7);
-  const values = labels.map(k => daily[k]);
+  const allDates = Object.keys(daily).slice(-7);
+  const labels = allDates.map(dateStr =>
+    new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short' })
+  );
+  const values = allDates.map(k => daily[k]);
 
   const data = {
     labels,
     datasets: [{
       label: 'Deposits',
       data: values,
-      backgroundColor: '#0CC7F6'
+      borderColor: '#69FF7F',
+      backgroundColor: 'rgba(105,255,127,0.2)',
+      tension: 0.3,
+      fill: true,
+      pointRadius: 4,
+      pointBackgroundColor: '#69FF7F'
     }]
   };
-  const options = { scales: { y: { beginAtZero: true } } };
-  createBarChart(document.getElementById('depositChart'), data, options);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: { color: '#fff' }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255,255,255,0.1)' }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255,255,255,0.1)' }
+      }
+    }
+  };
+  createLineChart(document.getElementById('depositChart'), data, options);
 }
 
 // ========== CATEGORY CHART ==========
@@ -252,7 +283,15 @@ function drawCategoryChart() {
       backgroundColor: ['#0CC7F6', '#FFC857', '#69FF7F', '#f44']
     }]
   };
-  const options = { cutout: '60%' };
+  const options = {
+    responsive: true,
+    cutout: '60%',
+    plugins: {
+      legend: {
+        labels: { color: '#fff' }
+      }
+    }
+  };
   createDoughnutChart(document.getElementById('categoryChart'), data, options);
 }
 
@@ -266,5 +305,6 @@ function loadTip() {
     '💡 Game now, withdraw later — fast balance updates!'
   ];
   const index = new Date().getDate() % tips.length;
-  document.getElementById('dashTip').textContent = tips[index];
+  const el = document.getElementById('dashTip');
+  if (el) el.textContent = tips[index];
 }
