@@ -1,5 +1,11 @@
 // js/main.js
 
+// —— Current User Helper ——
+export function getCurrentUserObj() {
+  // read the saved object directly
+  return JSON.parse(localStorage.getItem('currentUserObj')) || {};
+}
+
 // —— HTML Fragment Injection ——
 export async function injectHTML(url, selector) {
   try {

@@ -1,36 +1,43 @@
 // js/dashboard.js
 
-const Chart = window.Chart;
-import { checkAuth, loadBalance, fmt } from './main.js';
+import { checkAuth, loadBalance, fmt, initCommon, getCurrentUserObj } from './main.js';
+import Chart from 'https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.esm.min.js';
 
 // ─── Reusable Chart Creators ───
-export function createBarChart(ctx, data, options) {
+function createBarChart(ctx, data, options) {
   return new Chart(ctx, { type: 'bar', data, options });
 }
 
-export function createDoughnutChart(ctx, data, options) {
+function createDoughnutChart(ctx, data, options) {
   return new Chart(ctx, { type: 'doughnut', data, options });
 }
 
-export function createLineChart(ctx, data, options) {
+function createLineChart(ctx, data, options) {
   return new Chart(ctx, { type: 'line', data, options });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAuth();
 
-  const currentUsername = localStorage.getItem('currentUser');
-  document.getElementById('userName').textContent = currentUsername;
+  const currentUserObj = getCurrentUserObj();
+  console.log('Dashboard currentUserObj:', currentUserObj);
+  if (!currentUserObj || !currentUserObj.username) {
+    return (window.location.href = 'login.html');
+  }
+
+  // Show team name in welcome and banner (fallback to username)
+  const heroName = currentUserObj.team || currentUserObj.username;
+  document.getElementById('displayName').textContent = heroName;
+  document.getElementById('teamName').textContent = currentUserObj.team || '';
+  document.getElementById('userName').textContent = '';
+  // Ensure hero greeting is updated
+  const userNameEl = document.getElementById('userName');
+  if (userNameEl) userNameEl.textContent = heroName;
 
   loadBalance('#walletBalance');
   updateLastPayment();
   loadQuickStats();
   loadTransactions();
-
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const currentUserObj = users.find(u => u.username === currentUsername);
-
-  if (!currentUserObj) return (window.location.href = 'login.html');
 
   // Profile info
   document.getElementById('profileUsername').textContent = currentUserObj.username || '';
@@ -46,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadBadges();
   loadRecentActions();
   loadTip();
-
 });
 
 // ========== DAILY STREAK ==========
@@ -251,12 +257,18 @@ function drawDepositChart() {
     scales: {
       x: {
         ticks: { color: '#fff' },
-        grid: { color: 'rgba(255,255,255,0.1)' }
+        grid: {
+          display: true,
+          color: 'rgba(255,255,255,0.15)',
+        }
       },
       y: {
         beginAtZero: true,
         ticks: { color: '#fff' },
-        grid: { color: 'rgba(255,255,255,0.1)' }
+        grid: {
+          display: true,
+          color: 'rgba(255,255,255,0.15)',
+        }
       }
     }
   };

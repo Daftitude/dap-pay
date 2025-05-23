@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAP⚡Pay | Dashboard</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -43,7 +44,8 @@
       <div class="card-glass profile-card">
         <h3>👤 Your Profile</h3>
         <p class="profile-header"><strong>Player:</strong> <span id="displayName">Player</span> &nbsp;|&nbsp;
-          <strong>Team:</strong> <span id="teamName">DaFTitude</span></p>
+          <strong>Team:</strong> <span id="teamName">DaFTitude</span>
+        </p>
         <div class="profile-details">
           <div class="profile-avatar">
             👤
@@ -55,6 +57,7 @@
             <p><strong>Address:</strong> <span id="profileAddress">-</span></p>
           </div>
         </div>
+        <button class="glow-btn" onclick="location.href='profile.html'">✏️ Edit Profile</button>
       </div>
 
       <!-- 💰 Wallet Balance -->
@@ -172,8 +175,7 @@
 
   <script src="js/particles.min.js" defer></script>
   <script type="module" src="js/main.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/dashboard.js" defer></script>
+  <script type="module" src="js/dashboard.js" defer></script>
 </body>
 
 </html>
