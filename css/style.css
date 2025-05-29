@@ -1,3 +1,66 @@
+/* Anywhere Section 3-card grid */
+.anywhere-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+
+.anywhere-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.anywhere-card:hover {
+  transform: translateY(-4px);
+}
+
+.mockup-card img {
+  max-height: 280px;
+  width: auto;
+  border-radius: var(--radius);
+}
+
+.qr-card .qr-image {
+  width: 120px; height: 120px;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.qr-card .qr-text {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.feature-card .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .anywhere-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .anywhere-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ========================================
    1. Variables & Resets
 ======================================== */
@@ -313,8 +376,6 @@ main {
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
 }
 
 /* ─── Wide Chart Panels ─── */
@@ -363,7 +424,7 @@ main {
 
 /* ─── Card Body Text ─── */
 .card-glass p,
-.card-glass .features-list p,
+.card-glass
 .card-glass .balance-details div {
   font-size: 0.95rem;
   color: #e0e0e0;
@@ -474,11 +535,66 @@ main {
 .status-pill {
   margin: 0; /* remove auto centering now handled by flex */
 }
+/* Hero Section - updated for neon accent border and dashboard style */
+/* Hero section spacing and symmetry */
 .hero-section {
   position: relative;
   overflow: hidden;
-  padding: 0.75rem 1rem;
-  min-height: 60px;
+  /* height: 100%; */ /* Removed to prevent stretching panels */
+  margin: 2rem 0;
+  padding: 1.5rem;
+  min-height: 120px;
+  border: 1px solid var(--accent);
+  box-shadow: inset 0 0 12px rgba(var(--accent-rgb),0.2);
+}
+
+/* Section spacing */
+/* Reduce section spacing */
+/* Section spacing */
+/* Features section spacing and symmetry */
+.features-section {
+  /* height: 100%; */ /* Removed to prevent stretching panels */
+  margin: 2rem 0;
+  padding: 1.5rem;
+}
+/* Mobile tease section spacing and symmetry */
+.mobile-tease-section {
+  /* height: 100%; */ /* Removed to prevent stretching panels */
+  margin: 2rem 0;
+  padding: 1.5rem;
+}
+
+/* --- Refactored Mobile Tease Content to Grid Layout --- */
+.mobile-tease-content.grid-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Make the first (mobile-image) span all rows */
+.mobile-tease-content.grid-layout .mobile-image {
+  grid-row: 1 / span 3;
+}
+
+/* Stack the QR + placeholders in the right column */
+.mobile-tease-content.grid-layout .mobile-cta,
+.mobile-tease-content.grid-layout > div:nth-child(3),
+.mobile-tease-content.grid-layout > div:nth-child(4) {
+  width: 100%;
+}
+/* Testimonials section spacing and symmetry */
+.testimonials-section {
+  /* height: 100%; */ /* Removed to prevent stretching panels */
+  margin: 2rem 0;
+  padding: 1.5rem;
+}
+/* How section spacing and symmetry */
+.how-section {
+  /* height: 100%; */ /* Removed to prevent stretching panels */
+  margin: 2rem 0;
+  padding: 1.5rem;
 }
 
 /* Ensure hero banner is always visible */
@@ -688,10 +804,15 @@ main {
    PAGE STRUCTURE
 ======================================== */
 .page-wrapper {
-  width: 100%;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 80px 20px;
+  padding-top: 100px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -744,26 +865,6 @@ main {
 /* ========================================
    FORM CARDS (Used on All Sections)
 ======================================== */
-/*
-.form-card {
-  width: 100%;
-  max-width: 480px;
-  margin: 2rem auto;
-  padding: 2.5rem;
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 20px rgba(65, 135, 255, 0.12);
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-*/
 
 
 /* ========== GLOW BUTTON (Primary Action) ========== */
@@ -1039,6 +1140,11 @@ main {
    - Dark gradient background
    - Uses Cash App–inspired spacing and font balance
 ======================================== */
+
+/* Push footer to bottom of viewport */
+.footer-glass {
+  margin-top: auto;
+}
 /* ========== FOOTER — HYBRID ========== */
 .footer-glass {
   background: linear-gradient(to top, #050A18, #0b0c10);
@@ -1160,43 +1266,6 @@ main {
 }
 
 
-/* Unified card style for profile, quick stats, last payment */
-/*
-.form-card {
-  position: relative;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  margin: 1.5rem auto;
-  width: calc(100% - 2rem);
-  max-width: 800px;
-  box-shadow: 0 8px 24px rgba(12, 199, 246, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(12, 199, 246, 0.2);
-}
-
-.form-card::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: -150%;
-  width: 300%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      rgba(65, 135, 255, 0.8),
-      rgba(105, 255, 127, 0.8),
-      rgba(65, 135, 255, 0.8));
-  animation: slideGradient 6s linear infinite reverse;
-}
-*/
 
 
 /* Payment options & transaction summary styling */
@@ -1224,9 +1293,6 @@ main {
 /* Reuse slideGradient keyframes */
 
 
-/* Tighten row spacing immediately below the hero */
-.dashboard-wrapper > .hero-section + * {
-}
 
 /* ========== Particles Background Layering (ensure same as above) ========== */
 #particles-js {
@@ -1245,6 +1311,7 @@ main {
   padding: 0;
   list-style: none;
 }
+
 
 .dashboard-chart-card p.chart-summary {
   margin: 0;
@@ -1325,3 +1392,144 @@ main {
     grid-column: 1 / -1 !important;
   }
 }
+/* ─── How It Works Section ─── */
+.how-section {
+  /* margin-top, padding-top/bottom overridden above for tighter spacing */
+}
+.how-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.how-steps .step {
+  flex: 1 1 calc(33.333% - 1rem);
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(12,199,246,0.1);
+  text-align: center;
+}
+.how-steps .step h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #69FF7F;
+}
+.how-steps .step p {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+}
+@media (max-width: 767px) {
+  .how-steps .step {
+    flex: 1 1 100%;
+  }
+}
+
+/* Tighten spacing in feature list */
+.features-section ul {
+  list-style-position: inside;
+  padding-left: 1rem;
+  margin: 0 0 0.5rem 0;
+}
+.features-section ul li {
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+/* Four-box layout for “Why Players Love DAP⚡Pay” */
+.features-section .features-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.features-section .features-list > div {
+  flex: 1 1 calc(25% - 1rem);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .features-section .features-list > div {
+    flex: 1 1 100%;
+  }
+}
+
+/* Four-box layout for “Use DAP⚡Pay Anywhere” */
+.mobile-tease-section .features-list,
+.mobile-tease-section ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mobile-tease-section .features-list > div,
+.mobile-tease-section ul > li {
+  flex: 1 1 calc(25% - 1rem);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Four-box layout for “What Players Are Saying” */
+.testimonials-section .features-list,
+.testimonials-section ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.testimonials-section .features-list > div,
+.testimonials-section ul > li {
+  flex: 1 1 calc(25% - 1rem);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Collapse to single column on mobile */
+@media (max-width: 768px) {
+  .mobile-tease-section .features-list > div,
+  .mobile-tease-section ul > li,
+  .testimonials-section .features-list > div,
+  .testimonials-section ul > li {
+    flex: 1 1 100%;
+  }
+}
+
+/* ========================================
+   FOOTER — GLASS STYLE FINTECH THEME
+   - Builds from your existing layout
+   - Dark gradient background
+   - Uses Cash App–inspired spacing and font balance
+======================================== */

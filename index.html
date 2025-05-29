@@ -13,59 +13,94 @@
 <!-- Commit 2: Nav injected via main.js -->
 
 <body data-flavor="public">
-  <div id="nav-placeholder"></div>
+  <div class="page-wrapper">
+    <div id="nav-placeholder"></div>
 
-  <!-- Commit 3: Particles background -->
-  <div id="particles-js" aria-hidden="true"></div>
+    <!-- Commit 3: Particles background -->
+    <div id="particles-js" aria-hidden="true"></div>
 
-  <!-- Commit 4: Hero section -->
-  <header class="hero-glass" role="banner">
-    <h1 class="hero-logo">DAP⚡Pay</h1>
-    <h2 class="hero-title">Pool League Payments. Reinvented.</h2>
-    <p class="hero-subtitle">Load. Play. Track. Win.</p>
-    <div class="hero-buttons">
-      <button class="glow-btn" onclick="location.href='login.html'">Login 📲</button>
-      <button class="glow-btn secondary" id="learnMoreBtn">Learn More 👇</button>
-    </div>
-  </header>
-
-  <!-- Commit 5: Main content -->
-  <main role="main">
-    <!-- Features -->
-    <section id="features" class="features-section fade-in" aria-labelledby="featuresHeading">
-      <h2 id="featuresHeading">Why Players Love DAP⚡Pay</h2>
-      <div class="features-list">
-        <div>💳 <strong>Tap & Play</strong> — No cash, no waiting</div>
-        <div>📊 <strong>Track Games</strong> — Full payment history</div>
-        <div>🎱 <strong>Real-Time Balance</strong> — Know what’s left</div>
-        <div>🔒 <strong>Secure + Simple</strong> — Local wallet, private data</div>
+    <!-- Commit 4: Hero section -->
+    <section class="hero-section card-glass">
+      <!-- logo, headline, buttons, etc. -->
+      <h1 class="hero-logo">DAP⚡Pay</h1>
+      <h2 class="hero-title">Pool League Payments. Reinvented.</h2>
+      <p class="hero-subtitle">Load. Play. Track. Win.</p>
+      <div class="hero-buttons">
+        <button class="glow-btn" onclick="location.href='login.html'">Login 📲</button>
+        <button class="glow-btn secondary" id="learnMoreBtn">Learn More 👇</button>
       </div>
+      <p class="hero-hint">New here? <a href="signup.html">Create an account</a> to get started!</p>
     </section>
 
-    <!-- Mobile tease -->
-    <section class="mobile-tease-section fade-in" aria-labelledby="mobileHeading">
-      <h2 id="mobileHeading">Use DAP⚡Pay Anywhere</h2>
-      <p>Fully optimized for mobile phones and venue tablets. Scan the QR code to try it now.</p>
-      <div class="mobile-tease-content">
-        <div class="mobile-image">
-          <img src="images/mobile-mockup.png" alt="Mobile interface mockup">
+    <!-- Commit 5: Main content -->
+    <main role="main">
+      <!-- Features -->
+      <section id="features" class="features-section card-glass fade-in" aria-labelledby="featuresHeading">
+        <h2 id="featuresHeading">Why Players Love DAP⚡Pay</h2>
+        <div class="features-list">
+          <div>💳 <strong>Tap & Play</strong> — No cash, no waiting</div>
+          <div>📊 <strong>Track Games</strong> — Full payment history</div>
+          <div>🎱 <strong>Real-Time Balance</strong> — Know what’s left</div>
+          <div>🔒 <strong>Secure + Simple</strong> — Local wallet, private data</div>
         </div>
-        <div class="mobile-cta">
-          <div class="qr-code-placeholder" aria-hidden="true">[QR Code]</div>
-          <p>Open your camera and scan</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials-section fade-in" aria-labelledby="testimonialsHeading">
-      <h2 id="testimonialsHeading">What Players Are Saying</h2>
-      <div class="testimonials-list">
-        <div>"Aye bro, just Cash App me…" — Not anymore 💥</div>
-        <div>"I wish these tables had tap-to-pay…" — Now they do!</div>
-      </div>
-    </section>
-  </main>
+      <!-- Mobile tease -->
+      <section class="mobile-tease-section card-glass fade-in" aria-labelledby="mobileHeading">
+        <h2 id="mobileHeading">Use DAP⚡Pay Anywhere</h2>
+        <p>Fully optimized for mobile phones and venue tablets. Scan the QR code to try it now.</p>
+        <div class="anywhere-grid">
+          <!-- 1) Mobile Mockup Card -->
+          <div class="anywhere-card mockup-card">
+            <img src="images/mobile-mockup.png" alt="Mobile interface mockup">
+          </div>
+
+          <!-- 2) QR Call-to-Action Card -->
+          <div class="anywhere-card qr-card">
+            <div class="qr-image">[QR Code]</div>
+            <p class="qr-text">Open your camera and scan</p>
+          </div>
+
+          <!-- 3) Future Feature Card -->
+          <div class="anywhere-card feature-card">
+            <div class="icon">📈</div>
+            <div>
+              <strong>Live Analytics</strong>
+              <p>See venue performance in real time</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="testimonials-section card-glass fade-in" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading">What Players Are Saying</h2>
+        <div class="testimonials-list">
+          <div>"Aye bro, just Cash App me…" — Not anymore 💥</div>
+          <div>"I wish these tables had tap-to-pay…" — Now they do!</div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section id="how-it-works" class="how-section card-glass fade-in" aria-labelledby="howHeading">
+        <h2 id="howHeading">How It Works</h2>
+        <div class="how-steps">
+          <div class="step">
+            <h3>1. Create Your Wallet</h3>
+            <p>Quickly set up your local DAP⚡Pay wallet—no bank needed.</p>
+          </div>
+          <div class="step">
+            <h3>2. Load Funds</h3>
+            <p>Add money with a tap and keep track in real time.</p>
+          </div>
+          <div class="step">
+            <h3>3. Play & Track</h3>
+            <p>Scan at the table, play your game, and see your payment history.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div> <!-- end .page-wrapper -->
 
   <!-- Commit 6: Footer injected via main.js -->
   <div id="footer-placeholder"></div>

@@ -234,6 +234,10 @@ function drawDepositChart() {
   );
   const values = allDates.map(k => daily[k]);
 
+  // Calculate total deposited over last 7 days and set it
+  const total = values.reduce((sum, v) => sum + v, 0);
+  document.getElementById('totalDeposited').textContent = fmt(total);
+
   const data = {
     labels,
     datasets: [{
@@ -252,23 +256,31 @@ function drawDepositChart() {
     plugins: {
       legend: {
         labels: { color: '#fff' }
+      },
+      tooltip: {
+        enabled: true,
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+          label: context => ` $${context.parsed.y.toFixed(2)}`,
+        }
       }
+    },
+    elements: {
+      line: { borderWidth: 2 },
+      point: { radius: 6, hoverRadius: 8 }
     },
     scales: {
       x: {
-        ticks: { color: '#fff' },
-        grid: {
-          display: true,
-          color: 'rgba(255,255,255,0.15)',
-        }
+        title: { display: true, text: 'Day of Week', color: '#fff' },
+        ticks: { autoSkip: false, maxRotation: 0, minRotation: 0, color: '#fff' },
+        grid: { display: true, color: 'rgba(255,255,255,0.15)' }
       },
       y: {
+        title: { display: true, text: 'Amount ($)', color: '#fff' },
         beginAtZero: true,
         ticks: { color: '#fff' },
-        grid: {
-          display: true,
-          color: 'rgba(255,255,255,0.15)',
-        }
+        grid: { display: true, color: 'rgba(255,255,255,0.15)' }
       }
     }
   };
