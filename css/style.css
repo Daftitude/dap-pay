@@ -182,7 +182,7 @@ canvas {
 .mobile-tease-section,
 .testimonials-section,
 .how-section {
-  margin-block: var(--space-5); /* top & bottom */
+  margin-block: var(--space-4); /* 1.5rem top & bottom */
   padding-inline: var(--space-3);
 }
 
@@ -1617,4 +1617,47 @@ section {
   justify-content: center;
   gap: var(--space-3);
   margin-top: var(--space-4);
+}
+
+/* Ensure uniform gap between all main sections */
+.page-wrapper > section + section {
+  margin-top: var(--space-4) !important; /* 1.5rem consistent gap */
+}
+/* Multi-step form visibility controls */
+.form-step {
+  display: none;
+}
+.form-step-active {
+  display: block;
+}
+
+/* Remove white borders on signup form fieldsets and style form-card */
+.form-card fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* Style the form-card wrapper */
+.form-card {
+  border: 1px solid rgba(105, 255, 127, 0.5);
+  backdrop-filter: blur(16px);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  max-width: 480px;
+  margin: var(--space-4) auto;
+  background: var(--card-bg);
+}
+
+/* Remove default form margin and control spacing */
+#signupForm .input-field {
+  margin-bottom: var(--space-3);
+}
+#signupForm .btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
