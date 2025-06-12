@@ -1,79 +1,8 @@
-/* Anywhere Section 3-card grid */
-.anywhere-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 1rem;
-  margin: 1rem auto 2rem;
-  max-width: 1024px;
-  padding: 0 1rem;
-  justify-content: center;
-  justify-items: center;
-}
-
-.anywhere-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  padding: 1rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.2s ease;
-  height: 100%;
-}
-.qr-card, .feature-card { justify-content: center; }
-
-.anywhere-card:hover {
-  transform: translateY(-4px);
-}
-
-.mockup-card img {
-  max-height: 280px;
-  width: auto;
-  border-radius: var(--radius);
-}
-
-.qr-card .qr-image {
-  width: 120px;
-  height: 120px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
-
-.qr-card .qr-text {
-  font-size: 0.95rem;
-  color: #ccc;
-}
-
-.feature-card .icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .anywhere-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .anywhere-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ========================================
+/* =====================================
    1. Variables & Resets
-======================================== */
+===================================== */
+
+/* Reset margins, paddings & box-sizing */
 *,
 *::before,
 *::after {
@@ -82,130 +11,253 @@
   box-sizing: border-box;
 }
 
+/* Core design tokens */
 :root {
   /* Spacing scale */
-  --space-1: 0.25rem;  /* 4px */
-  --space-2: 0.5rem;   /* 8px */
+  --space-1: 0.25rem;  /* 4px  */
+  --space-2: 0.5rem;   /* 8px  */
   --space-3: 1rem;     /* 16px */
   --space-4: 1.5rem;   /* 24px */
   --space-5: 2rem;     /* 32px */
   --space-6: 3rem;     /* 48px */
+
+  /* Glass-panel background */
   --card-bg: rgba(255, 255, 255, 0.02);
-  --radius-lg: 16px;
-  --shadow: 0 8px 24px rgba(12, 199, 246, 0.07);
+
+  /* Border radii */
   --radius: 12px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow: 0 8px 24px rgba(12, 199, 246, 0.07);
+
+  /* Accent color */
   --accent: #69FF7F;
   --accent-rgb: 105, 255, 127;
 }
 
-/* ========================================
-   2. Base Styles
-======================================== */
+/* =====================================
+   2. Base & Typography
+===================================== */
 
+/* Core HTML & body settings */
 html,
 body {
   height: 100%;
   font-family: 'General Sans', sans-serif;
   background: #050A18;
-  color: white;
+  color: #FFFFFF;
   scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
-}
-
-p, .card-glass p, .hero-subtitle, .qr-card .qr-text {
-  font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.5;
-  margin-bottom: var(--space-1);
 }
 
-/* ─── Fluid Typography ─── */
-h1, .hero-title {
+/* Fluid H1 */
+h1,
+.hero-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1.2;
   margin-bottom: var(--space-2);
   text-align: center;
 }
-h2, .features-section h2, .mobile-tease-section h2, .testimonials-section h2, .how-section h2 {
+
+/* Fluid H2 */
+h2,
+.features-section h2,
+.mobile-tease-section h2,
+.testimonials-section h2,
+.how-section h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.25;
   margin-bottom: var(--space-2);
   text-align: center;
 }
 
+/* Fluid paragraphs */
+p,
+.card-glass p,
 .hero-subtitle,
-.hero-hint {
-  text-align: center;
-}
-p, .card-glass p, .hero-subtitle, .qr-card .qr-text {
+.qr-card .qr-text {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.5;
   margin-bottom: var(--space-1);
 }
 
-/* ========== BODY & PARTICLES BACKGROUND ========== */
-body {
-  font-family: 'General Sans', sans-serif;
-  background: #050A18;
-  color: white;
-  overflow-x: hidden;
-  position: relative;
-  min-height: 100vh;
-  line-height: 1.5;
+/* Reset default list & image styles */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-
-canvas {
-  display: block;
+img {
   max-width: 100%;
   height: auto;
-  margin: 0 auto;
+  display: block;
 }
+/* =====================================
+   3. Global Layout & Grid
+===================================== */
 
-#particles-js {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
+/* 3. Global Layout & Grid */
 
-/* ========================================
-   3. Layout
-======================================== */
-
-/* Commit 4: Place this shared section spacing rule */
-/* Shared vertical spacing for all main sections */
-.hero-section,
-.features-section,
-.mobile-tease-section,
-.testimonials-section,
-.how-section {
-  margin-block: var(--space-4); /* 1.5rem top & bottom */
-  padding-inline: var(--space-3);
-}
-
+/* Page wrapper centers content and accounts for navbar height */
 .page-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
   max-width: 1440px;
-  margin: 0 auto;
-  padding-top: 100px;
-  position: relative;
-  z-index: 1;
+  margin-inline: auto;
+  padding-top: calc(64px + var(--space-2)); /* navbar height + gap */
+  flex: 1;
 }
 
-
-
+/* Ensure main content expands under navbar */
 main {
   flex: 1;
-  /* space for fixed navbar */
+  width: 100%;
 }
 
-/* ========== NAVBAR — HYBRID ========== */
+/* Mobile-first dashboard grid */
+.dashboard-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto;
+  gap: var(--space-4) var(--space-3);
+  padding: var(--space-3);
+  align-items: start;
+}
+
+/* Hero section spans full width of the grid */
+.dashboard-wrapper .hero-section {
+  grid-column: 1 / -1;
+}
+
+/* Chart cards span two columns on large screens */
+@media (min-width: 1024px) {
+  .dashboard-wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .dashboard-wrapper .dashboard-chart-card,
+  .dashboard-wrapper .category-spend {
+    grid-column: span 2;
+  }
+}
+
+/* =====================================
+   4. Components (Cards, Buttons, Forms)
+===================================== */
+
+/* 4. Components (Cards, Buttons, Forms) */
+
+/* Glass-panel card base */
+.card-glass {
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+}
+
+/* Card headings */
+.card-glass h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: var(--space-2);
+}
+
+/* Card body text */
+.card-glass p,
+.card-glass .balance-details div {
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  color: #e0e0e0;
+  line-height: 1.4;
+}
+
+/* Card hover effect */
+.card-glass:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.2);
+  border: 1px solid var(--accent);
+}
+
+/* Buttons */
+.btn, .glow-btn {
+  display: inline-block;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+/* Primary button */
+.glow-btn {
+  background: var(--accent);
+  color: #050A18;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+}
+
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Outline button */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+}
+
+.btn-outline:hover {
+  background: var(--accent);
+  color: #050A18;
+}
+
+/* Form fields */
+.input-field {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: var(--space-3);
+  color: #fff;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.25);
+}
+
+/* Form card wrapper */
+.form-card {
+  background: var(--card-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: var(--space-4) auto;
+}
+
+/* ─── Global Header & Footer ─── */
+
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -217,1447 +269,389 @@ main {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
-
 .nav-container {
-  max-width: 1200px;
-  width: 100%;
-  padding: 0 20px;
-  margin: 0 auto;
+  max-width: 1440px;
+  width: 90%;
+  margin-inline: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--space-3);
 }
-
 .dap-logo {
   font-size: 1.8rem;
-  color: #69FF7F;
+  color: var(--accent);
   font-weight: bold;
-  text-shadow: 0 0 6px #69FF7F;
-  letter-spacing: 0.03em;
+  text-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent);
 }
-
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--space-3);
 }
-
 .nav-links a {
   color: #fff;
-  font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
   transition: color 0.3s, text-shadow 0.3s;
 }
-
 .nav-links a:hover,
 .nav-links a.active {
   color: #4187FF;
   text-shadow: 0 0 5px rgba(65, 135, 255, 0.5);
 }
 
-/* Mobile Nav */
-.hamburger {
-  display: none;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: #69FF7F;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 64px;
-    right: 20px;
-    background: #111;
-    flex-direction: column;
-    padding: 12px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-}
-
-/* ========== DAILY STREAK ========== */
-.balance-card,
-.streak-card,
-.wallet-tier {
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.03);
-  background: transparent;
-  animation: fadeInUp 0.6s ease both;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.balance-card::before,
-.streak-card::before,
-.wallet-tier::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 300%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      rgba(65, 135, 255, 0.8),
-      rgba(105, 255, 127, 0.8),
-      rgba(65, 135, 255, 0.8));
-  animation: slideGradient 6s linear infinite;
-  z-index: 1;
-}
-
-/* ─── Levels Overview Styling ─── */
-.wallet-tier h3 {
-  margin-bottom: 1rem;
-}
-
-.wallet-tier .levels-info p {
-  margin: 0.25rem 0;
-  font-size: 0.95rem;
-  color: #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.wallet-tier .levels-info p strong {
-  color: #69FF7F;
-}
-
-.wallet-tier .tier-bar {
-  margin-top: 1rem;
-}
-
-.balance-card {
-  padding: 2rem 2.5rem;
-  font-size: 1rem;
-}
-
-/* Add Funds button in Wallet Balance panel */
-.balance-card .balance-add-funds-btn {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: var(--radius);
-  background: #0CC7F6;
-  color: #111;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(12, 199, 246, 0.3);
-  transition: background 0.2s ease, transform 0.2s ease;
-  width: 100%;
-}
-
-.balance-card .balance-add-funds-btn:hover {
-  background: #11e0ff;
-  transform: translateY(-2px);
-}
-
-/* ========== WALLET PROGRESS PILL ========== */
-.tier-bar {
-  width: 100%;
-  height: 14px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  margin-top: 0.75rem;
-  overflow: hidden;
-}
-
-.tier-progress {
-  height: 100%;
-  width: 50%;
-  /* updated via JS */
-  background: linear-gradient(to right, #69FF7F, #4187FF);
-  transition: width 0.4s ease;
-  border-radius: inherit;
-}
-
-
-
-
-.card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  margin-bottom: 2rem;
-}
-
-/* ========== DASHBOARD TIP ========== */
-
-/* ─── DASHBOARD WRAPPER GRID (Symmetrical & Even Rows) ─── */
-/* Ensure fluid grid on all devices */
-.dashboard-wrapper {
-  display: grid;
-  gap: 1.5rem 0.75rem;
-  grid-template-columns: 1fr;
-  align-items: start;
-  padding: 1rem;
-  grid-auto-rows: auto;
-}
-
-/* ─── Profile Card Full-Width in Grid ─── */
-.dashboard-wrapper .profile-card {
-  width: 100%;
-  /* fill its grid column */
-  max-width: none;
-  /* override any form-card max-width */
-  margin: 0;
-  /* remove auto centering */
-  min-height: auto;
-}
-
-/* Hero banner spans full width */
-.dashboard-wrapper .hero-section {
-  grid-column: 1 / -1;
-  width: 100%;
-  padding: 0.25rem 1rem;
-  /* reduced padding */
-  min-height: 60px;
-  /* increase height */
-  border: 2px solid var(--accent);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px var(--accent);
-  margin-bottom: 0.25rem;
-}
-
-/* ─── Summary Panels Minimum Height ─── */
-.card-glass {
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ─── Wide Chart Panels ─── */
-.dashboard-chart-card,
-.category-spend {
-  grid-column: span 2;
-  /* span two columns width */
-  background: rgba(20, 30, 50, 0.5);
-  /* darker tinted background for charts */
-}
-
-/* ========================================
-   4. Components
-======================================== */
-.card-glass {
-  position: relative;
-  overflow: hidden;
-  background: var(--card-bg) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  box-shadow: 0 8px 24px rgba(12, 199, 246, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  /* entrance animation */
-  animation: fadeInUp 0.6s ease both;
-  /* Scroll-in fade animation for cards */
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  width: 100%;
-  /* always fill its grid cell */
-  text-align: left;
-  /* left-align the contents of each card for readability */
-  margin: 0;
-  /* unified margin for all card-glass panels */
-}
-
-/* ─── Card Header Typography ─── */
-.card-glass h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #69FF7F;
-  margin: 0 0 0.75rem 0;
-  letter-spacing: 0.5px;
-}
-
-/* ─── Card Body Text ─── */
-.card-glass p,
-.card-glass .card-glass .balance-details div {
-  font-size: 0.95rem;
-  color: #e0e0e0;
-  line-height: 1.4;
-}
-
-.card-glass.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.card-glass:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(12, 199, 246, 0.2);
-  border: 2px solid var(--accent);
-  /* neon border on hover */
-}
-
-/* Animated gradient accent bar */
-.card-glass::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 300%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      rgba(65, 135, 255, 0.8),
-      rgba(105, 255, 127, 0.8),
-      rgba(65, 135, 255, 0.8));
-  animation: slideGradient 6s linear infinite;
-}
-
-/* Accent bar on chart panels */
-.dashboard-chart-card,
-.category-spend {
-  position: relative;
-  overflow: hidden;
-}
-
-.dashboard-chart-card::before,
-.category-spend::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 300%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      rgba(65, 135, 255, 0.8),
-      rgba(105, 255, 127, 0.8),
-      rgba(65, 135, 255, 0.8));
-  animation: slideGradient 6s linear infinite;
-  z-index: 1;
-}
-
-
-.profile-card {
-  position: relative;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  box-shadow: 0 8px 24px rgba(12, 199, 246, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeInUp 0.6s ease both;
-  opacity: 1;
-  transform: none;
-  width: 100%;
-  text-align: left;
-}
-
-/* The .card-glass rule is refactored above for all properties as per requirements */
-
-
-@keyframes slideGradient {
-  to {
-    transform: translateX(50%);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ----------------------------------------
-   Hero blob background
----------------------------------------- */
-/* ─── Hero Header Flex ─── */
-.hero-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.status-pill {
-  margin: 0;
-  /* remove auto centering now handled by flex */
-}
-
-/* Hero Section - updated for neon accent border and dashboard style */
-/* Hero section spacing and symmetry */
-/* Hero Section */
-/* Section styles for consistent padding */
-section {
-  padding-block: var(--space-6); /* top & bottom padding */
-  padding-inline: var(--space-3); /* left & right padding */
-}
-
-.hero-section {
-  position: relative;
-  overflow: hidden;
-  /* height: 100%;  Removed to prevent stretching panels */
-  /* margin removed, now handled by shared rule */
-  /* padding removed, now handled by section rule */
-  min-height: 120px;
-  border: 1px solid var(--accent);
-  box-shadow: inset 0 0 12px rgba(var(--accent-rgb), 0.2);
-}
-
-
-
-/* --- Refactored Mobile Tease Content to Grid Layout --- */
-.mobile-tease-content.grid-layout {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: repeat(3, auto);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-/* Make the first (mobile-image) span all rows */
-.mobile-tease-content.grid-layout .mobile-image {
-  grid-row: 1 / span 3;
-}
-
-/* Stack the QR + placeholders in the right column */
-.mobile-tease-content.grid-layout .mobile-cta,
-.mobile-tease-content.grid-layout>div:nth-child(3),
-.mobile-tease-content.grid-layout>div:nth-child(4) {
-  width: 100%;
-}
-
-
-
-/* Ensure hero banner is always visible */
-.hero-section {
-  opacity: 1 !important;
-  transform: none !important;
-  animation: none !important;
-}
-
-
-.hero-section::after {
-  content: "";
-  position: absolute;
-  bottom: -20%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle at 30% 30%, rgba(65, 135, 255, 0.3), transparent);
-  filter: blur(80px);
-  z-index: -1;
-}
-
-.hero-banner {
-  background: linear-gradient(135deg, rgba(105, 255, 127, 0.3), rgba(65, 135, 255, 0.3), rgba(105, 255, 127, 0.3));
-  background-size: 200% 200%;
-  animation: shiftBackground 15s ease infinite, pulseBanner 5s ease-in-out infinite alternate;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 16px rgba(12, 199, 246, 0.1);
-  border-radius: var(--radius);
-}
-
-/* Pulsing glow on hero banner */
-@keyframes pulseBanner {
-  0% {
-    box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.2);
-  }
-
-  50% {
-    box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.4);
-  }
-
-  100% {
-    box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.6);
-  }
-}
-
-@keyframes shiftBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* ─── Hero Status Pill ─── */
-.status-pill {
-  display: inline-block;
-  background: #69FF7F;
-  color: #050A18;
-  border-radius: var(--radius);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0.5rem auto 0;
-}
-
-/* Tooltip info icon */
-.info-icon {
-  position: relative;
-  cursor: help;
-  margin-left: 0.25rem;
-}
-
-.info-icon::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-  font-size: 0.85rem;
-}
-
-.info-icon:hover::after {
-  opacity: 1;
-}
-
-/* Heading spacing inside cards */
-.card-glass h1,
-.card-glass h2,
-.card-glass h3 {
-  margin-bottom: 0.75rem;
-}
-
-/* Unified border style for chart panels */
-.dashboard-chart-card,
-.category-spend {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-
-.dashboard-chart-card canvas,
-.category-spend canvas {
-  max-width: 100%;
-  height: auto;
-  margin-top: 1rem;
-}
-
-/* ========== CONFETTI OVERLAY ========== */
-.confetti-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 2rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
-
-.confetti-overlay.show {
-  opacity: 1;
-  pointer-events: all;
-}
-
-@keyframes popConfetti {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ========== MOBILE RESPONSIVE LAYOUT ========== */
-@media (max-width: 600px) {
-  .hero-title {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .balance-card,
-  .streak-card,
-  .wallet-tier,
-  .dashboard-tip,
-  .category-spend,
-  .recent-actions,
-  .bonus-history {
-    padding: 1.25rem;
-  }
-
-  .tier-bar {
-    height: 12px;
-  }
-
-  .dashboard-wrapper {
-    padding: 1.25rem;
-    grid-template-columns: 1fr !important;
-  }
-}
-
-.payment-options {
-  display: flex;
-  flex-direction: column;
-  min-height: auto;
-}
-
-.payment-options.card-glass {
-  padding: 1.5rem;
-  align-self: start;
-  width: 100%;
-}
-
-.payment-options button {
-  display: block;
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  font-size: 1rem;
-  border-radius: 12px;
-  background: #0CC7F6;
-  color: #111;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 4px 10px rgba(12, 199, 246, 0.3);
-  transition: all 0.2s ease;
-}
-
-
-
-.payment-options button:hover {
-  background: #11e0ff;
-  box-shadow: 0 6px 16px rgba(12, 199, 246, 0.45);
-  transform: translateY(-2px);
-}
-
-/* ========================================
-   PAGE STRUCTURE
-======================================== */
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 90%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding-top: 100px;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-title {
-  /* font-size now set by clamp for fluid typography */
-  margin-bottom: 0.25rem;
-  text-align: center;
-  color: #69FF7F;
-  white-space: nowrap;
-  text-shadow: 0 0 6px #69FF7F, 0 0 12px #69FF7F;
-}
-
-#liveBalance {
-  font-weight: 600;
-  color: #FFFFFF;
-}
-
-/* ========== MODE SWITCH TABS ========== */
-.mode-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 2rem 0 2.5rem;
-  flex-wrap: wrap;
-}
-
-.mode-btn {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border: 2px solid #69FF7F;
-  border-radius: 10px;
-  background: transparent;
-  color: #69FF7F;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-}
-
-.mode-btn.mode-active {
-  background: #69FF7F;
-  color: #050A18;
-  box-shadow: 0 0 12px rgba(105, 255, 127, 0.5);
-}
-
-.mode-btn:hover:not(.mode-active) {
-  background: rgba(105, 255, 127, 0.1);
-  color: #69FF7F;
-}
-
-
-/* ========================================
-   FORM CARDS (Used on All Sections)
-======================================== */
-
-
-/* ========== GLOW BUTTON (Primary Action) ========== */
-.glow-btn {
-  background: #4187FF;
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(65, 135, 255, 0.4);
-  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
-}
-
-.glow-btn:hover {
-  background: #5aa3ff;
-  box-shadow: 0 0 16px rgba(65, 135, 255, 0.6);
-  transform: scale(1.02);
-}
-
-/* Edit Profile button styling inside profile card */
-.profile-card .glow-btn {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: var(--radius);
-  background: #0CC7F6;
-  color: #111;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 4px 10px rgba(12, 199, 246, 0.3);
-  transition: background 0.2s ease, transform 0.2s ease;
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.profile-card .glow-btn:hover {
-  background: #11e0ff;
-  transform: translateY(-2px);
-}
-
-
-/* ========== INPUT FIELD ========== */
-/* Used in all forms: amount input, text, password, promo */
-.input-field {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 10px;
-  color: #ffffff;
-
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom: 1.2rem;
-}
-
-.input-field::placeholder {
-  color: #bbbbbb;
-  opacity: 0.7;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: #69FF7F;
-  box-shadow: 0 0 0 2px rgba(105, 255, 127, 0.25);
-}
-
-/* ========== PROMO CODE ROW ========== */
-.promo-code-row {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-#promoCode {
-  flex: 1;
-}
-
-@media (max-width: 600px) {
-  .promo-code-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #promoCode {
-    width: 100%;
-  }
-}
-
-
-/* ========================================
-   MODE SWITCH TABS
-======================================== */
-.mode-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.mode-btn {
-  padding: 0.5rem 1.25rem;
-  background: transparent;
-  border: 2px solid #4187FF;
-  border-radius: 10px;
-  color: #4187FF;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.mode-btn.mode-active {
-  background: #4187FF;
-  color: #050A18;
-  font-weight: 600;
-}
-
-/* ========== QUICK FILL ROW ========== */
-/* Appears just below the label — before the input */
-.quick-fill-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 0.75rem 0;
-  justify-content: center;
-}
-
-
-.quick-fill-btn {
-  background: #69FF7F;
-  color: #050A18;
-  font-weight: 600;
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(105, 255, 127, 0.4);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.quick-fill-btn.active {
-  background: #4187FF;
-  color: white;
-  box-shadow: 0 0 12px rgba(65, 135, 255, 0.6);
-  transform: scale(0.96);
-}
-
-
-.quick-fill-btn:hover,
-.quick-fill-btn:focus {
-  background: #52e667;
-  transform: scale(1.05);
-}
-
-/* ========== SUGGESTION TEXT (Smart Average) ========== */
-.suggestion-text {
-  font-size: 0.9rem;
-  color: #FFC857;
-  margin-top: 0.5rem;
-  text-align: center;
-  min-height: 1.2em;
-}
-
-@media (max-width: 600px) {
-  .quick-fill-btn {
-    flex: 1 1 30%;
-    text-align: center;
-  }
-}
-
-
-
-/* ========== CHART + SUMMARY ROW ========== */
-/* Appears below input — used in all deposit types */
-.deposit-chart-summary-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
-  margin-top: 1.25rem;
-}
-
-
-.deposit-chart-col {
-  flex: 0 0 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-/* ========== TRANSACTION SUMMARY BOX ========== */
-.deposit-summary-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1rem 1.2rem;
-  margin-bottom: 0.8rem;
-  box-shadow: 0 0 12px rgba(65, 135, 255, 0.1);
-  font-size: 0.95rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  color: #eee;
-}
-
-.deposit-summary-box div {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-
-.chart-legend {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
-  color: #aaa;
-  align-items: center;
-}
-
-.legend-deposit::before,
-.legend-fee::before {
-  content: "";
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  margin-right: 5px;
-}
-
-.legend-deposit::before {
-  background-color: #4187FF;
-}
-
-.legend-fee::before {
-  background-color: #FFC857;
-}
-
-/* ========== ANIMATED FLASH ON VALUE CHANGE ========== */
-.flash-animate {
-  animation: flashFade 0.6s ease-in-out;
-}
-
-@keyframes flashFade {
-  0% {
-    background-color: rgba(65, 135, 255, 0.2);
-  }
-
-  50% {
-    background-color: rgba(105, 255, 127, 0.3);
-  }
-
-  100% {
-    background-color: transparent;
-  }
-}
-
-
-
-/* ========================================
-   FOOTER — GLASS STYLE FINTECH THEME
-   - Builds from your existing layout
-   - Dark gradient background
-   - Uses Cash App–inspired spacing and font balance
-======================================== */
-
-/* Push footer to bottom of viewport */
-.footer-glass {
-  margin-top: auto;
-}
-
-/* ========== FOOTER — HYBRID ========== */
+/* Footer */
 .footer-glass {
   background: linear-gradient(to top, #050A18, #0b0c10);
-  padding: 3rem 2rem;
+  padding-block: var(--space-4);
+  padding-inline: var(--space-3);
   text-align: left;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 -4px 12px rgba(0, 0, 0, 0.35);
-  color: #bbb;
-  font-size: 0.95rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 -4px 12px rgba(0, 0, 0, 0.35);
 }
-
 .footer-content {
+  max-width: 1440px;
+  width: 90%;
+  margin-inline: auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: var(--space-4);
 }
-
-.footer-column {
-  flex: 1 1 250px;
-  min-width: 200px;
-}
-
 .footer-column h4 {
-  color: #69FF7F;
-  font-size: 1.1rem;
+  color: var(--accent);
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-2);
 }
-
-.footer-column p {
+.footer-column p,
+.footer-links li a {
   color: #ccc;
-  margin: 0.4rem 0;
+  font-size: clamp(0.875rem, 2vw, 1rem);
 }
-
 .footer-links {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .footer-links li {
-  margin-bottom: 0.6rem;
+  margin-bottom: var(--space-1);
 }
-
-.footer-links li a {
-  color: #4187FF;
-  font-weight: 500;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: color 0.3s;
-}
-
 .footer-links li a:hover {
-  color: #69FF7F;
+  color: var(--accent);
+}
+/* 5. Index Page Styles */
+
+/* =====================================
+   6. Signup Page Styles
+===================================== */
+
+/* Signup Page Styles */
+/* Container for signup form */
+.signup-wrapper {
+  max-width: 480px;
+  margin-inline: auto;
+  padding-block: var(--space-6);
+  padding-inline: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@media (max-width: 768px) {
-  .footer-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .footer-column {
-    width: 100%;
-    margin-bottom: 2rem;
-  }
+/* Signup form title */
+.signup-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: var(--space-4);
+  text-align: center;
+  color: var(--accent);
 }
 
-
-
-/* ========================================
-   RESPONSIVE
-======================================== */
-@media (max-width: 768px) {
-  .deposit-chart-summary-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .deposit-summary-box {
-    text-align: center;
-    align-items: center;
-  }
-
-  .quick-fill-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .quick-fill-btn {
-    flex: 1 1 30%;
-  }
+/* Progress bar at top of form */
+.progressbar {
+  display: flex;
+  justify-content: space-between;
+  counter-reset: step;
+  margin-bottom: var(--space-4);
 }
-
-/* Pulse animation for Reset Demo button */
-#reset-demo-btn {
-  animation: pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgba(65, 135, 255, 0.4);
-  }
-
-  50% {
-    box-shadow: 0 0 20px rgba(65, 135, 255, 0.6);
-  }
-}
-
-
-
-
-/* Payment options & transaction summary styling */
-.payment-options,
-.deposit-summary-box {
+.progress-step {
   position: relative;
-  overflow: hidden;
+  flex: 1;
+  text-align: center;
 }
-
-.payment-options::before,
-.deposit-summary-box::before {
-  content: "";
+.progress-step::before {
+  counter-increment: step;
+  content: counter(step);
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: inline-block;
+  background: transparent;
+  color: #ccc;
+}
+.progress-step::after {
+  content: attr(data-title);
   position: absolute;
-  top: 0;
-  left: -150%;
-  width: 300%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      rgba(65, 135, 255, 0.8),
-      rgba(105, 255, 127, 0.8),
-      rgba(65, 135, 255, 0.8));
-  animation: slideGradient 6s linear infinite reverse;
-}
-
-/* Reuse slideGradient keyframes */
-
-
-
-/* ========== Particles Background Layering (ensure same as above) ========== */
-#particles-js {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Remove default list spacing inside dashboard panels */
-.action-feed-list,
-.bonus-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-
-.dashboard-chart-card p.chart-summary {
-  margin: 0;
-}
-
-/* ─── Profile Card Inner Layout ─── */
-.profile-card .profile-header {
-  margin-bottom: 1rem;
-}
-
-.profile-card .profile-details {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.profile-card .profile-avatar {
-  flex: 0 0 auto;
-  font-size: 3rem;
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(12, 199, 246, 0.1);
-}
-
-.profile-card .profile-info-box {
-  flex: 1 1 auto;
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(12, 199, 246, 0.1);
-}
-
-.profile-card .profile-info-box p {
+  top: calc(100% + var(--space-1));
   font-size: 0.85rem;
-  line-height: 1.3;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  color: #aaa;
+  width: max-content;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.progress-step-active::before,
+.progress-step-active::after {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Responsive dashboard grid columns */
-@media (max-width: 767px) {
-  .dashboard-wrapper {
-    grid-template-columns: 1fr !important;
-  }
+/* Signup form field steps */
+.form-step {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.form-step-active {
+  display: block;
+  opacity: 1;
 }
 
-@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+/* Button group at bottom of form */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* Toggle password icon */
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+/* Password field wrapper */
+.password-field {
+  position: relative;
+}
+
+/* Hero Banner (Landing Page) */
+.hero-section.card-glass {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto var(--space-4);
+}
+
+/* Features List (Why Players Love DAP⚡Pay) */
+.features-section.card-glass {
+  padding: var(--space-4) var(--space-3);
+  background: var(--card-bg);
+}
+.features-section .features-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+.features-section .features-list > div {
+  flex: 1 1 calc(25% - var(--space-3));
+}
+
+/* Use Anywhere Section Grid */
+.anywhere-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) auto;
+  max-width: 1024px;
+}
+.anywhere-grid .anywhere-card {
+  padding: var(--space-3);
+}
+
+/* How It Works Section */
+.how-section.card-glass {
+  padding: var(--space-4) var(--space-3);
+  background: var(--card-bg);
+}
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+/* Center CTA Buttons */
+.hero-buttons {
+  justify-content: center;
+}
+
+/* =====================================
+   7. Login Page Styles
+===================================== */
+
+/* 7. Login Page Styles */
+
+/* Container for login form */
+.login-wrapper {
+  max-width: 400px;
+  margin-inline: auto;
+  padding-block: var(--space-5);
+  padding-inline: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Login form title */
+.login-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: var(--space-4);
+  text-align: center;
+  color: var(--accent);
+}
+
+/* Login form card */
+.login-card {
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+/* Input fields */
+.login-card .input-field {
+  margin-bottom: var(--space-3);
+}
+
+/* Login button */
+.login-card .btn-primary {
+  width: 100%;
+  padding: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* Forgot password link */
+.login-card .forgot-password {
+  display: block;
+  margin-top: var(--space-2);
+  text-align: right;
+  font-size: 0.9rem;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.login-card .forgot-password:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+/* =====================================
+   8. Dashboard Page Styles
+===================================== */
+
+/* Dashboard Hero Banner (Full–Width Glass Card) */
+.dashboard-wrapper .hero-section {
+  grid-column: 1 / -1;
+  background: var(--card-bg);
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* Core Dashboard Panels (Your Profile, Balance, Streak, Levels) */
+.profile-card,
+.balance-card,
+.streak-card,
+.wallet-tier {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 0;           /* no extra margins; grid gap handles spacing */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Charts Section Headers & Canvas */
+.dashboard-chart-card h3,
+.category-spend h3 {
+  margin-bottom: var(--space-3);
+  color: var(--accent);
+}
+.dashboard-chart-card canvas,
+.category-spend canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 240px;
+  margin-top: var(--space-2);
+}
+
+/* Badge Grid */
+.badge-grid .badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Responsive Dash Layout */
+@media (max-width: 1023px) {
+  /* 2 columns on tablets & small laptops */
   .dashboard-wrapper {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
-/* Laptops & Desktops: 1024px–1279px */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .dashboard-wrapper {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Large Desktops: ≥1280px */
-@media (min-width: 1280px) {
-  .dashboard-wrapper {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Simplify mobile portrait: one column under 768px */
 @media (max-width: 767px) {
+  /* 1 column on mobile portrait */
   .dashboard-wrapper {
     grid-template-columns: 1fr !important;
   }
-
-  /* Stack every panel full-width on mobile portrait */
-  .dashboard-wrapper>* {
-    grid-column: 1 / -1 !important;
-  }
 }
+/* =====================================
+   9. Variables & Resets (moved to bottom)
+===================================== */
 
-.how-steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.how-steps .step {
-  flex: 1 1 calc(33.333% - 1rem);
-  background: var(--card-bg);
-  padding: 1rem;
-  border-radius: var(--radius);
-  box-shadow: 0 4px 12px rgba(12, 199, 246, 0.1);
-  text-align: center;
-}
-
-.how-steps .step h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #69FF7F;
-}
-
-.how-steps .step p {
-  font-size: 0.95rem;
-  color: #e0e0e0;
-}
-
-@media (max-width: 767px) {
-  .how-steps .step {
-    flex: 1 1 100%;
-  }
-}
-
-/* Tighten spacing in feature list */
-.features-section ul {
-  list-style-position: inside;
-  padding-left: 1rem;
-  margin: 0 0 0.5rem 0;
-}
-
-.features-section ul li {
-  margin-bottom: 0.25rem;
-  line-height: 1.3;
-}
-
-/* Four-box layout for “Why Players Love DAP⚡Pay” */
-.features-section .features-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+/* Reset margins, paddings & box-sizing */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
-  list-style: none;
-  justify-content: space-evenly;
-  align-items: center;
+  box-sizing: border-box;
 }
 
-.features-section .features-list>div {
-  flex: 1 1 calc(25% - 1rem);
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: var(--radius);
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+/* Core design tokens */
+:root {
+  /* Spacing scale */
+  --space-1: 0.25rem;  /* 4px  */
+  --space-2: 0.5rem;   /* 8px  */
+  --space-3: 1rem;     /* 16px */
+  --space-4: 1.5rem;   /* 24px */
+  --space-5: 2rem;     /* 32px */
+  --space-6: 3rem;     /* 48px */
 
-@media (max-width: 768px) {
-  .features-section .features-list>div {
-    flex: 1 1 100%;
-  }
-}
+  /* Glass-panel background */
+  --card-bg: rgba(255, 255, 255, 0.02);
 
-/* Four-box layout for “Use DAP⚡Pay Anywhere” */
-.mobile-tease-section .features-list,
-.mobile-tease-section ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+  /* Border radii */
+  --radius: 12px;
+  --radius-lg: 16px;
 
-.mobile-tease-section .features-list>div,
-.mobile-tease-section ul>li {
-  flex: 1 1 calc(25% - 1rem);
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: var(--radius);
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  /* Shadows */
+  --shadow: 0 8px 24px rgba(12, 199, 246, 0.07);
 
-/* Four-box layout for “What Players Are Saying” */
-.testimonials-section .features-list,
-.testimonials-section ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.testimonials-section .features-list>div,
-.testimonials-section ul>li {
-  flex: 1 1 calc(25% - 1rem);
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: var(--radius);
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* Collapse to single column on mobile */
-@media (max-width: 768px) {
-
-  .mobile-tease-section .features-list>div,
-  .mobile-tease-section ul>li,
-  .testimonials-section .features-list>div,
-  .testimonials-section ul>li {
-    flex: 1 1 100%;
-  }
-}
-
-/* ========================================
-   FOOTER — GLASS STYLE FINTECH THEME
-   - Builds from your existing layout
-   - Dark gradient background
-   - Uses Cash App–inspired spacing and font balance
-======================================== */
-/* Center Hero Buttons */
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-}
-
-/* Ensure uniform gap between all main sections */
-.page-wrapper > section + section {
-  margin-top: var(--space-4) !important; /* 1.5rem consistent gap */
-}
-/* Multi-step form visibility controls */
-.form-step {
-  display: none;
-}
-.form-step-active {
-  display: block;
-}
-
-/* Remove white borders on signup form fieldsets and style form-card */
-.form-card fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-}
-
-/* Style the form-card wrapper */
-.form-card {
-  border: 1px solid rgba(105, 255, 127, 0.5);
-  backdrop-filter: blur(16px);
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  max-width: 480px;
-  margin: var(--space-4) auto;
-  background: var(--card-bg);
-}
-
-/* Remove default form margin and control spacing */
-#signupForm .input-field {
-  margin-bottom: var(--space-3);
-}
-#signupForm .btn-group {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
+  /* Accent color */
+  --accent: #69FF7F;
+  --accent-rgb: 105, 255, 127;
 }
