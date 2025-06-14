@@ -20,17 +20,19 @@
     <div id="particles-js" aria-hidden="true"></div>
 
     <!-- Commit 4: Hero section -->
-    <section class="hero-section card-glass">
-      <!-- logo, headline, buttons, etc. -->
-      <h1 class="hero-logo">DAP⚡Pay</h1>
-      <h2 class="hero-title">Pool League Payments. Reinvented.</h2>
-      <p class="hero-subtitle">Load. Play. Track. Win.</p>
-      <div class="hero-buttons">
-        <button class="glow-btn" onclick="location.href='login.html'">Login 📲</button>
-        <button class="glow-btn secondary" id="learnMoreBtn">Learn More 👇</button>
-        <button class="glow-btn secondary" onclick="location.href='signup.html'">Sign Up 📝</button>
+    <!-- index.html: Hero -->
+    <section class="hero full-width glass">
+      <div class="hero__inner container">
+        <h1 class="hero__logo">DAP ⚡ Pay</h1>
+        <p class="hero__headline">Pool League Payments.</p>
+        <p class="hero__subhead">Load. Play. Track. Win.</p>
+        <div class="hero__ctas">
+          <a href="login.html" class="btn btn--primary">Log In 📲</a>
+          <a href="#features" class="btn btn--outline">Learn More 👇</a>
+          <a href="signup.html" class="btn btn--primary">Sign Up 📝</a>
+        </div>
+        <p class="hero__footer">New here? <a href="signup.html">Create an account</a> to get started!</p>
       </div>
-      <p class="hero-hint">New here? <a href="signup.html">Create an account</a> to get started!</p>
     </section>
 
     <!-- Commit 5: Main content -->
@@ -67,26 +69,26 @@
       <!-- Mobile tease -->
       <section class="mobile-tease-section card-glass fade-in" aria-labelledby="mobileHeading">
         <h2 id="mobileHeading">Use DAP⚡Pay Anywhere</h2>
-        <p>Fully optimized for mobile phones and venue tablets. Scan the QR code to try it now.</p>
+        <p>Optimized for every device—never miss a payment. Scan the QR code or tap to pay instantly.</p>
         <div class="anywhere-grid">
-          <!-- 1) Mobile Mockup Card -->
           <div class="anywhere-card mockup-card">
-            <img src="images/mobile-mockup.png" alt="Mobile interface mockup">
+            <h3>Mobile App</h3>
+            <p>Manage your funds, view game history, and chat with opponents in real time.</p>
           </div>
-
-          <!-- 2) QR Call-to-Action Card -->
           <div class="anywhere-card qr-card">
             <div class="qr-image">[QR Code]</div>
-            <p class="qr-text">Open your camera and scan</p>
+            <h3>Instant Table Pay</h3>
+            <p>Simply scan and swipe—payments settle instantly, no third party required.</p>
           </div>
-
-          <!-- 3) Future Feature Card -->
           <div class="anywhere-card feature-card">
             <div class="icon">📈</div>
-            <div>
-              <strong>Live Analytics</strong>
-              <p>See venue performance in real time</p>
-            </div>
+            <h3>Live Analytics</h3>
+            <p>Track venue performance, game stats, and balance trends with dynamic charts.</p>
+          </div>
+          <div class="anywhere-card feature-card">
+            <div class="icon">💬</div>
+            <h3>In-App Chat</h3>
+            <p>Coordinate games, split payments, and send invites—all without leaving the app.</p>
           </div>
         </div>
       </section>
@@ -95,8 +97,22 @@
       <section class="testimonials-section card-glass fade-in" aria-labelledby="testimonialsHeading">
         <h2 id="testimonialsHeading">What Players Are Saying</h2>
         <div class="testimonials-list">
-          <div>"Aye bro, just Cash App me…" — Not anymore 💥</div>
-          <div>"I wish these tables had tap-to-pay…" — Now they do!</div>
+          <div class="card-glass">
+            <p>“Aye bro, just Cash App me…”</p>
+            <footer>— Not anymore 💥</footer>
+          </div>
+          <div class="card-glass">
+            <p>“I wish these tables had tap-to-pay…”</p>
+            <footer>— Now they do!”</footer>
+          </div>
+          <div class="card-glass">
+            <p>“Love not fussing with cash—dap_pay makes it seamless.”</p>
+            <footer>— Pool Shark Pro</footer>
+          </div>
+          <div class="card-glass">
+            <p>“My daily streak hack keeps me playing every day!”</p>
+            <footer>— Daily Grinder</footer>
+          </div>
         </div>
       </section>
     </main>

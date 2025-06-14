@@ -27,4 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // NOTE: toggleMenu is on window from main.js, so your hamburger will now work
+
+  // Hamburger menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger?.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
 });

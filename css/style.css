@@ -1,3 +1,7 @@
+/* Hide hamburger menu by default (desktop) */
+.hamburger {
+  display: none;
+}
 /* =====================================
    1. Variables & Resets
 ===================================== */
@@ -117,8 +121,24 @@ img {
   width: 90%;
   max-width: 1440px;
   margin-inline: auto;
-  padding-top: calc(72px + var(--space-6)); /* navbar height + gap */
+  padding-top: calc(72px + var(--space-6));
+  /* navbar height + gap */
   flex: 1;
+}
+
+/* Ensure every main section spans full content width and has a uniform minimum height */
+.page-wrapper > section,
+.page-wrapper > main > section {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  min-height: 50vh; /* uniform half-screen minimum height */
+}
+
+/* Consistent physical gap between main sections */
+.page-wrapper>section+section {
+  margin-top: 2in;
+  /* uniform 2-inch gap */
 }
 
 /* Ensure main content expands under navbar */
@@ -131,15 +151,19 @@ main {
 .dashboard-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  grid-auto-rows: auto;
-  gap: var(--space-4) var(--space-3);
+  gap: var(--space-4);
   padding: var(--space-3);
   align-items: start;
+  margin-top: var(--space-6);
+  width: 100%;
 }
 
 /* Hero section spans full width of the grid */
 .dashboard-wrapper .hero-section {
   grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 
 /* Chart cards span two columns on large screens */
@@ -147,10 +171,23 @@ main {
   .dashboard-wrapper {
     grid-template-columns: repeat(4, 1fr);
   }
-
   .dashboard-wrapper .dashboard-chart-card,
   .dashboard-wrapper .category-spend {
     grid-column: span 2;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* 2 columns on tablets & small laptops */
+  .dashboard-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  /* 1 column on mobile portrait */
+  .dashboard-wrapper {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -168,12 +205,16 @@ main {
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: var(--space-5);
   box-shadow: var(--shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   text-align: left;
   margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Card headings */
@@ -375,15 +416,158 @@ main {
 .hero-section {
   text-align: center;
 }
+
 .hero-section .hero-subtitle,
 .hero-section .hero-hint {
   margin: var(--space-2) auto;
 }
+
 .hero-section .hero-buttons {
   display: flex;
   justify-content: center;
   gap: var(--space-2);
   margin-top: var(--space-3);
+}
+
+/* ─── Hero (edge-to-edge, full-bleed) ───────────────────────────────── */
+
+.hero.full-width {
+  position: relative;
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hero__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-3);
+  text-align: center;
+}
+
+.hero__logo {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: #fff;
+  text-shadow: 0 0 8px var(--accent);
+  margin-bottom: var(--space-2);
+}
+
+.hero__headline {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: #fff;
+}
+
+.hero__subhead {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  margin-bottom: var(--space-4);
+  color: #ccc;
+}
+
+.hero__ctas {
+  display: inline-flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #050A18;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.6);
+}
+
+.btn--outline:hover {
+  background: var(--accent);
+  color: #050A18;
+}
+
+.hero__footer {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.hero__footer a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* ─── Section gap below hero ───────────────────────────────── */
+.page-wrapper>.hero+main {
+  margin-top: var(--space-6);
+}
+/* ─── Unified Button Sizing & Style ───────────────────────────────── */
+
+/* Base rule for all buttons and link‐buttons */
+.btn,
+.glow-btn,
+.btn--primary,
+.btn--outline,
+button,
+input[type="submit"] {
+  /* ensure consistent height & touch target */
+  min-height: 2.75rem;               /* ~44px, good for touch */
+  line-height: 1;                    /* reset line height */
+  padding: var(--space-2) var(--space-4);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+/* Primary button specifics */
+.btn--primary,
+.glow-btn {
+  background: var(--accent);
+  color: #050A18;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+  border: none;
+}
+.btn--primary:hover,
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Outline button specifics */
+.btn--outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+.btn--outline:hover {
+  background: var(--accent);
+  color: #050A18;
+}
+
+/* Ensure any native <button> or <input> without classes inherit defaults */
+button:not([class]),
+input[type="submit"]:not([class]) {
+  background: var(--accent);
+  color: #050A18;
+  border: none;
 }
 
 /* =====================================
@@ -400,7 +584,8 @@ main {
   margin: 0 auto;
   padding-inline: var(--space-3);
   min-height: calc(100vh - 64px);
-  background: transparent; /* keep particle background visible */
+  background: transparent;
+  /* keep particle background visible */
 }
 
 /* Override page-wrapper padding on signup page */
@@ -529,6 +714,37 @@ main {
 
 .features-section .features-list>div {
   flex: 1 1 calc(25% - var(--space-3));
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* Glass panels around each testimonial */
+.testimonials-section .testimonials-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.testimonials-section .testimonials-list .card-glass {
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.testimonials-section .testimonials-list p {
+  margin-bottom: var(--space-2);
+  font-style: italic;
+}
+
+.testimonials-section .testimonials-list footer {
+  text-align: right;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 /* Use Anywhere Section Grid */
@@ -540,8 +756,21 @@ main {
   max-width: 1024px;
 }
 
-.anywhere-grid .anywhere-card {
-  padding: var(--space-3);
+.anywhere-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+/* Center the description in Use DAP⚡Pay Anywhere section */
+.mobile-tease-section>p {
+  text-align: center;
+  max-width: 600px;
+  margin: var(--space-2) auto var(--space-4);
 }
 
 /* How It Works Section */
@@ -555,6 +784,17 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-3);
   margin-top: var(--space-3);
+}
+
+/* Glass panels around each "How It Works" step */
+.how-steps .step {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-3);
+  text-align: left;
 }
 
 /* Center CTA Buttons */
@@ -578,6 +818,7 @@ main {
   justify-content: center;
   min-height: calc(100vh - 64px);
 }
+
 /* ── Center and align login & signup forms ── */
 .login-wrapper,
 .signup-wrapper {
@@ -585,15 +826,19 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 64px); /* viewport minus navbar */
+  min-height: calc(100vh - 64px);
+  /* viewport minus navbar */
   padding-top: 0 !important;
 }
+
 .login-wrapper .page-wrapper,
 .login-wrapper main,
 .signup-wrapper .page-wrapper,
 .signup-wrapper main {
-  padding-top: 0 !important; /* remove any extra top gap */
+  padding-top: 0 !important;
+  /* remove any extra top gap */
 }
+
 /* Login form title */
 .login-title {
   font-size: clamp(2rem, 6vw, 3rem);
@@ -633,16 +878,6 @@ main {
 /* =====================================
    8. Dashboard Page Styles
 ===================================== */
-
-/* Dashboard Hero Banner (Full–Width Glass Card) */
-.dashboard-wrapper .hero-section {
-  grid-column: 1 / -1;
-  background: var(--card-bg);
-  padding: var(--space-4) var(--space-3);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
 
 /* Core Dashboard Panels (Your Profile, Balance, Streak, Levels) */
 .profile-card,
@@ -707,19 +942,123 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;             /* behind everything */
+  z-index: 0;
+  /* behind everything */
   pointer-events: none;
 }
+
 .navbar {
   z-index: 1001;
 }
 
-/* ── Always hide the hamburger on non-mobile ── */
+/* ── Hamburger button styling ── */
 .hamburger {
-  display: none !important;
+  font-size: 1.75rem;
+  color: var(--accent);
+  background: transparent;
+  border: none;
+  padding: var(--space-2);
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
 }
+
+.hamburger:hover {
+  transform: scale(1.1);
+  color: #4187FF;
+}
+
+/* Show hamburger on mobile and align right */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
+    position: absolute;
+    top: 50%;
+    right: var(--space-3);
+    transform: translateY(-50%);
+    color: var(--accent);
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    right: var(--space-3);
+    background: rgba(5, 10, 24, 0.95);
+    padding: var(--space-3);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  }
+  .nav-links.show {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .nav-links {
+    display: none;
+    /* start hidden on mobile */
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  /* When the “show” class is toggled on by JS... */
+  .nav-links.show {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    /* drop it below the navbar */
+    right: var(--space-3);
+    background: rgba(5, 10, 24, 0.95);
+    padding: var(--space-3);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+    max-height: 500px;
+    /* or whatever max submenu height you need */
+  }
+
+  .nav-container {
+    justify-content: center;
+  }
+
+  /* Footer adjustments for small mobile */
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-column {
+    width: 100%;
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-column h4,
+  .footer-links li a {
+    text-align: center;
+  }
+
+  .footer-content .footer-column:first-child {
+    text-align: center;
+    width: 100%;
+    margin-bottom: var(--space-3);
+  }
+
+  .footer-content .footer-column:first-child .footer-links {
+    display: inline-block;
+  }
+}
+/* Contact Us Section */
+.contact-us-section {
+  text-align: center;
+  padding: var(--space-4) var(--space-3);
+  margin: var(--space-4) auto;
+  max-width: 500px;
+}
+
+/* 3) If you need it to only apply on narrow viewports: */
+@media (max-width: 600px) {
+  .contact-us-section {
+    padding: var(--space-3) var(--space-2);
+    margin: var(--space-3) auto;
   }
 }
