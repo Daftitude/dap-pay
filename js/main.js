@@ -2,8 +2,18 @@
 
 // —— Current User Helper ——
 export function getCurrentUserObj() {
-  // read the saved object directly
-  return JSON.parse(localStorage.getItem('currentUserObj')) || {};
+  const stored = localStorage.getItem('currentUserObj');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch {
+      console.warn('Failed to parse currentUserObj, falling back to user lookup');
+    }
+  }
+  const currentUser = localStorage.getItem('currentUser');
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const found = users.find(u => u.username === currentUser);
+  return found || {};
 }
 
 // —— HTML Fragment Injection ——

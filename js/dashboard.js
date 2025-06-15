@@ -1,7 +1,20 @@
 // js/dashboard.js
 
 import { checkAuth, loadBalance, fmt, initCommon, getCurrentUserObj } from './main.js';
-import Chart from 'https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.esm.min.js';
+
+/**
+ * Sets the hero greeting text.
+ * @param {string} name - Name to display.
+ */
+function applyHeroGreeting(name) {
+  const span = document.getElementById('userName');
+  if (span) {
+    span.textContent = name;
+  } else {
+    console.error('Missing #userName element');
+  }
+}
+// import Chart from 'https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.min.js';
 
 // ─── Reusable Chart Creators ───
 function createBarChart(ctx, data, options) {
@@ -16,23 +29,44 @@ function createLineChart(ctx, data, options) {
   return new Chart(ctx, { type: 'line', data, options });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await initCommon();
   checkAuth();
 
   const currentUserObj = getCurrentUserObj();
-  console.log('Dashboard currentUserObj:', currentUserObj);
-  if (!currentUserObj || !currentUserObj.username) {
-    return (window.location.href = 'login.html');
-  }
+  // 🛠 Hero Greeting – single source
+  const { username, team } = currentUserObj;
+  const fallback = localStorage.getItem('currentUser') || 'Player';
+  const displayName = team || username || fallback;
+  console.log('🛠 Applying hero greeting:', displayName);
+  applyHeroGreeting(displayName);
 
-  // Show team name in welcome and banner (fallback to username)
-  const heroName = currentUserObj.team || currentUserObj.username;
-  document.getElementById('displayName').textContent = heroName;
-  document.getElementById('teamName').textContent = currentUserObj.team || '';
-  document.getElementById('userName').textContent = '';
-  // Ensure hero greeting is updated
-  const userNameEl = document.getElementById('userName');
-  if (userNameEl) userNameEl.textContent = heroName;
+  // Update profile header names
+  const displayEl = document.getElementById('displayName');
+  const teamEl    = document.getElementById('teamName');
+  if (displayEl) displayEl.textContent = username || fallback;
+  if (teamEl)    teamEl.textContent    = team     || fallback;
+
+  console.log('Dashboard currentUserObj:', currentUserObj);
+  // if (!currentUserObj || !currentUserObj.username) {
+  //   return (window.location.href = 'login.html');
+  // }
+
+
+  // Bind status pill text
+  const statusTextEl = document.getElementById('statusText');
+  if (statusTextEl && currentUserObj.status) {
+    statusTextEl.textContent = currentUserObj.status;
+  }
+  // Bind player and team levels
+  const playerLevelEl = document.getElementById('playerLevel');
+  if (playerLevelEl && currentUserObj.playerLevel !== undefined) {
+    playerLevelEl.textContent = currentUserObj.playerLevel;
+  }
+  const teamLevelEl = document.getElementById('teamLevel');
+  if (teamLevelEl && currentUserObj.teamLevel) {
+    teamLevelEl.textContent = currentUserObj.teamLevel;
+  }
 
   loadBalance('#walletBalance');
   updateLastPayment();
@@ -332,3 +366,5 @@ function loadTip() {
   const el = document.getElementById('dashTip');
   if (el) el.textContent = tips[index];
 }
+
+// (greeting logic consolidated)
