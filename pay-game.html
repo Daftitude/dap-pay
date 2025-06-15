@@ -27,7 +27,7 @@
         <h1 class="hero-title">🎱 Pay for Game</h1>
 
         <!-- Mode selectors & amount input -->
-        <div class="mode-wager-panel">
+        <section class="card-glass mode-wager-panel">
           <div class="mode-buttons" role="group" aria-label="Payment Mode">
             <button id="payGameBtn" class="mode-btn mode-active">Game ($5)</button>
             <button id="payTableBtn" class="mode-btn">Table ($10)</button>
@@ -38,30 +38,28 @@
             <input type="number" id="otherAmount" class="input-field" placeholder="10.00" min="10" max="200" step="0.01"
               disabled />
           </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs" role="tablist" aria-label="Game Type">
-          <button class="tab-btn tab-active" data-tab="league">League Tables</button>
-          <button class="tab-btn" data-tab="casual">Casual Games</button>
-        </div>
-
-        <!-- League Tables -->
-        <section id="league" class="tables-grid tab-panel tab-active" role="tabpanel">
-          <h2 class="sr-only">League Tables 1–10</h2>
-          <div class="table-list"></div>
         </section>
 
-        <!-- Casual Tables -->
-        <section id="casual" class="tables-grid tab-panel" role="tabpanel" hidden>
-          <h2 class="sr-only">Casual Tables 11–15</h2>
-          <div class="table-list"></div>
+        <!-- Tables Mode Selector -->
+        <section class="card-glass tables-mode-selector" aria-label="Select Tables Mode">
+          <button id="leagueSelectorBtn" class="mode-selector-btn mode-active">League</button>
+          <button id="casualSelectorBtn" class="mode-selector-btn">Casual</button>
+        </section>
+
+        <!-- Combined Tables Grid -->
+        <section class="tables-grid card-glass" role="region" aria-label="All Tables">
+          <h2 class="sr-only">All Tables 1–20</h2>
+          <div class="table-list" id="allTablesContainer"></div>
         </section>
       </div>
 
       <!-- RIGHT: Sticky summary -->
-      <aside class="summary-panel" aria-labelledby="summaryHeading">
+      <aside class="summary-panel card-glass" aria-labelledby="summaryHeading">
         <h2 id="summaryHeading">Summary</h2>
+        <p>
+          <strong>Game Type:</strong>
+          <span id="gameTypeDisplay">–</span>
+        </p>
         <p>
           <strong>Table Number:</strong>
           <span id="selectedTableDisplay">None</span>

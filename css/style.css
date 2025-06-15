@@ -917,6 +917,178 @@ input[type="submit"]:not([class]) {
   flex-wrap: wrap;
   gap: var(--space-2);
 }
+/* =====================================
+   Profile Page Styles
+===================================== */
+/* Profile Page Styles */
+.profile-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-4);
+  max-width: 800px;
+  margin: 0 auto;
+}
+.profile-card {
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+.profile-header {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+.profile-header p {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.profile-details dl {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.profile-details dt {
+  font-weight: 600;
+  text-align: right;
+}
+.profile-details dd {
+  margin: 0;
+}
+
+.security-section,
+.payment-methods-section,
+.notifications-section,
+.account-actions-section {
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+.security-section h2,
+.payment-methods-section h2,
+.notifications-section h2 {
+  margin-bottom: var(--space-3);
+}
+.account-actions-section {
+  text-align: center;
+}
+.account-actions-section .danger {
+  background: #FF4C4C;
+  color: #fff;
+}
+/* =====================================
+   Pay-Game Page Styles
+==================================== */
+/* Mode & Wager Panel */
+.mode-wager-panel {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: start;
+  margin-bottom: var(--space-4);
+}
+.mode-wager-panel .wager-panel {
+  width: 200px;
+}
+
+/* Tables Mode Selector */
+.tables-mode-selector {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: start;
+  position: relative;
+  z-index: 1002;
+  pointer-events: auto;
+  margin-bottom: var(--space-4);
+}
+.mode-selector-btn {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  color: #050A18;
+  border: 1px solid #ddd;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  transition: background 0.2s, box-shadow 0.2s;
+  pointer-events: auto;
+}
+.mode-selector-btn.mode-active {
+  background: var(--accent);
+  box-shadow: 0 4px 8px rgba(var(--accent-rgb), 0.3);
+}
+
+/* Combined Tables Grid */
+.tables-grid .table-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-3);
+  justify-content: start;
+  padding: var(--space-2) 0;
+}
+.tables-grid h2 {
+  margin-bottom: var(--space-4);
+}
+
+/* Pay-Game Layout */
+.paygame-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-6);
+  align-items: start;
+}
+.paygame-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+  z-index: 1002;
+  pointer-events: auto;
+}
+
+/* Summary Panel */
+.summary-panel {
+  position: sticky;
+  top: calc(64px + var(--space-4));
+  align-self: start;
+  max-width: 280px;
+  padding: var(--space-4);
+}
+.summary-panel.card-glass {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+.summary-panel p {
+  margin-bottom: var(--space-2);
+  display: flex;
+  justify-content: space-between;
+}
+.summary-panel #confirmBtn {
+  width: 100%;
+  max-width: 240px;
+  margin: var(--space-3) auto 0;
+}
+
+/* Glass Softening & Box Separation */
+.paygame-grid .card-glass {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  padding: var(--space-5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin: var(--space-4) 0;
+}
+
+/* Tab Button Styling */
+.tab-btn {
+  padding: var(--space-2) var(--space-4);
+}
+.tab-btn:focus {
+  outline: 2px solid var(--accent);
+}
+.tab-btn.tab-active {
+  border-bottom: 3px solid var(--accent);
+}
 
 /* Responsive Dash Layout */
 @media (max-width: 1023px) {
@@ -1061,4 +1233,115 @@ input[type="submit"]:not([class]) {
     padding: var(--space-3) var(--space-2);
     margin: var(--space-3) auto;
   }
+}
+
+/* =====================================
+   Add-Funds Page Styles
+===================================== */
+
+/* Page wrapper for add-funds */
+.add-funds-wrapper {
+  max-width: 800px;
+  margin: 0 auto var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Boxed sections */
+.secure-toggle-section,
+.balance-display,
+.mode-buttons,
+.deposit-section {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+/* Secure toggle and balance centered */
+.secure-toggle-section,
+.balance-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mode buttons centered */
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Highlight active deposit method button */
+.mode-buttons .mode-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.mode-buttons .mode-btn.mode-active {
+  background: var(--accent);
+  color: #050A18;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+}
+
+/* Deposit section layout */
+.deposit-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Quick-fill row cleanup */
+.quick-fill-row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* Chart and summary stacking */
+.deposit-chart-summary-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+@media (min-width: 768px) {
+  .deposit-chart-summary-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .deposit-summary-box {
+    margin-left: var(--space-4);
+  }
+}
+
+/* Constrain chart size */
+.deposit-section canvas {
+  max-width: 240px;
+  width: 100%;
+  height: auto !important;
+  margin: 0 auto;
+}
+
+/* Submit button full-width on mobile */
+.deposit-section .glow-btn[type="submit"] {
+  width: 100%;
+  max-width: 280px;
+  margin: var(--space-3) auto 0;
+}
+
+/* Force hidden sections to be truly hidden */
+[hidden] {
+  display: none !important;
+}
+
+/* Quick-fill active glow */
+.quick-fill-btn.active {
+  background: var(--accent);
+  color: #050A18;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
 }

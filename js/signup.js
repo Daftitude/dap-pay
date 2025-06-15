@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Multi-step form logic for signup
   const form = document.getElementById('signupForm');
   if (!form) return;
+  // Capture password field
+  const passwordInput = form.newPassword;
 
   const steps = Array.from(form.querySelectorAll('.form-step'));
   let currentStep = 0;
@@ -71,11 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Register user and save to localStorage, then redirect
 function registerUser() {
   const form = document.getElementById('signupForm');
+  const passwordInput = form.newPassword;
   const user = {
     username: form.newUsername.value.trim(),
     email:    form.newEmail.value.trim(),
     dob:      form.dob.value,
     address:  form.address.value.trim(),
+    password: passwordInput.value.trim(),
     balance:  0
   };
   // Save individual and current user object
@@ -85,5 +89,5 @@ function registerUser() {
   users.push(user);
   localStorage.setItem('users', JSON.stringify(users));
   // Redirect
-  window.location.href = 'dashboard.html';
+  window.location.href = 'login.html';
 }

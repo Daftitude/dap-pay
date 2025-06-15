@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-flavor="profile">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DAP⚡Pay | Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-flavor="app">
+  <!-- Commit 2: Nav injected via main.js -->
+  <!-- header -->
+  <header id="nav-placeholder"></header>
+  <div id="particles-js" aria-hidden="true"></div>
+
+  <main class="profile-page-wrapper">
+    <section class="card-glass profile-card">
+      <h1>Your Profile</h1>
+      <div class="profile-header">
+        <span><strong>Username:</strong> <span id="profileUsername">Loading…</span></span>
+        <span><strong>Team:</strong>     <span id="profileTeam">Loading…</span></span>
+      </div>
+      <div class="profile-details">
+        <p><strong>Email:</strong>    <span id="profileEmail">Loading…</span></p>
+        <p><strong>Date of Birth:</strong> <span id="profileDob">Loading…</span></p>
+        <p><strong>Address:</strong>  <span id="profileAddress">Loading…</span></p>
+        <p><strong>Status:</strong>   <span id="statusText">Loading…</span></p>
+        <p><strong>Phone:</strong> <span id="profilePhone">Loading…</span></p>
+        <p><strong>Member Since:</strong> <span id="profileMemberSince">Loading…</span></p>
+        <p><strong>Last Login:</strong> <span id="profileLastLogin">Loading…</span></p>
+      </div>
+      <button class="glow-btn" id="editProfileBtn">✏️ Edit Profile</button>
+    </section>
+
+    <section class="card-glass security-section">
+      <h2>🔒 Security</h2>
+      <button class="glow-btn" id="changePasswordBtn">Change Password</button>
+      <button class="glow-btn" id="twoFactorBtn">Enable Two-Factor Auth</button>
+    </section>
+
+    <section class="card-glass payment-methods-section">
+      <h2>💳 Payment Methods</h2>
+      <ul id="paymentMethodsList">
+        <li>Loading payment methods…</li>
+      </ul>
+      <button class="glow-btn" id="addPaymentMethodBtn">Add New Card/Wallet</button>
+    </section>
+
+    <section class="card-glass notifications-section">
+      <h2>🔔 Notifications</h2>
+      <label><input type="checkbox" id="notifyEmail"> Email Notifications</label><br>
+      <label><input type="checkbox" id="notifySMS"> SMS Notifications</label><br>
+      <label><input type="checkbox" id="notifyPush"> Push Notifications</label>
+    </section>
+
+    <section class="card-glass account-actions-section">
+      <button class="glow-btn danger" id="deleteAccountBtn">Delete Account</button>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <footer id="footer-placeholder"></footer>
+
+  <script src="js/particles.min.js" defer></script>
+  <script type="module" src="js/main.js" defer></script>
+</body>
+</html>

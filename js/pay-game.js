@@ -12,12 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableDisplay = document.getElementById('selectedTableDisplay');
     const amountDisplay = document.getElementById('selectedAmountDisplay');
     const balanceDisplay = document.getElementById('currentBalanceDisplay');
-    const leagueContainer = document.querySelector('#league .table-list');
-    const casualContainer = document.querySelector('#casual .table-list');
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabPanels = document.querySelectorAll('.tab-panel');
+    const allContainer = document.getElementById('allTablesContainer');
     const modeDisplay = document.getElementById('selectedModeDisplay');
     const timeDisplay = document.getElementById('selectedTimeDisplay');
+    // League/Casual selectors
+    const leagueSelectorBtn = document.getElementById('leagueSelectorBtn');
+    const casualSelectorBtn = document.getElementById('casualSelectorBtn');
+
+    // Track current tables mode
+    let tablesMode = 'league';
+
+    // Track selected table
+    let selectedTable = null;
 
 
     // —————————————
@@ -64,36 +70,55 @@ document.addEventListener('DOMContentLoaded', () => {
             container.appendChild(btn);
         }
     }
-    injectTables(1, 10, leagueContainer);
-    injectTables(11, 20, casualContainer);
+
+    // Helper to render tables by mode
+    function renderTablesForMode(mode) {
+        allContainer.innerHTML = '';
+        if (mode === 'league') {
+            injectTables(1, 10, allContainer);
+        } else {
+            injectTables(11, 20, allContainer);
+        }
+        // reset selection and summary
+        selectedTable = null;
+        confirmBtn.disabled = true;
+        updateSummary();
+    }
+
+    // Default to League view
+    renderTablesForMode('league');
+
+    // League/Casual selector event listeners
+    leagueSelectorBtn.addEventListener('click', () => {
+      tablesMode = 'league';
+      leagueSelectorBtn.classList.add('mode-active');
+      casualSelectorBtn.classList.remove('mode-active');
+      renderTablesForMode('league');
+    });
+    casualSelectorBtn.addEventListener('click', () => {
+      tablesMode = 'casual';
+      casualSelectorBtn.classList.add('mode-active');
+      leagueSelectorBtn.classList.remove('mode-active');
+      renderTablesForMode('casual');
+    });
+
+    // 🛠 Event delegation fallback for mode selectors
+    const modeSelectorContainer = document.querySelector('.tables-mode-selector');
+    if (modeSelectorContainer) {
+      modeSelectorContainer.addEventListener('click', (e) => {
+        if (e.target === leagueSelectorBtn) {
+          leagueSelectorBtn.click();
+        } else if (e.target === casualSelectorBtn) {
+          casualSelectorBtn.click();
+        }
+      });
+    }
 
     // —————————————
-    // 6) Tab switching logic
-    tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // deactivate all tabs & hide panels
-            tabButtons.forEach(b => b.classList.remove('tab-active'));
-            tabPanels.forEach(p => {
-                p.hidden = true;
-                p.classList.remove('tab-active');
-            });
-
-            // activate this tab & show its panel
-            btn.classList.add('tab-active');
-            const panel = document.getElementById(btn.dataset.tab);
-            panel.hidden = false;
-            panel.classList.add('tab-active');
-
-            // reset selection & summary
-            selectedTable = null;
-            confirmBtn.disabled = true;
-            updateSummary();
-        });
-    });
+    // 6) Tab switching logic removed (no longer needed)
 
     // —————————————
     // 7) Table selection & summary
-    let selectedTable = null;
     function selectTable(num, btnEl) {
         // un-highlight all
         document.querySelectorAll('.table-item.selected')
@@ -119,6 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // show current time (HH:MM:SS)
         timeDisplay.textContent = new Date().toLocaleTimeString();
+
+        // Update game type display
+        const gameTypeEl = document.getElementById('gameTypeDisplay');
+        if (gameTypeEl) {
+          gameTypeEl.textContent = tablesMode.charAt(0).toUpperCase() + tablesMode.slice(1);
+        }
 
         confirmBtn.disabled = !selectedTable || amount <= 0;
     }

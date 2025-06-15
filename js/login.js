@@ -1,19 +1,35 @@
-// js/dashboard.js
+// js/login.js
+
+import { Storage } from './main.js'; // ensure Storage is exported from main.js
 
 document.addEventListener('DOMContentLoaded', () => {
-  const currentUserObj = JSON.parse(localStorage.getItem('currentUserObj')) || {};
-  console.log('Dashboard currentUserObj:', currentUserObj);
+  const form = document.getElementById('loginForm');
+  if (!form) return;
 
-  const heroName = currentUserObj.username || 'Player';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  // Ensure hero greeting is updated
-  const userNameEl = document.getElementById('userName');
-  if (userNameEl) userNameEl.textContent = heroName;
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
 
-  // Remove default placeholder content from hero span
-  if (userNameEl && userNameEl.textContent === 'Player') {
-    userNameEl.textContent = '';
-  }
+    // Fetch stored users
+    const users = Storage.getUsers();
+    const user = users.find(u => u.username === username && u.password === password);
 
-  // ...rest of the dashboard code
+    if (user) {
+      // Successful login
+      Storage.setCurrentUser(user.username);
+      Storage.setCurrentUserObj(user);
+      window.location.href = 'dashboard.html';
+    } else {
+      // Show error message
+      const errorEl = document.getElementById('loginError');
+      if (errorEl) {
+        errorEl.textContent = 'Invalid username or password';
+        errorEl.style.display = 'block';
+      } else {
+        alert('Invalid username or password');
+      }
+    }
+  });
 });

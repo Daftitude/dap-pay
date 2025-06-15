@@ -1,7 +1,32 @@
-// js/main.js
+// Section: Storage Service
+const Storage = {
+  getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  },
+  saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+  },
+  addUser(user) {
+    const users = this.getUsers();
+    users.push(user);
+    this.saveUsers(users);
+  },
+  setCurrentUser(username) {
+    localStorage.setItem('currentUser', username);
+  },
+  getCurrentUser() {
+    return localStorage.getItem('currentUser');
+  },
+  setCurrentUserObj(user) {
+    localStorage.setItem('currentUserObj', JSON.stringify(user));
+  },
+  getCurrentUserObj() {
+    return JSON.parse(localStorage.getItem('currentUserObj') || '{}');
+  }
+};
 
-// —— Current User Helper ——
-export function getCurrentUserObj() {
+// Section: User Helper
+function getCurrentUserObj() {
   const stored = localStorage.getItem('currentUserObj');
   if (stored) {
     try {
@@ -16,8 +41,35 @@ export function getCurrentUserObj() {
   return found || {};
 }
 
-// —— HTML Fragment Injection ——
-export async function injectHTML(url, selector) {
+// Section: Authentication Helpers
+function checkAuth() {
+  const user = localStorage.getItem('currentUser');
+  if (!user) window.location.href = 'login.html';
+  return user;
+}
+
+function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = 'login.html';
+}
+
+// Section: Formatting & Data Loaders
+function fmt(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD'
+  }).format(amount);
+}
+
+function loadBalance(selector) {
+  const currentUser = localStorage.getItem('currentUser');
+  const users       = JSON.parse(localStorage.getItem('users')) || [];
+  const obj         = users.find(u => u.username === currentUser) || {};
+  const bal         = obj.balance || 0;
+  document.querySelector(selector).textContent = fmt(bal);
+}
+
+// Section: UI Injectors & Particles
+async function injectHTML(url, selector) {
   try {
     const res  = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -28,8 +80,7 @@ export async function injectHTML(url, selector) {
   }
 }
 
-// —— Particles Init ——
-export function initParticles(containerId = 'particles-js') {
+function initParticles(containerId = 'particles-js') {
   if (typeof particlesJS !== 'function') {
     console.warn('particlesJS not found — make sure particles.min.js is loaded.');
     return;
@@ -62,8 +113,7 @@ export function initParticles(containerId = 'particles-js') {
   });
 }
 
-// —— Nav Toggle Helper ——
-export function toggleMenu() {
+function toggleMenu() {
   const nav = document.getElementById('navLinks');
   if (!nav) return;
   const expanded = nav.classList.toggle('show');
@@ -71,35 +121,7 @@ export function toggleMenu() {
           .forEach(btn => btn.setAttribute('aria-expanded', expanded));
 }
 
-// —— Logout Helper ——
-export function logout() {
-  localStorage.removeItem('currentUser');
-  window.location.href = 'login.html';
-}
-
-// —— Auth + Balance Helpers ——
-export function checkAuth() {
-  const user = localStorage.getItem('currentUser');
-  if (!user) window.location.href = 'login.html';
-  return user;
-}
-
-export function fmt(amount) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency', currency: 'USD'
-  }).format(amount);
-}
-
-export function loadBalance(selector) {
-  const currentUser = localStorage.getItem('currentUser');
-  const users       = JSON.parse(localStorage.getItem('users')) || [];
-  const obj         = users.find(u => u.username === currentUser) || {};
-  const bal         = obj.balance || 0;
-  document.querySelector(selector).textContent = fmt(bal);
-}
-
-// —— Common Bootstrap ——
-export async function initCommon() {
+async function initCommon() {
   // 1) Inject the proper header & footer
   const flavor = document.body.dataset.flavor || 'index';
   await Promise.all([
@@ -131,5 +153,68 @@ export async function initCommon() {
   }
 }
 
-// —— Kickoff ——
-document.addEventListener('DOMContentLoaded', initCommon);
+// Section: Profile Initialization
+async function initProfilePage() {
+  const u = getCurrentUserObj();
+  document.getElementById('profileUsername').textContent = u.username || '';
+  document.getElementById('profileTeam').textContent     = u.team     || '';
+  document.getElementById('profileEmail').textContent    = u.email    || '';
+  document.getElementById('profileDob').textContent      = u.dob      || '';
+  document.getElementById('profileAddress').textContent  = u.address  || '';
+  document.getElementById('statusText').textContent      = u.status   || '';
+
+  // Populate new profile fields
+  document.getElementById('profilePhone').textContent       = u.phone || '—';
+  document.getElementById('profileMemberSince').textContent = u.memberSince || '—';
+  document.getElementById('profileLastLogin').textContent   = u.lastLogin || '—';
+
+  // Payment Methods
+  const pmList = document.getElementById('paymentMethodsList');
+  if (pmList) {
+    pmList.innerHTML = '';
+    (u.paymentMethods || []).forEach(method => {
+      const li = document.createElement('li');
+      li.textContent = method;
+      pmList.appendChild(li);
+    });
+    if (!(u.paymentMethods || []).length) {
+      pmList.innerHTML = '<li>No payment methods on file</li>';
+    }
+  }
+
+  // Notifications toggles
+  const notifyEmail = document.getElementById('notifyEmail');
+  const notifySMS   = document.getElementById('notifySMS');
+  const notifyPush  = document.getElementById('notifyPush');
+  if (notifyEmail) notifyEmail.checked = u.notifications?.email || false;
+  if (notifySMS)   notifySMS.checked   = u.notifications?.sms   || false;
+  if (notifyPush)  notifyPush.checked  = u.notifications?.push  || false;
+
+  const editBtn = document.getElementById('editProfileBtn');
+  if (editBtn) editBtn.addEventListener('click', () => {
+    window.location.href = 'edit-profile.html';
+  });
+}
+
+// Section: Entry Point
+document.addEventListener('DOMContentLoaded', async () => {
+  await initCommon();
+  // If on profile page, initialize profile
+  if (document.body.dataset.flavor === 'profile') {
+    await initProfilePage();
+  }
+});
+
+export {
+  Storage,
+  getCurrentUserObj,
+  checkAuth,
+  logout,
+  fmt,
+  loadBalance,
+  injectHTML,
+  initParticles,
+  toggleMenu,
+  initCommon,
+  initProfilePage
+};

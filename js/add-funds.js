@@ -153,6 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
   restoreSecureMode();
   updateLiveBalance();
 
+  // Set initial "Balance After" to current user balance
+  const currentUser = getCurrentUser();
+  const initialBal = currentUser?.balance || 0;
+  document.querySelectorAll('.sum-net').forEach(el => {
+    el.textContent = fmt(initialBal);
+  });
+
   // Tab switch logic
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.onclick = () => {
@@ -173,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-
   // Secure toggle
   document.getElementById("secureToggle").onclick = () => {
     let on = localStorage.getItem("dap_pay_secure") !== "1";
@@ -187,17 +193,42 @@ document.addEventListener("DOMContentLoaded", () => {
   bindDepositForm("Bank", "bankAmount", "bankForm", "bankSuggestion", "bankFeeChart", "bankSubmit");
 
   // Enhanced Quick Fill Logic
-  document.querySelectorAll('.quick-fill-btn').forEach(btn => {
+  document.querySelectorAll('.deposit-section .quick-fill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const input = btn.closest('.quick-fill-row').nextElementSibling;
-      const value = btn.dataset.value;
+      const section = btn.closest('.deposit-section');
+      const input = section.querySelector('input[type="number"]');
+      const value = btn.getAttribute('data-value');
+      console.log('Quick-fill value:', value);
+      if (value !== null) {
+        input.value = value;
+        input.focus();
+        input.dispatchEvent(new Event('input'));
+        // Highlight active button
+        section.querySelectorAll('.quick-fill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    });
+  });
 
-      input.value = value;
-      input.dispatchEvent(new Event('input'));
-
-      btn.parentElement.querySelectorAll('.quick-fill-btn')
-        .forEach(b => b.classList.remove('active'));
+  // Other button behavior: focus input when clicked
+  document.querySelectorAll('#otherAmountBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const form = btn.closest('.deposit-section');
+      const input = form.querySelector('input[type="number"]');
+      input.focus();
+      // highlight Other button
+      form.querySelectorAll('.quick-fill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+    });
+  });
+
+  // When user types manually, mark Other as active
+  document.querySelectorAll('.deposit-section input[type="number"]').forEach(input => {
+    input.addEventListener('input', () => {
+      const form = input.closest('.deposit-section');
+      form.querySelectorAll('.quick-fill-btn').forEach(b => b.classList.remove('active'));
+      const otherBtn = form.querySelector('#otherAmountBtn');
+      if (otherBtn) otherBtn.classList.add('active');
     });
   });
 });
@@ -210,6 +241,7 @@ function bindDepositForm(method, amtId, formId, sugId, chartId, submitId) {
   updateChart(method, input.value);
 
   input.addEventListener('input', () => {
+    const val = Number(input.value) || 0;
     const animateValue = (el, newVal) => {
       if (el.textContent !== newVal) {
         el.textContent = newVal;
@@ -229,7 +261,6 @@ function bindDepositForm(method, amtId, formId, sugId, chartId, submitId) {
       animateValue(summaryBox.querySelector(".sum-net"), fmt(balance + net));
     }
 
-
     const suggestions = getSuggestions(method);
     if (suggestions.length) {
       const avg = (suggestions.reduce((a, b) => a + b, 0) / suggestions.length).toFixed(2);
@@ -239,6 +270,8 @@ function bindDepositForm(method, amtId, formId, sugId, chartId, submitId) {
     }
 
     submit.disabled = !(val && val >= (method === "Bank" ? 5 : 1));
+    // Update the fee chart to reflect the new amount
+    updateChart(method, val);
   });
 
   form.addEventListener('submit', e => {
