@@ -122,23 +122,35 @@ img {
   max-width: 1440px;
   margin-inline: auto;
   padding-top: calc(72px + var(--space-6));
-  /* navbar height + gap */
   flex: 1;
+  /* navbar height + gap */
+  margin-bottom: var(--space-6);
 }
 
-/* Ensure every main section spans full content width and has a uniform minimum height */
+/* Ensure every main section spans full content width */
+/* Ensure every main section spans full content width */
 .page-wrapper > section,
 .page-wrapper > main > section {
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
-  min-height: 50vh; /* uniform half-screen minimum height */
+}
+
+/* Ensure anchored sections appear below the fixed navbar */
+.page-wrapper > section,
+.page-wrapper > main > section {
+  scroll-margin-top: calc(64px + var(--space-2));
 }
 
 /* Consistent physical gap between main sections */
 .page-wrapper>section+section {
-  margin-top: 2in;
-  /* uniform 2-inch gap */
+  margin-top: var(--space-6);
+  /* uniform vertical gap */
+}
+
+/* Add spacing between sections within main content */
+.page-wrapper > main > section + section {
+  margin-top: var(--space-6);
 }
 
 /* Ensure main content expands under navbar */
@@ -194,8 +206,6 @@ main {
 /* =====================================
    4. Components (Cards, Buttons, Forms)
 ===================================== */
-
-/* 4. Components (Cards, Buttons, Forms) */
 
 /* Glass-panel card base */
 .card-glass {
@@ -513,6 +523,13 @@ main {
 .page-wrapper>.hero+main {
   margin-top: var(--space-6);
 }
+
+/* Override min-height for public landing page sections */
+body[data-flavor="public"] .page-wrapper > main > section {
+  min-height: auto !important;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
 /* ─── Unified Button Sizing & Style ───────────────────────────────── */
 
 /* Base rule for all buttons and link‐buttons */
@@ -703,6 +720,59 @@ input[type="submit"]:not([class]) {
 .features-section.card-glass {
   padding: var(--space-4) var(--space-3);
   background: var(--card-bg);
+}
+
+/* Fix features section spacing */
+.features-section.card-glass {
+  /* disable flex spacing */
+  display: block !important;
+  height: auto !important;
+}
+.features-section.card-glass .features-list {
+  margin-top: var(--space-3);
+}
+
+/* Fix How It Works section spacing */
+.how-section.card-glass {
+  display: block !important;
+  height: auto !important;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+.how-steps {
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+@media (min-width: 768px) {
+  .how-steps {
+    flex-direction: row;
+  }
+}
+
+/* ─── Normalize remaining public landing sections ─── */
+
+/* Mobile Tease Section */
+.mobile-tease-section.card-glass {
+  display: block !important;
+  height: auto !important;
+  padding: var(--space-4) var(--space-3) !important;
+}
+.mobile-tease-section .anywhere-grid {
+  margin-top: var(--space-3) !important;
+}
+
+/* Testimonials Section */
+.testimonials-section.card-glass {
+  display: block !important;
+  height: auto !important;
+  padding: var(--space-4) var(--space-3) !important;
+}
+.testimonials-section .testimonials-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: var(--space-3) !important;
+  margin-top: var(--space-3) !important;
 }
 
 .features-section .features-list {
@@ -1344,4 +1414,10 @@ input[type="submit"]:not([class]) {
   background: var(--accent);
   color: #050A18;
   box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+}
+/* Ensure anchored sections appear below the fixed navbar */
+/* Ensure footer is visible */
+#footer-placeholder {
+  position: relative;
+  z-index: 1;
 }

@@ -13,11 +13,10 @@
 <!-- Commit 2: Nav injected via main.js -->
 
 <body data-flavor="public">
+  <header id="nav-placeholder"></header>
+  <!-- Commit 3: Particles background -->
+  <div id="particles-js" aria-hidden="true"></div>
   <div class="page-wrapper">
-    <div id="nav-placeholder"></div>
-
-    <!-- Commit 3: Particles background -->
-    <div id="particles-js" aria-hidden="true"></div>
 
     <!-- Commit 4: Hero section -->
     <!-- index.html: Hero -->
@@ -119,15 +118,13 @@
   </div> <!-- end .page-wrapper -->
 
   <!-- Commit 6: Footer injected via main.js -->
-  <div id="footer-placeholder"></div>
+  <footer id="footer-placeholder"></footer>
 
   <!-- Commit 7: Scripts -->
   <!-- 1) Particles background library -->
   <script src="js/particles.min.js" defer></script>
   <!-- 2) Main injector (headers, footers, nav toggle, particles init) -->
   <script type="module" src="js/main.js" defer></script>
-  <!-- 3) Page-specific logic -->
-  <script type="module" src="js/index.js" defer></script>
 </body>
 
 
