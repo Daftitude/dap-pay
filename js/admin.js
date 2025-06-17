@@ -9,8 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show admin’s name
   document.getElementById('adminName').textContent = currentUser;
 
-  // Load admin “wallet” balance display
-  loadBalance('#walletBalanceAdmin');
+  // Sum all user balances for admin wallet
+  const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
+  console.log('🛠 Admin Debug - Raw users from localStorage:', JSON.parse(localStorage.getItem('users') || '[]'));
+  const totalBalance = allUsers.reduce((sum, u) => sum + (u.balance || 0), 0);
+  console.log('🛠 Admin Debug - Computed totalBalance:', totalBalance);
+  const balanceEl = document.getElementById('walletBalanceAdmin');
+  console.log('🛠 Admin Debug - walletBalanceAdmin element:', balanceEl);
+  balanceEl.textContent = fmt(totalBalance);
 
   // Initialize all admin features
   displayEarningsChart();   // Earnings graph :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1}

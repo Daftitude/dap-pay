@@ -1,10 +1,26 @@
-/* Hide hamburger menu by default (desktop) */
-.hamburger {
-  display: none;
-}
 /* =====================================
-   1. Variables & Resets
+   1. Global Styles
 ===================================== */
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  z-index: 2000;
+  opacity: 0;
+  animation: fadein 0.3s forwards, fadeout 0.3s 2.7s forwards;
+}
+.toast-success { background: rgba(105,255,127,0.9); color: #050A18; }
+.toast-error   { background: rgba(255,76,76,0.9); color: #fff; }
+
+@keyframes fadein { to { opacity: 1; } }
+@keyframes fadeout { to { opacity: 0; } }
 
 /* Reset margins, paddings & box-sizing */
 *,
@@ -47,7 +63,7 @@
 }
 
 /* =====================================
-   2. Base & Typography
+    1.1 Base & Typography
 ===================================== */
 
 /* Core HTML & body settings */
@@ -108,7 +124,7 @@ img {
 }
 
 /* =====================================
-   3. Global Layout & Grid
+   1.2 Global Layout & Grid
 ===================================== */
 
 /* Page wrapper centers content and accounts for navbar height */
@@ -127,7 +143,6 @@ img {
   margin-bottom: var(--space-6);
 }
 
-/* Ensure every main section spans full content width */
 /* Ensure every main section spans full content width */
 .page-wrapper > section,
 .page-wrapper > main > section {
@@ -204,7 +219,7 @@ main {
 }
 
 /* =====================================
-   4. Components (Cards, Buttons, Forms)
+   1.3 Components (Cards, Buttons, Forms)
 ===================================== */
 
 /* Glass-panel card base */
@@ -419,7 +434,7 @@ main {
 }
 
 /* =====================================
-   5. Index Page Styles
+   2. Index Page Styles
 ===================================== */
 
 /* ─── Hero Section Centering ─── */
@@ -588,7 +603,7 @@ input[type="submit"]:not([class]) {
 }
 
 /* =====================================
-   6. Signup Page Styles
+   3. Signup Page Styles
 ===================================== */
 
 /* Container for signup form */
@@ -873,7 +888,7 @@ input[type="submit"]:not([class]) {
 }
 
 /* =====================================
-   7. Login Page Styles
+   4. Login Page Styles
 ===================================== */
 
 /* Container for login form */
@@ -946,7 +961,7 @@ input[type="submit"]:not([class]) {
 }
 
 /* =====================================
-   8. Dashboard Page Styles
+   5. Dashboard Page Styles
 ===================================== */
 
 /* Core Dashboard Panels (Your Profile, Balance, Streak, Levels) */
@@ -988,7 +1003,7 @@ input[type="submit"]:not([class]) {
   gap: var(--space-2);
 }
 /* =====================================
-   Profile Page Styles
+   5.1 Profile Page Styles
 ===================================== */
 /* Profile Page Styles */
 .profile-page-wrapper {
@@ -1049,7 +1064,7 @@ input[type="submit"]:not([class]) {
   color: #fff;
 }
 /* =====================================
-   Pay-Game Page Styles
+   5.2 Pay-Game Page Styles
 ==================================== */
 /* Mode & Wager Panel */
 .mode-wager-panel {
@@ -1202,6 +1217,7 @@ input[type="submit"]:not([class]) {
   padding: var(--space-2);
   cursor: pointer;
   transition: color 0.2s, transform 0.2s;
+  display: none;
 }
 
 .hamburger:hover {
@@ -1306,7 +1322,7 @@ input[type="submit"]:not([class]) {
 }
 
 /* =====================================
-   Add-Funds Page Styles
+   5.3 Add-Funds Page Styles
 ===================================== */
 
 /* Page wrapper for add-funds */
@@ -1420,4 +1436,388 @@ input[type="submit"]:not([class]) {
 #footer-placeholder {
   position: relative;
   z-index: 1;
+}
+/* =====================================
+   8. Score Page Styles
+===================================== */
+
+.score-hero {
+  text-align: center;
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  width: 100%;
+}
+.score-hero-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-top: var(--space-3);
+}
+
+/* Scoresheet Table Styles */
+.scoresheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-4) 0;
+  font-size: 0.875rem;
+}
+.scoresheet-table th,
+.scoresheet-table td {
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: var(--space-1) var(--space-2);
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+}
+.scoresheet-table thead th {
+  background: rgba(var(--accent-rgb),0.1);
+  font-weight: 600;
+}
+.scoresheet-table input,
+.scoresheet-table select {
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+
+/* Hero current score */
+.score-hero .current-score {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: bold;
+  margin: var(--space-3) 0;
+  color: var(--accent);
+}
+
+/* keep the green billiard cloth behind your glass card */
+body[data-flavor="app"] .score-section {
+  background: radial-gradient(circle at center, #1f801f 0%, #0f400f 80%);
+  /* preserve your green, but add blur glass layers on top */
+  position: relative;
+  padding: var(--space-5);
+}
+
+/* ensure the “balls-grid” lays out nicely inside the glass-panel */
+.score-section .balls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 4rem);
+  gap: var(--space-3);
+  margin: var(--space-4) auto;
+}
+
+/* Racks row for side-by-side ball grids */
+.ball-racks {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--space-4);
+}
+
+/* style your ball buttons as DAP glass-buttons */
+.score-section .ball-btn {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.score-section .ball-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Disabled ball styling */
+.score-section .ball-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+
+/* align your player panels in a flex row */
+.score-players {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+/* rack-controls and game-controls as flex with spacing */
+.rack-controls,
+.game-controls {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+/* Counters Section */
+.counters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+.counter-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.counter-label {
+  flex: 1;
+  font-weight: 600;
+}
+.counter-value {
+  width: 2rem;
+  text-align: center;
+}
+.glow-btn.small {
+  padding: var(--space-1) var(--space-2);
+  font-size: 1rem;
+  min-width: 2rem;
+}
+
+/* 8.x Broadcast-style Scoreboard Enhancements */
+
+/* Thicker, high-contrast borders */
+.scoresheet-table th,
+.scoresheet-table td {
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+/* Darken hero background for contrast */
+body[data-flavor="app"] .score-hero {
+  background: rgba(0,0,0,0.6);
+}
+
+/* Accent-tinted header bar with glow */
+.scoresheet-table thead {
+  background: rgba(var(--accent-rgb), 0.2);
+}
+.scoresheet-table thead th {
+  color: #FFF;
+  font-size: 1rem;
+  text-shadow: 0 0 4px rgba(var(--accent-rgb), 0.8);
+}
+
+/* Larger, bolder breakpoint row */
+.scoresheet-table thead tr:nth-child(2) th {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Striping for ticker effect */
+.scoresheet-table tbody tr:nth-child(odd) td {
+  background: rgba(255,255,255,0.04);
+}
+.scoresheet-table tbody tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Glowing inputs like neon buttons */
+.scoresheet-table input,
+.scoresheet-table select {
+  font-size: 0.9rem;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid rgba(var(--accent-rgb), 0.6);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+}
+
+/* Wider left columns for player info */
+.scoresheet-table td[rowspan] {
+  width: 15%;
+  font-weight: 600;
+  text-align: left;
+  padding-left: var(--space-3);
+}
+
+/* Sticky header row */
+.scoresheet-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Highlight current rack column */
+.scoresheet-table th.active,
+.scoresheet-table td.active {
+  background: var(--accent);
+  color: #050A18;
+}
+
+/* Outer glow around table */
+.scoresheet-table {
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+}
+/* =====================================
+   6. Admin Page Styles
+===================================== */
+
+/* ─── Admin Page Styles ───────────────────────────────── */
+
+/* Admin hero & balance card */
+.admin-hero {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+.admin-hero .hero-title {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  color: var(--accent);
+}
+.balance-card {
+  max-width: 300px;
+  margin: 0 auto var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.balance-card h2 {
+  font-size: 3rem;
+  margin-bottom: var(--space-1);
+}
+.balance-card p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* Center content and add gutter */
+main[data-flavor="admin"] .page-wrapper {
+  padding-block: var(--space-4);
+}
+
+/* Form cards in admin */
+.form-card {
+  margin-bottom: var(--space-6);
+}
+
+/* Table styling */
+#usersTable table,
+#transactionTable table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-3);
+}
+#usersTable th,
+#usersTable td,
+#transactionTable th,
+#transactionTable td {
+  padding: var(--space-2);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+}
+#usersTable th,
+#transactionTable th {
+  background: rgba(255,255,255,0.05);
+  color: var(--accent);
+}
+#usersTable tr:nth-child(even),
+#transactionTable tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Buttons in admin */
+.glow-btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+.glow-btn.secondary:hover {
+  background: var(--accent);
+  color: #050A18;
+}
+
+/* Search input */
+#searchInput {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto var(--space-4);
+  display: block;
+}
+
+/* =====================================
+   7. Analytics Page Styles
+===================================== */
+
+/* ─── Analytics Page Styles ──────────────────────────── */
+
+/* Hero Section */
+.features-section.analytics-hero {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+.features-section.analytics-hero .hero-title {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  color: var(--accent);
+  margin-bottom: var(--space-2);
+}
+
+/* Summary Tiles (reuse features-list grid) */
+.analytics-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.analytics-summary .summary-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.analytics-summary .summary-card h3 {
+  margin-bottom: var(--space-2);
+  color: var(--accent);
+}
+.analytics-summary .summary-card p {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Chart Section */
+.analytics-chart {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: var(--space-6);
+}
+.analytics-chart h2 {
+  margin-bottom: var(--space-4);
+  color: var(--accent);
+  text-align: center;
+}
+/* Ensure canvas is responsive */
+.analytics-chart canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Download Button */
+.analytics-chart .glow-btn {
+  display: block;
+  margin: var(--space-4) auto 0;
+}
+
+/* Ensure analytics sections have proper scroll offset */
+.analytics-chart,
+.analytics-summary {
+  scroll-margin-top: calc(64px + var(--space-2));
+}
+/* Prevent horizontal scroll from rotated grids */
+body {
+  overflow-x: hidden;
 }

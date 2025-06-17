@@ -25,27 +25,27 @@
   <main role="main">
     <div class="page-wrapper">
 
-      <section class="hero-section">
+      <section class="features-section analytics-hero" aria-labelledby="summaryHeading">
         <h1 class="hero-title">📈 DAP⚡Pay Analytics</h1>
       </section>
 
       <!-- Commit 6: Summary Tiles -->
-      <section class="features-section" aria-labelledby="summaryHeading">
+      <section class="features-section analytics-hero" aria-labelledby="summaryHeading">
         <h2 id="summaryHeading" class="sr-only">Key Metrics</h2>
-        <div class="features-list" style="display: flex; flex-wrap: wrap; gap: 1rem;">
-          <div class="glass-card" style="flex:1">
+        <div class="analytics-summary">
+          <div class="summary-card">
             <h3>Total Users</h3>
             <p id="totalUsers">0</p>
           </div>
-          <div class="glass-card" style="flex:1">
+          <div class="summary-card">
             <h3>Total Deposits</h3>
             <p id="totalDeposits">$0.00</p>
           </div>
-          <div class="glass-card" style="flex:1">
+          <div class="summary-card">
             <h3>Game Revenue</h3>
             <p id="gameRevenue">$0.00</p>
           </div>
-          <div class="glass-card" style="flex:1">
+          <div class="summary-card">
             <h3>Avg Spend/User</h3>
             <p id="avgSpend">$0.00</p>
           </div>
@@ -53,10 +53,10 @@
       </section>
 
       <!-- Commit 7: Earnings Chart -->
-      <section class="form-card" aria-labelledby="earningsChartHeading">
+      <div class="analytics-chart" aria-labelledby="earningsChartHeading">
         <h2 id="earningsChartHeading">Earnings Over Last 7 Days</h2>
         <canvas id="earningsChart" width="400" height="200"></canvas>
-      </section>
+      </div>
 
       <!-- Commit 8: Transactions Backup -->
       <section class="form-card" aria-labelledby="backupHeading">

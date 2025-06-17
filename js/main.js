@@ -121,6 +121,22 @@ function toggleMenu() {
           .forEach(btn => btn.setAttribute('aria-expanded', expanded));
 }
 
+// Expose toggleMenu globally for inline handlers
+window.toggleMenu = toggleMenu;
+
+/**
+ * Show a brief toast notification.
+ * @param {string} message - The message to display
+ * @param {'success'|'error'} [type='success'] - The toast style
+ */
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.className = `toast toast-${type}`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 async function initCommon() {
   // 1) Inject the proper header & footer
   const flavor = document.body.dataset.flavor || 'index';
@@ -216,5 +232,6 @@ export {
   initParticles,
   toggleMenu,
   initCommon,
-  initProfilePage
+  initProfilePage,
+  showToast
 };
